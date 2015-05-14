@@ -1,6 +1,8 @@
 apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'checkstyle'
+apply plugin: 'pmd'
+apply plugin: 'findbugs'
 apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
 
@@ -34,6 +36,17 @@ jacocoTestReport {
     }
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.4'
+findbugs {
+    ignoreFailures = false
+    toolVersion = "2.0.1"
+    sourceSets = [sourceSets.main, sourceSets.test]
+    reportsDir = file("$project.buildDir/reports/findbugs")
+    effort = "max"
+}
+
+pmd {
+    ignoreFailures = false
+    sourceSets = [sourceSets.main, sourceSets.test]
+    reportsDir = file("$project.buildDir/reports/pmd")
+    ruleSets = [ "java-basic", "java-strings", "java-braces" ]
 }
