@@ -10,7 +10,7 @@ import org.junit.Test;
 public class HelloWorldTest {
 
     @Test
-    public void printsHello(){
+    public void printsHello() {
         HelloWorld hi = new HelloWorld();
         Assert.assertThat(hi.greeting(), Is.is("hello"));
     }

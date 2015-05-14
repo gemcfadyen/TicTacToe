@@ -4,7 +4,8 @@ package tictactoe;
  * Created by Georgina on 14/05/2015.
  */
 public class HelloWorld {
-    public String greeting() {
+    public final String greeting() {
+        int unused = 1;
         return "hello";
     }
 }
