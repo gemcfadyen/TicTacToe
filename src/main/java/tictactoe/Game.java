@@ -31,7 +31,7 @@ public class Game {
         int currentPlayerIndex = FIRST_PLAYER;
 
         for (int i = 0; i < grid.numberOfCells(); i++) {
-            players[currentPlayerIndex].determineMove();
+            players[currentPlayerIndex].nextMoveOn(grid);
 
             if (isWinningMove()) {
                 break;

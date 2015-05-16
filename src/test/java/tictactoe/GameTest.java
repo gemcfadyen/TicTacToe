@@ -9,6 +9,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static tictactoe.Grid.NUMBER_OF_CELLS;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.X;
 
@@ -17,8 +18,6 @@ import static tictactoe.Symbol.X;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class GameTest {
-    private static final int NUMBER_OF_CELLS = 9;
-
     @Mock private Player playerO;
     @Mock private Player playerX;
     @Mock private Publisher statusPublisher;
@@ -36,8 +35,8 @@ public class GameTest {
     public void gameEndsWhenNineMovesHaveBeenMade() {
         game.play();
 
-        verify(playerX, times(4)).determineMove();
-        verify(playerO, times(5)).determineMove();
+        verify(playerX, times(4)).nextMoveOn(grid);
+        verify(playerO, times(5)).nextMoveOn(grid);
         verify(statusPublisher).display("Game Over");
     }
 
