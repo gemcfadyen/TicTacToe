@@ -12,6 +12,7 @@ import static org.hamcrest.Matchers.is;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.VACANT;
 import static tictactoe.Symbol.X;
+import static tictactoe.grid.RowBuilder.aRowBuilder;
 
 /**
  * Created by Georgina on 17/05/2015.
@@ -19,9 +20,9 @@ import static tictactoe.Symbol.X;
 @RunWith(Parameterized.class)
 public class GridHasFreeCellAtIndexTest {
 
-    private static final Row EMPTY_TOP_ROW = RowBuilder.aRowBuilder().withEmptyTopRow().build();
-    private static final Row EMPTY_MIDDLE_ROW = RowBuilder.aRowBuilder().withEmptyMiddleRow().build();
-    private static final Row EMPTY_BOTTOM_ROW = RowBuilder.aRowBuilder().withEmptyBottomRow().build();
+    private static final Row EMPTY_TOP_ROW = aRowBuilder().withEmptyTopRow().build();
+    private static final Row EMPTY_MIDDLE_ROW = aRowBuilder().withEmptyMiddleRow().build();
+    private static final Row EMPTY_BOTTOM_ROW = aRowBuilder().withEmptyBottomRow().build();
     private final Row topRow;
     private final Row bottomRow;
     private final Row middleRow;
@@ -44,7 +45,7 @@ public class GridHasFreeCellAtIndexTest {
                         0
                 },
                 {
-                        RowBuilder.aRowBuilder().withTopRow(VACANT, X, O).build(),
+                        aRowBuilder().withTopRow(VACANT, X, O).build(),
                         EMPTY_MIDDLE_ROW,
                         EMPTY_BOTTOM_ROW,
                         0
@@ -52,7 +53,7 @@ public class GridHasFreeCellAtIndexTest {
 
                 {
                         EMPTY_TOP_ROW,
-                        RowBuilder.aRowBuilder().withMiddleRow(O, O, VACANT).build(),
+                        aRowBuilder().withMiddleRow(O, O, VACANT).build(),
                         EMPTY_BOTTOM_ROW,
                         5
                 },
@@ -60,7 +61,7 @@ public class GridHasFreeCellAtIndexTest {
                 {
                         EMPTY_TOP_ROW,
                         EMPTY_MIDDLE_ROW,
-                        RowBuilder.aRowBuilder().withBottomRow(X, VACANT, X).build(),
+                        aRowBuilder().withBottomRow(X, VACANT, X).build(),
                         7
                 }
 

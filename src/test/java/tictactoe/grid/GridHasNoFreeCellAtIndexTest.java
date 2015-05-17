@@ -11,6 +11,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.X;
+import static tictactoe.grid.RowBuilder.aRowBuilder;
 
 /**
  * Created by Georgina on 17/05/2015.
@@ -18,9 +19,9 @@ import static tictactoe.Symbol.X;
 @RunWith(Parameterized.class)
 public class GridHasNoFreeCellAtIndexTest {
 
-    private static final Row EMPTY_TOP_ROW = RowBuilder.aRowBuilder().withEmptyTopRow().build();
-    private static final Row EMPTY_MIDDLE_ROW = RowBuilder.aRowBuilder().withEmptyMiddleRow().build();
-    private static final Row EMPTY_BOTTOM_ROW = RowBuilder.aRowBuilder().withEmptyBottomRow().build();
+    private static final Row EMPTY_TOP_ROW = aRowBuilder().withEmptyTopRow().build();
+    private static final Row EMPTY_MIDDLE_ROW = aRowBuilder().withEmptyMiddleRow().build();
+    private static final Row EMPTY_BOTTOM_ROW = aRowBuilder().withEmptyBottomRow().build();
     private final Row topRow;
     private final Row bottomRow;
     private final Row middleRow;
@@ -37,21 +38,21 @@ public class GridHasNoFreeCellAtIndexTest {
     public static Collection dataSetup() {
         return Arrays.asList(new Object[][]{
                 {
-                        RowBuilder.aRowBuilder().withTopRow(X, O, X).build(),
+                        aRowBuilder().withTopRow(X, O, X).build(),
                         EMPTY_MIDDLE_ROW,
                         EMPTY_BOTTOM_ROW,
                         2
                 },
                 {
                         EMPTY_TOP_ROW,
-                        RowBuilder.aRowBuilder().withMiddleRow(X, O, X).build(),
+                        aRowBuilder().withMiddleRow(X, O, X).build(),
                         EMPTY_BOTTOM_ROW,
                         4
                 },
                 {
                         EMPTY_TOP_ROW,
                         EMPTY_MIDDLE_ROW,
-                        RowBuilder.aRowBuilder().withBottomRow(X, O, X).build(),
+                        aRowBuilder().withBottomRow(X, O, X).build(),
                         8
                 }
 

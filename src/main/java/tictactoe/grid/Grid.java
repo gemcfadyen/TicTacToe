@@ -19,23 +19,36 @@ public class Grid {
     private Row middleRow = new Row(MIDDLE_ROW_OFFSET);
     private Row bottomRow = new Row(BOTTOM_ROW_OFFSET);
 
+    public Grid() {
+
+    }
+
     public Grid(Row topRow, Row middleRow, Row bottomRow) {
         this.topRow = topRow;
         this.middleRow = middleRow;
         this.bottomRow = bottomRow;
     }
 
+    public boolean isEmptyAt(int index) {
+        Row row = determineRowFrom(index);
+        return isVacantAt(row, index - row.getOffset());
+    }
+
     public boolean containsWinningRow() {
-        return true;
+        if (winningHorizontalRow()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean winningHorizontalRow() {
+        return topRow.isWinningRow()
+                || middleRow.isWinningRow()
+                || bottomRow.isWinningRow();
     }
 
     public Symbol getWinningSymbol() {
         return null;
-    }
-
-    public boolean isEmptyAt(int index) {
-        Row row = determineRowFrom(index);
-        return isVacantAt(row, index - row.getOffset());
     }
 
     public Grid update(int index, Symbol symbol) {
@@ -59,7 +72,7 @@ public class Grid {
 
 class Row {
     private int offset = 0;
-    private Symbol[] row = new Symbol[] { VACANT, VACANT, VACANT };
+    private Symbol[] row = new Symbol[]{VACANT, VACANT, VACANT};
 
     Row(int offset) {
         this.offset = offset;
@@ -76,5 +89,34 @@ class Row {
 
     public Symbol getSymbolAt(int index) {
         return row[index];
+    }
+
+    public boolean isWinningRow() {
+        Symbol firstSymbol = getSymbolAtFirstCell();
+        for (Symbol symbol : row) {
+            if (!symbolsAllMatch(firstSymbol, symbol)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean symbolsAllMatch(Symbol firstSymbol, Symbol symbol) {
+        if (isVacant(firstSymbol) || !symbolsMatch(symbol, firstSymbol)) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean symbolsMatch(Symbol symbolToMatch, Symbol currentSymbol) {
+        return symbolToMatch.equals(currentSymbol);
+    }
+
+    private boolean isVacant(Symbol playersSymbol) {
+        return playersSymbol == VACANT;
+    }
+
+    private Symbol getSymbolAtFirstCell() {
+        return row[0];
     }
 }
