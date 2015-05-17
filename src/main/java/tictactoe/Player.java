@@ -5,4 +5,6 @@ package tictactoe;
  */
 public interface Player {
     int nextMoveOn(Grid grid);
+
+    Symbol getSymbol();
 }

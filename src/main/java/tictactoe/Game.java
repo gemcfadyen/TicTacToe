@@ -1,5 +1,6 @@
 package tictactoe;
 
+import static tictactoe.Grid.TOTAL_CELLS;
 import static java.lang.String.format;
 
 /**
@@ -30,8 +31,8 @@ public class Game {
     public void play() {
         int currentPlayerIndex = FIRST_PLAYER;
 
-        for (int i = 0; i < grid.numberOfCells(); i++) {
-            players[currentPlayerIndex].nextMoveOn(grid);
+        for (int i = 0; i < TOTAL_CELLS; i++) {
+            grid.update(playersMove(currentPlayerIndex), playersSymbol(currentPlayerIndex));
 
             if (isWinningMove()) {
                 break;
@@ -39,6 +40,14 @@ public class Game {
             currentPlayerIndex = opponent(currentPlayerIndex);
         }
         statusPublisher.display("Game Over");
+    }
+
+    private Symbol playersSymbol(int currentPlayerIndex) {
+        return players[currentPlayerIndex].getSymbol();
+    }
+
+    private int playersMove(int currentPlayerIndex) {
+        return players[currentPlayerIndex].nextMoveOn(grid);
     }
 
     private boolean isWinningMove() {

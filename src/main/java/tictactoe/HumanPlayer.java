@@ -1,14 +1,16 @@
 package tictactoe;
 
-import static tictactoe.Grid.NUMBER_OF_CELLS;
+import static tictactoe.Grid.TOTAL_CELLS;
 
 /**
  * Created by Georgina on 16/05/2015.
  */
 public class HumanPlayer implements Player {
     private final Prompt prompt;
+    private final Symbol symbol;
 
-    public HumanPlayer(Prompt prompt) {
+    public HumanPlayer(Symbol symbol, Prompt prompt) {
+        this.symbol = symbol;
         this.prompt = prompt;
     }
 
@@ -18,6 +20,11 @@ public class HumanPlayer implements Player {
         int nextMove = prompt.readsInput();
 
         return repromptUntilValid(nextMove, grid);
+    }
+
+    @Override
+    public Symbol getSymbol() {
+        return symbol;
     }
 
     private int repromptUntilValid(int nextMove, Grid grid) {
@@ -45,7 +52,7 @@ public class HumanPlayer implements Player {
     }
 
     private boolean insideGridBoundaries(int specifiedMove) {
-        if (specifiedMove < 0 || specifiedMove >= NUMBER_OF_CELLS) {
+        if (specifiedMove < 0 || specifiedMove >= TOTAL_CELLS) {
             return false;
         }
         return true;

@@ -12,6 +12,7 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static tictactoe.Symbol.X;
 
 /**
  * Created by Georgina on 16/05/2015.
@@ -28,7 +29,7 @@ public class HumanPlayerTest {
 
     @Before
     public void setup() {
-        human = new HumanPlayer(prompt);
+        human = new HumanPlayer(X, prompt);
     }
 
     @Test
@@ -81,5 +82,10 @@ public class HumanPlayerTest {
         human.nextMoveOn(grid);
 
         verify(prompt, times(2)).promptPlayer();
+    }
+
+    @Test
+    public void returnPlayersSymbol() {
+        assertThat(human.getSymbol(), is(equalTo(X)));
     }
 }

@@ -9,7 +9,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static tictactoe.Grid.NUMBER_OF_CELLS;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.X;
 
@@ -28,7 +27,6 @@ public class GameTest {
     @Before
     public void setup() {
         game = new Game(grid, playerO, playerX, statusPublisher);
-        when(grid.numberOfCells()).thenReturn(NUMBER_OF_CELLS);
     }
 
     @Test
@@ -58,5 +56,16 @@ public class GameTest {
         game.play();
 
         verify(statusPublisher, times(1)).display("PlayerO wins");
+    }
+
+    @Test
+    public void gridIsUpdatedOnceAPlayerHasMadeTheirMove() {
+        when(playerO.nextMoveOn(grid)).thenReturn(3);
+        when(playerO.getSymbol()).thenReturn(O);
+        when(grid.containsWinningRow()).thenReturn(true);
+
+        game.play();
+
+        verify(grid, times(1)).update(3, O);
     }
 }
