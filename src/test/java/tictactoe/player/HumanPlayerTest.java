@@ -1,10 +1,12 @@
-package tictactoe;
+package tictactoe.player;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import tictactoe.grid.Grid;
+import tictactoe.prompt.Prompt;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;

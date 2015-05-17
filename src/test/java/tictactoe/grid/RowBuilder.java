@@ -1,9 +1,11 @@
-package tictactoe;
+package tictactoe.grid;
 
-import static tictactoe.Grid.BOTTOM_ROW_OFFSET;
-import static tictactoe.Grid.MIDDLE_ROW_OFFSET;
-import static tictactoe.Grid.TOP_ROW_OFFSET;
+import tictactoe.Symbol;
+
 import static tictactoe.Symbol.VACANT;
+import static tictactoe.grid.Grid.BOTTOM_ROW_OFFSET;
+import static tictactoe.grid.Grid.MIDDLE_ROW_OFFSET;
+import static tictactoe.grid.Grid.TOP_ROW_OFFSET;
 
 /**
  * Created by Georgina on 17/05/2015.

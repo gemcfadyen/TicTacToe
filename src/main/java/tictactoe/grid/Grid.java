@@ -1,4 +1,6 @@
-package tictactoe;
+package tictactoe.grid;
+
+import tictactoe.Symbol;
 
 import static tictactoe.Symbol.VACANT;
 

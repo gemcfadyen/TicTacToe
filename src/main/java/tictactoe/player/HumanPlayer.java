@@ -1,6 +1,10 @@
-package tictactoe;
+package tictactoe.player;
 
-import static tictactoe.Grid.TOTAL_CELLS;
+import tictactoe.Symbol;
+import tictactoe.grid.Grid;
+import tictactoe.prompt.Prompt;
+
+import static tictactoe.grid.Grid.TOTAL_CELLS;
 
 /**
  * Created by Georgina on 16/05/2015.

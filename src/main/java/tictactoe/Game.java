@@ -1,6 +1,10 @@
 package tictactoe;
 
-import static tictactoe.Grid.TOTAL_CELLS;
+import tictactoe.grid.Grid;
+import tictactoe.player.Player;
+import tictactoe.prompt.Publisher;
+
+import static tictactoe.grid.Grid.TOTAL_CELLS;
 import static java.lang.String.format;
 
 /**

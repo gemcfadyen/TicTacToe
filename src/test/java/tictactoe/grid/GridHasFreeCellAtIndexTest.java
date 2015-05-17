@@ -1,4 +1,4 @@
-package tictactoe;
+package tictactoe.grid;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,7 +9,6 @@ import java.util.Collection;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static tictactoe.RowBuilder.aRowBuilder;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.VACANT;
 import static tictactoe.Symbol.X;
@@ -20,9 +19,9 @@ import static tictactoe.Symbol.X;
 @RunWith(Parameterized.class)
 public class GridHasFreeCellAtIndexTest {
 
-    private static final Row EMPTY_TOP_ROW = aRowBuilder().withEmptyTopRow().build();
-    private static final Row EMPTY_MIDDLE_ROW = aRowBuilder().withEmptyMiddleRow().build();
-    private static final Row EMPTY_BOTTOM_ROW = aRowBuilder().withEmptyBottomRow().build();
+    private static final Row EMPTY_TOP_ROW = RowBuilder.aRowBuilder().withEmptyTopRow().build();
+    private static final Row EMPTY_MIDDLE_ROW = RowBuilder.aRowBuilder().withEmptyMiddleRow().build();
+    private static final Row EMPTY_BOTTOM_ROW = RowBuilder.aRowBuilder().withEmptyBottomRow().build();
     private final Row topRow;
     private final Row bottomRow;
     private final Row middleRow;
@@ -45,7 +44,7 @@ public class GridHasFreeCellAtIndexTest {
                         0
                 },
                 {
-                        aRowBuilder().withTopRow(VACANT, X, O).build(),
+                        RowBuilder.aRowBuilder().withTopRow(VACANT, X, O).build(),
                         EMPTY_MIDDLE_ROW,
                         EMPTY_BOTTOM_ROW,
                         0
@@ -53,7 +52,7 @@ public class GridHasFreeCellAtIndexTest {
 
                 {
                         EMPTY_TOP_ROW,
-                        aRowBuilder().withMiddleRow(O, O, VACANT).build(),
+                        RowBuilder.aRowBuilder().withMiddleRow(O, O, VACANT).build(),
                         EMPTY_BOTTOM_ROW,
                         5
                 },
@@ -61,7 +60,7 @@ public class GridHasFreeCellAtIndexTest {
                 {
                         EMPTY_TOP_ROW,
                         EMPTY_MIDDLE_ROW,
-                        aRowBuilder().withBottomRow(X, VACANT, X).build(),
+                        RowBuilder.aRowBuilder().withBottomRow(X, VACANT, X).build(),
                         7
                 }
 

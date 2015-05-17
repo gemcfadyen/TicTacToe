@@ -5,6 +5,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import tictactoe.grid.Grid;
+import tictactoe.player.Player;
+import tictactoe.prompt.Publisher;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
