@@ -19,9 +19,9 @@ import static tictactoe.grid.RowBuilder.aRowBuilder;
 @RunWith(Parameterized.class)
 public class GridHasNoFreeCellAtIndexTest {
 
-    private static final Row EMPTY_TOP_ROW = aRowBuilder().withEmptyTopRow().build();
-    private static final Row EMPTY_MIDDLE_ROW = aRowBuilder().withEmptyMiddleRow().build();
-    private static final Row EMPTY_BOTTOM_ROW = aRowBuilder().withEmptyBottomRow().build();
+    private static final Row EMPTY_TOP_ROW = aRowBuilder().withEmptyTopHorizontalRow().build();
+    private static final Row EMPTY_MIDDLE_ROW = aRowBuilder().withEmptyMiddleHorizontalRow().build();
+    private static final Row EMPTY_BOTTOM_ROW = aRowBuilder().withEmptyBottomHorizontalRow().build();
     private final Row topRow;
     private final Row bottomRow;
     private final Row middleRow;
@@ -38,21 +38,21 @@ public class GridHasNoFreeCellAtIndexTest {
     public static Collection dataSetup() {
         return Arrays.asList(new Object[][]{
                 {
-                        aRowBuilder().withTopRow(X, O, X).build(),
+                        aRowBuilder().withTopHorizontalRow(X, O, X).build(),
                         EMPTY_MIDDLE_ROW,
                         EMPTY_BOTTOM_ROW,
                         2
                 },
                 {
                         EMPTY_TOP_ROW,
-                        aRowBuilder().withMiddleRow(X, O, X).build(),
+                        aRowBuilder().withMiddleHorizontalRow(X, O, X).build(),
                         EMPTY_BOTTOM_ROW,
                         4
                 },
                 {
                         EMPTY_TOP_ROW,
                         EMPTY_MIDDLE_ROW,
-                        aRowBuilder().withBottomRow(X, O, X).build(),
+                        aRowBuilder().withBottomHorizontalRow(X, O, X).build(),
                         8
                 }
 

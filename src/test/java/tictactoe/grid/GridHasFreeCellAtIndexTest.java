@@ -20,9 +20,9 @@ import static tictactoe.grid.RowBuilder.aRowBuilder;
 @RunWith(Parameterized.class)
 public class GridHasFreeCellAtIndexTest {
 
-    private static final Row EMPTY_TOP_ROW = aRowBuilder().withEmptyTopRow().build();
-    private static final Row EMPTY_MIDDLE_ROW = aRowBuilder().withEmptyMiddleRow().build();
-    private static final Row EMPTY_BOTTOM_ROW = aRowBuilder().withEmptyBottomRow().build();
+    private static final Row EMPTY_TOP_ROW = aRowBuilder().withEmptyTopHorizontalRow().build();
+    private static final Row EMPTY_MIDDLE_ROW = aRowBuilder().withEmptyMiddleHorizontalRow().build();
+    private static final Row EMPTY_BOTTOM_ROW = aRowBuilder().withEmptyBottomHorizontalRow().build();
     private final Row topRow;
     private final Row bottomRow;
     private final Row middleRow;
@@ -45,7 +45,7 @@ public class GridHasFreeCellAtIndexTest {
                         0
                 },
                 {
-                        aRowBuilder().withTopRow(VACANT, X, O).build(),
+                        aRowBuilder().withTopHorizontalRow(VACANT, X, O).build(),
                         EMPTY_MIDDLE_ROW,
                         EMPTY_BOTTOM_ROW,
                         0
@@ -53,7 +53,7 @@ public class GridHasFreeCellAtIndexTest {
 
                 {
                         EMPTY_TOP_ROW,
-                        aRowBuilder().withMiddleRow(O, O, VACANT).build(),
+                        aRowBuilder().withMiddleHorizontalRow(O, O, VACANT).build(),
                         EMPTY_BOTTOM_ROW,
                         5
                 },
@@ -61,7 +61,7 @@ public class GridHasFreeCellAtIndexTest {
                 {
                         EMPTY_TOP_ROW,
                         EMPTY_MIDDLE_ROW,
-                        aRowBuilder().withBottomRow(X, VACANT, X).build(),
+                        aRowBuilder().withBottomHorizontalRow(X, VACANT, X).build(),
                         7
                 }
 
