@@ -3,16 +3,12 @@ package tictactoe.grid;
 import tictactoe.Symbol;
 
 import static tictactoe.Symbol.VACANT;
-import static tictactoe.grid.Grid.BOTTOM_ROW_OFFSET;
-import static tictactoe.grid.Grid.MIDDLE_ROW_OFFSET;
-import static tictactoe.grid.Grid.TOP_ROW_OFFSET;
 
 /**
  * Created by Georgina on 17/05/2015.
  */
 public final class RowBuilder {
-    private int offset;
-    private Symbol[] rowSymbols;
+    private Cell[] cells;
 
     private RowBuilder() {
 
@@ -23,47 +19,61 @@ public final class RowBuilder {
     }
 
     public RowBuilder withTopRow(Symbol zero, Symbol one, Symbol two) {
-        this.offset = TOP_ROW_OFFSET;
-        this.rowSymbols = new Symbol[] {zero, one, two};
+        this.cells = new Cell[]{
+                new Cell(zero, 0),
+                new Cell(one, 1),
+                new Cell(two, 2)
+        };
         return this;
     }
 
     public RowBuilder withMiddleRow(Symbol three, Symbol four, Symbol five) {
-        this.offset = MIDDLE_ROW_OFFSET;
-        this.rowSymbols = new Symbol[] {three, four, five};
+        this.cells = new Cell[]{
+                new Cell(three, 3),
+                new Cell(four, 4),
+                new Cell(five, 5)
+        };
         return this;
     }
 
     public RowBuilder withBottomRow(Symbol six, Symbol seven, Symbol eight) {
-        this.offset = BOTTOM_ROW_OFFSET;
-        this.rowSymbols = new Symbol[] {six, seven, eight};
+        this.cells = new Cell[]{
+                new Cell(six, 6),
+                new Cell(seven, 7),
+                new Cell(eight, 8)};
         return this;
     }
 
     public RowBuilder withEmptyTopRow() {
-        this.offset = TOP_ROW_OFFSET;
-        this.rowSymbols = emptyRow();
+        this.cells =  new Cell[] {
+                new Cell(VACANT, 0),
+                new Cell(VACANT, 1),
+                new Cell(VACANT, 2)
+        };
         return this;
     }
 
     public RowBuilder withEmptyMiddleRow() {
-        this.offset = MIDDLE_ROW_OFFSET;
-        this.rowSymbols = emptyRow();
+        this.cells =  new Cell[] {
+                new Cell(VACANT, 3),
+                new Cell(VACANT, 4),
+                new Cell(VACANT, 5)
+        };
         return this;
     }
 
     public RowBuilder withEmptyBottomRow() {
-        this.offset = BOTTOM_ROW_OFFSET;
-        this.rowSymbols = emptyRow();
+        this.cells = new Cell[] {
+                new Cell(VACANT, 6),
+                new Cell(VACANT, 7),
+                new Cell(VACANT, 8)
+        };
         return this;
     }
 
-    private Symbol[] emptyRow() {
-       return new Symbol[] {VACANT, VACANT, VACANT};
-    }
 
     public Row build() {
-        return new Row(offset, rowSymbols);
+        return new Row(cells);
     }
 
 }
