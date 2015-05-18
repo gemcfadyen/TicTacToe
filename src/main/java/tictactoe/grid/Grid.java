@@ -3,7 +3,7 @@ package tictactoe.grid;
 import tictactoe.Symbol;
 
 import static tictactoe.Symbol.VACANT;
-import static tictactoe.grid.RowBuilder.aRowBuilder;
+import static tictactoe.grid.RowGenerator.aRowGenerator;
 
 /**
  * Created by Georgina on 16/05/2015.
@@ -12,14 +12,13 @@ public class Grid {
     public static final int NUMBER_OF_CELLS_IN_ROW = 3;
     public static final int TOTAL_CELLS = NUMBER_OF_CELLS_IN_ROW * NUMBER_OF_CELLS_IN_ROW;
     public static final int BOTTOM_ROW_OFFSET = NUMBER_OF_CELLS_IN_ROW * 2;
-    private static final int LEFT_VERTICAL_INDEX = 0;
-    private static final int MIDDLE_VERTICAL_INDEX = 1;
-    private static final int RIGHT_VERTICAL_INDEX = 2;
+    private static final int LEFT_CELL_INDEX = 0;
+    private static final int MIDDLE_CELL_INDEX = 1;
+    private static final int RIGHT_CELL_INDEX = 2;
 
     private Row topRow;
     private Row middleRow;
     private Row bottomRow;
-
 
     public Grid(Row topRow, Row middleRow, Row bottomRow) {
         this.topRow = topRow;
@@ -33,13 +32,9 @@ public class Grid {
     }
 
     public boolean containsWinningRow() {
-        if (winningHorizontalRow()) {
-            return true;
-        }
-        if (winningVerticalColumn()) {
-            return true;
-        }
-        return false;
+        return winningHorizontalRow()
+                || winningVerticalColumn()
+                || winningDiagonal();
     }
 
     public Symbol getWinningSymbol() {
@@ -50,21 +45,37 @@ public class Grid {
         return null;
     }
 
-    private Row generateVerticalRow(int position) {
-        return aRowBuilder().withLeftVerticalRow(
-                topRow.getSymbolAt(position),
-                middleRow.getSymbolAt(position),
-                bottomRow.getSymbolAt(position)).build();
-
+    private boolean winningDiagonal() {
+        return generateLeftDiagonal().isWinningRow()
+                || generateRightDiagonal().isWinningRow();
     }
-    private boolean winningVerticalColumn() {
-        Row leftColumn = generateVerticalRow(LEFT_VERTICAL_INDEX);
-        Row middleColumn =  generateVerticalRow(MIDDLE_VERTICAL_INDEX);
-        Row rightColumn =  generateVerticalRow(RIGHT_VERTICAL_INDEX);
 
-        return leftColumn.isWinningRow()
-                || middleColumn.isWinningRow()
-                || rightColumn.isWinningRow();
+    private Row generateRightDiagonal() {
+        return aRowGenerator().withRightDiagonal(
+                topRow.getSymbolAt(RIGHT_CELL_INDEX),
+                middleRow.getSymbolAt(MIDDLE_CELL_INDEX),
+                bottomRow.getSymbolAt(LEFT_CELL_INDEX)).generate();
+    }
+
+    private Row generateLeftDiagonal() {
+        return aRowGenerator().withLeftDiagonal(
+                topRow.getSymbolAt(LEFT_CELL_INDEX),
+                middleRow.getSymbolAt(MIDDLE_CELL_INDEX),
+                bottomRow.getSymbolAt(RIGHT_CELL_INDEX)).generate();
+    }
+
+    private Row generateVerticalRow(int startingOffset) {
+        return aRowGenerator().withVerticalRow(
+                topRow.getSymbolAt(startingOffset),
+                middleRow.getSymbolAt(startingOffset),
+                bottomRow.getSymbolAt(startingOffset),
+                startingOffset).generate();
+    }
+
+    private boolean winningVerticalColumn() {
+        return generateVerticalRow(LEFT_CELL_INDEX).isWinningRow()
+                || generateVerticalRow(MIDDLE_CELL_INDEX).isWinningRow()
+                || generateVerticalRow(RIGHT_CELL_INDEX).isWinningRow();
     }
 
     private boolean winningHorizontalRow() {
@@ -73,12 +84,11 @@ public class Grid {
                 || bottomRow.isWinningRow();
     }
 
-
     private boolean isVacantAt(Row row, int index) {
         Cell[] cells = row.getCells();
         for (Cell cell : cells) {
             if (cell.getOffset() == index) {
-                return  cell.getSymbol() == VACANT;
+                return cell.getSymbol() == VACANT;
             }
         }
 

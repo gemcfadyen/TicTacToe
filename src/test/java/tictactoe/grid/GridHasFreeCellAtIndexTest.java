@@ -12,6 +12,8 @@ import static org.hamcrest.Matchers.is;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.VACANT;
 import static tictactoe.Symbol.X;
+import static tictactoe.grid.Grid.BOTTOM_ROW_OFFSET;
+import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 import static tictactoe.grid.RowBuilder.aRowBuilder;
 
 /**
@@ -20,9 +22,11 @@ import static tictactoe.grid.RowBuilder.aRowBuilder;
 @RunWith(Parameterized.class)
 public class GridHasFreeCellAtIndexTest {
 
-    private static final Row EMPTY_TOP_ROW = aRowBuilder().withEmptyTopHorizontalRow().build();
-    private static final Row EMPTY_MIDDLE_ROW = aRowBuilder().withEmptyMiddleHorizontalRow().build();
-    private static final Row EMPTY_BOTTOM_ROW = aRowBuilder().withEmptyBottomHorizontalRow().build();
+    private static final Row EMPTY_TOP_ROW = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, 0).build();
+    private static final Row EMPTY_MIDDLE_ROW = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
+    private static final Row EMPTY_BOTTOM_ROW = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
+    private static final int NO_OFFSET = 0;
+
     private final Row topRow;
     private final Row bottomRow;
     private final Row middleRow;
@@ -45,23 +49,21 @@ public class GridHasFreeCellAtIndexTest {
                         0
                 },
                 {
-                        aRowBuilder().withTopHorizontalRow(VACANT, X, O).build(),
+                        aRowBuilder().withHorizontalRow(VACANT, X, O, NO_OFFSET).build(),
                         EMPTY_MIDDLE_ROW,
                         EMPTY_BOTTOM_ROW,
                         0
                 },
-
                 {
                         EMPTY_TOP_ROW,
-                        aRowBuilder().withMiddleHorizontalRow(O, O, VACANT).build(),
+                        aRowBuilder().withHorizontalRow(O, O, VACANT, NUMBER_OF_CELLS_IN_ROW).build(),
                         EMPTY_BOTTOM_ROW,
                         5
                 },
-
                 {
                         EMPTY_TOP_ROW,
                         EMPTY_MIDDLE_ROW,
-                        aRowBuilder().withBottomHorizontalRow(X, VACANT, X).build(),
+                        aRowBuilder().withHorizontalRow(X, VACANT, X, BOTTOM_ROW_OFFSET).build(),
                         7
                 }
 

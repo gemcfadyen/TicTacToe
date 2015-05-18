@@ -7,4 +7,7 @@
 <suppressions>
     <suppress checks="MagicNumber"
               files="[\\/]test[\\/]"/>
+
+    <suppress checks="ParameterAssignment"
+              files="[\\/]test[\\/]"/>
 </suppressions>
