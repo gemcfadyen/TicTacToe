@@ -42,7 +42,11 @@ public class Grid {
     }
 
     public Grid update(int index, Symbol symbol) {
-        return null;
+        Row row = determineRowFrom(index);
+        if (row.getCellWithOffset(index).getSymbol() == VACANT) {
+            row.putSymbolAt(index, symbol);
+        }
+        return this;
     }
 
     private boolean winningDiagonal() {
@@ -103,5 +107,27 @@ public class Grid {
             return middleRow;
         }
         return bottomRow;
+    }
+
+    public String display() {
+        StringBuffer gridDisplay = prints(topRow);
+        gridDisplay.append(prints(middleRow));
+        gridDisplay.append(prints(bottomRow));
+
+        return gridDisplay.toString();
+    }
+
+    private StringBuffer prints(Row row) {
+        StringBuffer gridDisplay = new StringBuffer();
+        gridDisplay.append(" | ");
+        for (Cell cell : row.getCells()) {
+            if (cell.getSymbol() == VACANT) {
+                gridDisplay.append(cell.getOffset());
+            } else {
+                gridDisplay.append(cell.getSymbol());
+            }
+            gridDisplay.append(" | ");
+        }
+        return gridDisplay.append("\n");
     }
 }

@@ -2,6 +2,8 @@ package tictactoe.grid;
 
 import tictactoe.Symbol;
 
+import java.util.function.Function;
+
 import static tictactoe.Symbol.VACANT;
 import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 
@@ -51,5 +53,28 @@ class Row {
 
     public Cell[] getCells() {
         return cells;
+    }
+
+    public void putSymbolAt(int offset, Symbol symbol) {
+        Function<Cell, Cell> updateSymbol = cell -> {
+            cell.setSymbol(symbol);
+            return cell;
+        };
+
+        applyFunctionOnCell(offset, updateSymbol);
+    }
+
+    public Cell getCellWithOffset(int offset) {
+        Function<Cell, Cell> getCell = cell -> cell;
+        return applyFunctionOnCell(offset, getCell);
+    }
+
+    public Cell applyFunctionOnCell(int offset, Function<Cell, Cell> cellFunction) {
+        for (Cell cell : cells) {
+            if (cell.getOffset() == offset) {
+                return cellFunction.apply(cell);
+            }
+        }
+        throw new IllegalArgumentException("offset provided is out of bounds");
     }
 }

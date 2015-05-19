@@ -7,6 +7,7 @@ apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
 
 version = '1.0'
+sourceCompatibility = 1.8
 
 buildscript {
     repositories {
@@ -39,15 +40,15 @@ jacocoTestReport {
 checkstyle {
     configFile = rootProject.file('config/checkstyle/checkstyle.xml')
     configProperties = [suppressionsFile: rootProject.file('config/checkstyle/suppressions.xml')]
-    toolVersion = '5.7'
+    toolVersion = '6.6'
 }
 
 findbugs {
     ignoreFailures = false
-    toolVersion = "2.0.1"
+    toolVersion = '3.0.1'
     sourceSets = [sourceSets.main, sourceSets.test]
     reportsDir = file("$project.buildDir/reports/findbugs")
-    effort = "max"
+    effort = 'max'
 
     includeFilter = file("$rootProject.projectDir/config/findbugs/includeFilter.xml")
     excludeFilter = file("$rootProject.projectDir/config/findbugs/excludeFilter.xml")
