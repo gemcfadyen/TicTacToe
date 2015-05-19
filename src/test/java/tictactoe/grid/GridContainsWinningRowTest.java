@@ -103,6 +103,6 @@ public class GridContainsWinningRowTest {
                 middleRow,
                 bottomRow);
 
-        assertThat(grid.containsWinningRow(), is(hasWinningRow));
+        assertThat(grid.getWinStatus().hasWinner(), is(hasWinningRow));
     }
 }

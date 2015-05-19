@@ -2,8 +2,14 @@ package tictactoe.grid;
 
 import tictactoe.Symbol;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static tictactoe.Symbol.VACANT;
+import static tictactoe.grid.Row.FIRST_CELL_INDEX;
 import static tictactoe.grid.RowGenerator.aRowGenerator;
+import static tictactoe.grid.State.NO_WIN;
+import static tictactoe.grid.State.WIN;
 
 /**
  * Created by Georgina on 16/05/2015.
@@ -31,16 +37,6 @@ public class Grid {
         return isVacantAt(row, index);
     }
 
-    public boolean containsWinningRow() {
-        return winningHorizontalRow()
-                || winningVerticalColumn()
-                || winningDiagonal();
-    }
-
-    public Symbol getWinningSymbol() {
-        return null;
-    }
-
     public Grid update(int index, Symbol symbol) {
         Row row = determineRowFrom(index);
         if (row.getCellWithOffset(index).getSymbol() == VACANT) {
@@ -49,9 +45,53 @@ public class Grid {
         return this;
     }
 
-    private boolean winningDiagonal() {
-        return generateLeftDiagonal().isWinningRow()
-                || generateRightDiagonal().isWinningRow();
+    public GameStatus getWinStatus() {
+        for (Row row : generateRowsForAllDirections()) {
+            if (row.isWinningRow()) {
+                return new GameStatus(WIN, row.getSymbolAt(FIRST_CELL_INDEX));
+            }
+        }
+        return new GameStatus(NO_WIN);
+
+    }
+
+    public String display() {
+        StringBuffer gridDisplay = prints(topRow);
+        gridDisplay.append(prints(middleRow));
+        gridDisplay.append(prints(bottomRow));
+
+        return gridDisplay.toString();
+    }
+
+    private List<Row> generateRowsForAllDirections() {
+        List<Row> allRows = horizontalRows();
+        allRows.addAll(verticalRows());
+        allRows.addAll(diagonalRows());
+
+        return allRows;
+    }
+
+    private List<Row> horizontalRows() {
+        List<Row> rows = new ArrayList<>();
+        rows.add(topRow);
+        rows.add(middleRow);
+        rows.add(bottomRow);
+        return rows;
+    }
+
+    private List<Row> verticalRows() {
+        List<Row> rows = new ArrayList<>();
+        rows.add(generateVerticalRow(LEFT_CELL_INDEX));
+        rows.add(generateVerticalRow(MIDDLE_CELL_INDEX));
+        rows.add(generateVerticalRow(RIGHT_CELL_INDEX));
+        return rows;
+    }
+
+    private List<Row> diagonalRows() {
+        List<Row> rows = new ArrayList<>();
+        rows.add(generateRightDiagonal());
+        rows.add(generateLeftDiagonal());
+        return rows;
     }
 
     private Row generateRightDiagonal() {
@@ -76,18 +116,6 @@ public class Grid {
                 startingOffset).generate();
     }
 
-    private boolean winningVerticalColumn() {
-        return generateVerticalRow(LEFT_CELL_INDEX).isWinningRow()
-                || generateVerticalRow(MIDDLE_CELL_INDEX).isWinningRow()
-                || generateVerticalRow(RIGHT_CELL_INDEX).isWinningRow();
-    }
-
-    private boolean winningHorizontalRow() {
-        return topRow.isWinningRow()
-                || middleRow.isWinningRow()
-                || bottomRow.isWinningRow();
-    }
-
     private boolean isVacantAt(Row row, int index) {
         Cell[] cells = row.getCells();
         for (Cell cell : cells) {
@@ -107,14 +135,6 @@ public class Grid {
             return middleRow;
         }
         return bottomRow;
-    }
-
-    public String display() {
-        StringBuffer gridDisplay = prints(topRow);
-        gridDisplay.append(prints(middleRow));
-        gridDisplay.append(prints(bottomRow));
-
-        return gridDisplay.toString();
     }
 
     private StringBuffer prints(Row row) {

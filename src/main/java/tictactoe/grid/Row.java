@@ -11,7 +11,7 @@ import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
  * Created by Georgina on 17/05/2015.
  */
 class Row {
-    private static final int FIRST_CELL_INDEX = 0;
+    protected static final int FIRST_CELL_INDEX = 0;
     private Cell[] cells = new Cell[NUMBER_OF_CELLS_IN_ROW];
 
     Row(Cell[] cells) {

@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import tictactoe.grid.GameStatus;
 import tictactoe.grid.Grid;
 import tictactoe.player.Player;
 import tictactoe.prompt.Publisher;
@@ -14,6 +15,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.X;
+import static tictactoe.grid.State.NO_WIN;
+import static tictactoe.grid.State.WIN;
 
 /**
  * Created by Georgina on 16/05/2015.
@@ -34,6 +37,8 @@ public class GameTest {
 
     @Test
     public void gameEndsWhenNineMovesHaveBeenMade() {
+        when(grid.getWinStatus()).thenReturn(new GameStatus(NO_WIN));
+
         game.play();
 
         verify(playerX, times(4)).nextMoveOn(grid);
@@ -43,8 +48,7 @@ public class GameTest {
 
     @Test
     public void gameEndsWhenGridContainsThreeXsInARow() {
-        when(grid.containsWinningRow()).thenReturn(true);
-        when(grid.getWinningSymbol()).thenReturn(X);
+        when(grid.getWinStatus()).thenReturn(new GameStatus(WIN, X));
 
         game.play();
 
@@ -53,9 +57,7 @@ public class GameTest {
 
     @Test
     public void gameEndsWhenGridContainsThreeOsInARow() {
-        when(grid.containsWinningRow()).thenReturn(true);
-        when(grid.getWinningSymbol()).thenReturn(O);
-
+        when(grid.getWinStatus()).thenReturn(new GameStatus(WIN, O));
         game.play();
 
         verify(statusPublisher, times(1)).display("PlayerO wins");
@@ -65,7 +67,7 @@ public class GameTest {
     public void gridIsUpdatedOnceAPlayerHasMadeTheirMove() {
         when(playerO.nextMoveOn(grid)).thenReturn(3);
         when(playerO.getSymbol()).thenReturn(O);
-        when(grid.containsWinningRow()).thenReturn(true);
+        when(grid.getWinStatus()).thenReturn(new GameStatus(WIN, O));
 
         game.play();
 

@@ -1,5 +1,6 @@
 package tictactoe;
 
+import tictactoe.grid.GameStatus;
 import tictactoe.grid.Grid;
 import tictactoe.player.Player;
 import tictactoe.prompt.Publisher;
@@ -55,8 +56,9 @@ public class Game {
     }
 
     private boolean isWinningMove() {
-        if (grid.containsWinningRow()) {
-            statusPublisher.display(format("Player%s wins", grid.getWinningSymbol()));
+        GameStatus gameStatus = grid.getWinStatus();
+        if (gameStatus.hasWinner()) {
+            statusPublisher.display(format("Player%s wins", gameStatus.winningSymbol()));
             return true;
         }
         return false;
