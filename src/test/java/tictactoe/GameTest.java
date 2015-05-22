@@ -8,7 +8,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import tictactoe.grid.GameStatus;
 import tictactoe.grid.Grid;
 import tictactoe.player.Player;
-import tictactoe.prompt.Publisher;
+import tictactoe.prompt.Prompt;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -25,14 +25,14 @@ import static tictactoe.grid.State.WIN;
 public class GameTest {
     @Mock private Player playerO;
     @Mock private Player playerX;
-    @Mock private Publisher statusPublisher;
+    @Mock private Prompt prompt;
     @Mock private Grid grid;
 
     private Game game;
 
     @Before
     public void setup() {
-        game = new Game(grid, playerO, playerX, statusPublisher);
+        game = new Game(grid, playerO, playerX, prompt);
     }
 
     @Test
@@ -43,7 +43,7 @@ public class GameTest {
 
         verify(playerX, times(4)).nextMoveOn(grid);
         verify(playerO, times(5)).nextMoveOn(grid);
-        verify(statusPublisher).display("Game Over");
+        verify(prompt).display("Game Over");
     }
 
     @Test
@@ -52,7 +52,7 @@ public class GameTest {
 
         game.play();
 
-        verify(statusPublisher, times(1)).display("PlayerX wins");
+        verify(prompt, times(1)).display("PlayerX wins");
     }
 
     @Test
@@ -60,7 +60,7 @@ public class GameTest {
         when(grid.getWinStatus()).thenReturn(new GameStatus(WIN, O));
         game.play();
 
-        verify(statusPublisher, times(1)).display("PlayerO wins");
+        verify(prompt, times(1)).display("PlayerO wins");
     }
 
     @Test

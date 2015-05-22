@@ -4,6 +4,7 @@ import tictactoe.Symbol;
 import tictactoe.grid.Grid;
 import tictactoe.prompt.Prompt;
 
+import static org.apache.commons.lang3.math.NumberUtils.isNumber;
 import static tictactoe.grid.Grid.TOTAL_CELLS;
 
 /**
@@ -21,7 +22,7 @@ public class HumanPlayer implements Player {
     @Override
     public int nextMoveOn(Grid grid) {
         prompt.promptPlayer();
-        int nextMove = prompt.readsInput();
+        String nextMove = prompt.readsInput();
 
         return repromptUntilValid(nextMove, grid);
     }
@@ -31,21 +32,26 @@ public class HumanPlayer implements Player {
         return symbol;
     }
 
-    private int repromptUntilValid(int nextMove, Grid grid) {
-        int move = nextMove;
+    private int repromptUntilValid(String nextMove, Grid grid) {
+        String move = nextMove;
         while (!valid(move, grid)) {
             prompt.promptPlayer();
             move = prompt.readsInput();
         }
-        return move;
+        return Integer.valueOf(move);
     }
 
-    private boolean valid(int specifiedMove, Grid grid) {
-        if (!insideGridBoundaries(specifiedMove)) {
+    private boolean valid(String specifiedMove, Grid grid) {
+        if (!isNumber(specifiedMove)) {
             return false;
         }
 
-        if (!gridHasFreeCellAt(specifiedMove, grid)) {
+        int cellIndex = Integer.valueOf(specifiedMove);
+        if (!insideGridBoundaries(cellIndex)) {
+            return false;
+        }
+
+        if (!gridHasFreeCellAt(cellIndex, grid)) {
             return false;
         }
         return true;

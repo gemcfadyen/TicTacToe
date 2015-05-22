@@ -3,7 +3,7 @@ package tictactoe;
 import tictactoe.grid.GameStatus;
 import tictactoe.grid.Grid;
 import tictactoe.player.Player;
-import tictactoe.prompt.Publisher;
+import tictactoe.prompt.Prompt;
 
 import static tictactoe.grid.Grid.TOTAL_CELLS;
 import static java.lang.String.format;
@@ -17,12 +17,12 @@ public class Game {
 
     private final Grid grid;
     private final Player[] players;
-    private final Publisher statusPublisher;
+    private final Prompt prompt;
 
-    public Game(Grid grid, Player playerO, Player playerX, Publisher statusPublisher) {
+    public Game(Grid grid, Player playerO, Player playerX, Prompt prompt) {
         this.grid = grid;
         this.players = initialiseOrderOfPlayers(playerO, playerX);
-        this.statusPublisher = statusPublisher;
+        this.prompt = prompt;
     }
 
     private Player[] initialiseOrderOfPlayers(Player playerO, Player playerX) {
@@ -44,7 +44,7 @@ public class Game {
             }
             currentPlayerIndex = opponent(currentPlayerIndex);
         }
-        statusPublisher.display("Game Over");
+        prompt.display("Game Over");
     }
 
     private Symbol playersSymbol(int currentPlayerIndex) {
@@ -58,7 +58,7 @@ public class Game {
     private boolean isWinningMove() {
         GameStatus gameStatus = grid.getWinStatus();
         if (gameStatus.hasWinner()) {
-            statusPublisher.display(format("Player%s wins", gameStatus.winningSymbol()));
+            prompt.display(format("Player%s wins", gameStatus.winningSymbol()));
             return true;
         }
         return false;

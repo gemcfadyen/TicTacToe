@@ -25,6 +25,8 @@ repositories {
 
 
 dependencies {
+    compile 'org.apache.commons:commons-lang3:3.4'
+
     testCompile 'junit:junit:4.+'
     testCompile 'org.mockito:mockito-all:1.8.5'
     testCompile 'org.hamcrest:hamcrest-all:1.1'

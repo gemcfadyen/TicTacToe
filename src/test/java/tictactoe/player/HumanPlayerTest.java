@@ -21,8 +21,8 @@ import static tictactoe.Symbol.X;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class HumanPlayerTest {
-    private static final int VACANT_CELL = 3;
-    private static final int OCCUPIED_CELL = 2;
+    private static final Integer VACANT_CELL = 3;
+    private static final Integer OCCUPIED_CELL = 2;
 
     @Mock private Prompt prompt;
     @Mock private Grid grid;
@@ -36,7 +36,7 @@ public class HumanPlayerTest {
 
     @Test
     public void playerIsPromptedForNextMove() {
-        when(prompt.readsInput()).thenReturn(VACANT_CELL);
+        when(prompt.readsInput()).thenReturn(VACANT_CELL.toString());
         when(grid.isEmptyAt(VACANT_CELL)).thenReturn(true);
 
         human.nextMoveOn(grid);
@@ -46,7 +46,7 @@ public class HumanPlayerTest {
 
     @Test
     public void playerSpecifiesNextMoveThroughThePrompt() {
-        when(prompt.readsInput()).thenReturn(VACANT_CELL);
+        when(prompt.readsInput()).thenReturn(VACANT_CELL.toString());
         when(grid.isEmptyAt(VACANT_CELL)).thenReturn(true);
 
         int indexOfNextMove = human.nextMoveOn(grid);
@@ -56,8 +56,18 @@ public class HumanPlayerTest {
     }
 
     @Test
+    public void repromptPlayerWhenTheySpecifyANonNumericInputForNextMove() {
+        when(prompt.readsInput()).thenReturn("hello").thenReturn(VACANT_CELL.toString());
+        when(grid.isEmptyAt(VACANT_CELL)).thenReturn(true);
+
+        human.nextMoveOn(grid);
+
+        verify(prompt, times(2)).promptPlayer();
+    }
+
+    @Test
     public void repromptPlayerWhenTheySpecifyACellLargerThanGrid() {
-        when(prompt.readsInput()).thenReturn(100).thenReturn(VACANT_CELL);
+        when(prompt.readsInput()).thenReturn("100").thenReturn(VACANT_CELL.toString());
         when(grid.isEmptyAt(VACANT_CELL)).thenReturn(true);
 
         human.nextMoveOn(grid);
@@ -67,7 +77,7 @@ public class HumanPlayerTest {
 
     @Test
     public void repromptPlayerWhenTheySpecifyACellSmallerThanTheGrid() {
-        when(prompt.readsInput()).thenReturn(-50).thenReturn(-1).thenReturn(VACANT_CELL);
+        when(prompt.readsInput()).thenReturn("-50").thenReturn("-1").thenReturn(VACANT_CELL.toString());
         when(grid.isEmptyAt(VACANT_CELL)).thenReturn(true);
 
         human.nextMoveOn(grid);
@@ -77,7 +87,7 @@ public class HumanPlayerTest {
 
     @Test
     public void repromptPlayerWhenTheySpecifyACellThatIsAlreadyTaken() {
-        when(prompt.readsInput()).thenReturn(OCCUPIED_CELL).thenReturn(VACANT_CELL);
+        when(prompt.readsInput()).thenReturn(OCCUPIED_CELL.toString()).thenReturn(VACANT_CELL.toString());
         when(grid.isEmptyAt(OCCUPIED_CELL)).thenReturn(false);
         when(grid.isEmptyAt(VACANT_CELL)).thenReturn(true);
 
