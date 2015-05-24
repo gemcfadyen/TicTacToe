@@ -2,10 +2,11 @@ package tictactoe.player;
 
 import tictactoe.Symbol;
 import tictactoe.grid.Grid;
+import tictactoe.player.inputvalidation.InputValidator;
+import tictactoe.player.inputvalidation.IsDigit;
+import tictactoe.player.inputvalidation.IsInGridBoundary;
+import tictactoe.player.inputvalidation.IsVacantCell;
 import tictactoe.prompt.Prompt;
-
-import static org.apache.commons.lang3.math.NumberUtils.isNumber;
-import static tictactoe.grid.Grid.TOTAL_CELLS;
 
 /**
  * Created by Georgina on 16/05/2015.
@@ -33,38 +34,29 @@ public class HumanPlayer implements Player {
     }
 
     private int repromptUntilValid(String nextMove, Grid grid) {
+        InputValidator[] validators = getInputValidators(grid);
         String move = nextMove;
-        while (!valid(move, grid)) {
+        while (!valid(move, validators)) {
             prompt.promptPlayer();
             move = prompt.readsInput();
         }
         return Integer.valueOf(move);
     }
 
-    private boolean valid(String specifiedMove, Grid grid) {
-        if (!isNumber(specifiedMove)) {
-            return false;
+    private boolean valid(String specifiedMove, InputValidator[] validators) {
+        for (InputValidator validator : validators) {
+            if (!validator.isValid(specifiedMove)) {
+                return false;
+            }
         }
 
-        int cellIndex = Integer.valueOf(specifiedMove);
-        if (!insideGridBoundaries(cellIndex)) {
-            return false;
-        }
-
-        if (!gridHasFreeCellAt(cellIndex, grid)) {
-            return false;
-        }
         return true;
     }
 
-    private boolean gridHasFreeCellAt(int specifiedMove, Grid grid) {
-        return grid.isEmptyAt(specifiedMove);
-    }
-
-    private boolean insideGridBoundaries(int specifiedMove) {
-        if (specifiedMove < 0 || specifiedMove >= TOTAL_CELLS) {
-            return false;
-        }
-        return true;
+    private InputValidator[] getInputValidators(Grid grid) {
+        return new InputValidator[] {
+                    new IsDigit(),
+                    new IsInGridBoundary(),
+                    new IsVacantCell(grid)};
     }
 }
