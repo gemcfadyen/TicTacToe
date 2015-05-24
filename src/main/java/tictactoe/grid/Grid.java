@@ -26,7 +26,7 @@ public class Grid {
     private Row middleRow;
     private Row bottomRow;
 
-    protected Grid(Row topRow, Row middleRow, Row bottomRow) {
+    public Grid(Row topRow, Row middleRow, Row bottomRow) {
         this.topRow = topRow;
         this.middleRow = middleRow;
         this.bottomRow = bottomRow;
@@ -37,12 +37,11 @@ public class Grid {
         return isVacantAt(row, index);
     }
 
-    public Grid update(int index, Symbol symbol) {
+    public void update(int index, Symbol symbol) {
         Row row = determineRowFrom(index);
         if (row.getCellWithOffset(index).getSymbol() == VACANT) {
             row.putSymbolAt(index, symbol);
         }
-        return this;
     }
 
     public GameStatus getWinStatus() {
@@ -55,20 +54,16 @@ public class Grid {
 
     }
 
-    public String display() {
-        StringBuffer gridDisplay = prints(topRow);
-        gridDisplay.append(prints(middleRow));
-        gridDisplay.append(prints(bottomRow));
-
-        return gridDisplay.toString();
-    }
-
     private List<Row> generateRowsForAllDirections() {
         List<Row> allRows = horizontalRows();
         allRows.addAll(verticalRows());
         allRows.addAll(diagonalRows());
 
         return allRows;
+    }
+
+    public List<Row> rows() {
+       return horizontalRows();
     }
 
     private List<Row> horizontalRows() {
@@ -123,7 +118,6 @@ public class Grid {
                 return cell.getSymbol() == VACANT;
             }
         }
-
         return false;
     }
 
@@ -135,19 +129,5 @@ public class Grid {
             return middleRow;
         }
         return bottomRow;
-    }
-
-    private StringBuffer prints(Row row) {
-        StringBuffer gridDisplay = new StringBuffer();
-        gridDisplay.append(" | ");
-        for (Cell cell : row.getCells()) {
-            if (cell.getSymbol() == VACANT) {
-                gridDisplay.append(cell.getOffset());
-            } else {
-                gridDisplay.append(cell.getSymbol());
-            }
-            gridDisplay.append(" | ");
-        }
-        return gridDisplay.append("\n");
     }
 }

@@ -50,7 +50,7 @@ public class Game {
     }
 
     public void play() {
-        prompt.display(grid.display());
+        prompt.display(grid.rows());
         playGame();
         prompt.display("Game Over");
     }
@@ -60,7 +60,7 @@ public class Game {
         for (int i = 0; i < Grid.TOTAL_CELLS; i++) {
 
             grid.update(playersMove(currentPlayerIndex), playersSymbol(currentPlayerIndex));
-            prompt.display(grid.display());
+            prompt.display(grid.rows());
 
             if (isWinningMove()) {
                 break;

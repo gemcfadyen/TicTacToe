@@ -3,6 +3,8 @@ package tictactoe.grid;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -18,6 +20,9 @@ import static tictactoe.grid.RowBuilder.aRowBuilder;
  */
 public class GridTest {
     private static final int NO_OFFSET = 0;
+    private static final int MIDDLE_ROW_INDEX = 1;
+    private static final int BOTTOM_ROW_INDEX = 2;
+
     private Grid grid;
 
     @Before
@@ -31,30 +36,34 @@ public class GridTest {
 
     @Test
     public void updateGridAtGivenIndex() {
-        Grid updatedGrid = grid.update(6, X);
+        grid.update(6, X);
 
-        StringBuffer expectedGrid = new StringBuffer(" | X | 1 | X | \n ");
-        expectedGrid.append("| X | 4 | 5 | \n ");
-        expectedGrid.append("| X | O | X | \n");
+        Row bottomRow = getSpecifiedRow(grid.rows(), BOTTOM_ROW_INDEX);
+        Cell updatedCell = getCellWithOffset(bottomRow, 6);
 
-        assertThat(updatedGrid.isEmptyAt(6), is(false));
-        assertThat(updatedGrid.display(), is(equalTo(expectedGrid.toString())));
-    }
-
-    @Test (expected = IllegalArgumentException.class)
-    public void exceptionThrownIfOffsetIsOutOfRange() {
-        grid.update(10, X);
+        assertThat(grid.isEmptyAt(6), is(false));
+        assertThat(updatedCell.getSymbol(), is(equalTo(X)));
     }
 
     @Test
     public void noUpdateToGridIsMadeWhenCellIsNotVacant() {
-        Grid updatedGrid = grid.update(3, X);
+        grid.update(3, O);
 
-        StringBuffer expectedGrid = new StringBuffer(" | X | 1 | X | \n ");
-        expectedGrid.append("| X | 4 | 5 | \n ");
-        expectedGrid.append("| 6 | O | X | \n");
-
-        assertThat(updatedGrid.display(), is(equalTo(expectedGrid.toString())));
+        Cell updatedCell = getCellWithOffset(getSpecifiedRow(grid.rows(), MIDDLE_ROW_INDEX), 3);
+        assertThat(updatedCell.getSymbol(), is(equalTo(X)));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void exceptionThrownIfOffsetIsOutOfRange() {
+        grid.update(10, X);
+    }
+
+
+    private Cell getCellWithOffset(Row row, int offset) {
+        return row.getCellWithOffset(offset);
+    }
+
+    private Row getSpecifiedRow(List<Row> rows, int rowIndex) {
+        return rows.get(rowIndex);
+    }
 }
