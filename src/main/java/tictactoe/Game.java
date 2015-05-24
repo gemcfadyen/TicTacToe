@@ -2,19 +2,14 @@ package tictactoe;
 
 import tictactoe.grid.GameStatus;
 import tictactoe.grid.Grid;
-import tictactoe.player.HumanPlayer;
 import tictactoe.player.Player;
-import tictactoe.prompt.CommandLinePrompt;
 import tictactoe.prompt.Prompt;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.X;
+import static tictactoe.grid.GridFactory.createEmptyGrid;
+import static tictactoe.player.PlayerFactory.createHumanPlayer;
+import static tictactoe.prompt.PromptFactory.createCommandLinePrompt;
 import static java.lang.String.format;
 
 /**
@@ -30,14 +25,12 @@ public class Game {
     private final Prompt prompt;
 
     Game() {
-        grid = new Grid();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        Writer writer = new BufferedWriter(new OutputStreamWriter(System.out));
-        prompt = new CommandLinePrompt(reader, writer);
-        players = initialiseOrderOfPlayers(new HumanPlayer(X, prompt), new HumanPlayer(O, prompt));
+        grid = createEmptyGrid();
+        prompt = createCommandLinePrompt();
+        players = initialiseOrderOfPlayers(createHumanPlayer(O, prompt), createHumanPlayer(X, prompt));
     }
 
-    public Game(Grid grid, Player playerO, Player playerX, Prompt prompt) {
+    protected Game(Grid grid, Player playerO, Player playerX, Prompt prompt) {
         this.grid = grid;
         this.players = initialiseOrderOfPlayers(playerO, playerX);
         this.prompt = prompt;
@@ -57,8 +50,13 @@ public class Game {
     }
 
     public void play() {
-        int currentPlayerIndex = FIRST_PLAYER;
         prompt.display(grid.display());
+        playGame();
+        prompt.display("Game Over");
+    }
+
+    private void playGame() {
+        int currentPlayerIndex = FIRST_PLAYER;
         for (int i = 0; i < Grid.TOTAL_CELLS; i++) {
 
             grid.update(playersMove(currentPlayerIndex), playersSymbol(currentPlayerIndex));
@@ -69,7 +67,6 @@ public class Game {
             }
             currentPlayerIndex = opponent(currentPlayerIndex);
         }
-        prompt.display("Game Over");
     }
 
     private Symbol playersSymbol(int currentPlayerIndex) {

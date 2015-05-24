@@ -19,7 +19,6 @@ public class Grid {
     public static final int TOTAL_CELLS = NUMBER_OF_CELLS_IN_ROW * NUMBER_OF_CELLS_IN_ROW;
     public static final int BOTTOM_ROW_OFFSET = NUMBER_OF_CELLS_IN_ROW * 2;
     private static final int LEFT_CELL_INDEX = 0;
-    private static final int STARTING_INDEX = 0;
     private static final int MIDDLE_CELL_INDEX = 1;
     private static final int RIGHT_CELL_INDEX = 2;
 
@@ -27,13 +26,7 @@ public class Grid {
     private Row middleRow;
     private Row bottomRow;
 
-    public Grid() {
-        this.topRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, STARTING_INDEX).build();
-        this.middleRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
-        this.bottomRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
-    }
-
-    public Grid(Row topRow, Row middleRow, Row bottomRow) {
+    protected Grid(Row topRow, Row middleRow, Row bottomRow) {
         this.topRow = topRow;
         this.middleRow = middleRow;
         this.bottomRow = bottomRow;

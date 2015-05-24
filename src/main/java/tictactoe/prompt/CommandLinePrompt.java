@@ -13,7 +13,7 @@ public class CommandLinePrompt implements Prompt {
     private final BufferedReader reader;
     private final Writer writer;
 
-    public CommandLinePrompt(BufferedReader reader, Writer writer) {
+    protected CommandLinePrompt(BufferedReader reader, Writer writer) {
         this.reader = reader;
         this.writer = writer;
     }
