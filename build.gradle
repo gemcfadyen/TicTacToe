@@ -5,6 +5,8 @@ apply plugin: 'pmd'
 apply plugin: 'findbugs'
 apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: 'application'
+mainClassName = 'tictactoe.Game'
 
 version = '1.0'
 sourceCompatibility = 1.8
@@ -55,6 +57,7 @@ findbugs {
     includeFilter = file("$rootProject.projectDir/config/findbugs/includeFilter.xml")
     excludeFilter = file("$rootProject.projectDir/config/findbugs/excludeFilter.xml")
 }
+
 findbugsTest {
     enabled = true
 }
@@ -65,4 +68,8 @@ pmd {
     ruleSetFiles = files("$rootProject.projectDir/config/pmd/ruleSets.xml")
     reportsDir = file("$project.buildDir/reports/pmd")
     toolVersion = '5.0.5'
+}
+
+run {
+    standardInput = System.in
 }

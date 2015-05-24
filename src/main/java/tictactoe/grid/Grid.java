@@ -7,7 +7,7 @@ import java.util.List;
 
 import static tictactoe.Symbol.VACANT;
 import static tictactoe.grid.Row.FIRST_CELL_INDEX;
-import static tictactoe.grid.RowGenerator.aRowGenerator;
+import static tictactoe.grid.RowBuilder.aRowBuilder;
 import static tictactoe.grid.State.NO_WIN;
 import static tictactoe.grid.State.WIN;
 
@@ -19,12 +19,19 @@ public class Grid {
     public static final int TOTAL_CELLS = NUMBER_OF_CELLS_IN_ROW * NUMBER_OF_CELLS_IN_ROW;
     public static final int BOTTOM_ROW_OFFSET = NUMBER_OF_CELLS_IN_ROW * 2;
     private static final int LEFT_CELL_INDEX = 0;
+    private static final int STARTING_INDEX = 0;
     private static final int MIDDLE_CELL_INDEX = 1;
     private static final int RIGHT_CELL_INDEX = 2;
 
     private Row topRow;
     private Row middleRow;
     private Row bottomRow;
+
+    public Grid() {
+        this.topRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, STARTING_INDEX).build();
+        this.middleRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
+        this.bottomRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
+    }
 
     public Grid(Row topRow, Row middleRow, Row bottomRow) {
         this.topRow = topRow;
@@ -95,25 +102,25 @@ public class Grid {
     }
 
     private Row generateRightDiagonal() {
-        return aRowGenerator().withRightDiagonal(
+        return aRowBuilder().withRightDiagonal(
                 topRow.getSymbolAt(RIGHT_CELL_INDEX),
                 middleRow.getSymbolAt(MIDDLE_CELL_INDEX),
-                bottomRow.getSymbolAt(LEFT_CELL_INDEX)).generate();
+                bottomRow.getSymbolAt(LEFT_CELL_INDEX)).build();
     }
 
     private Row generateLeftDiagonal() {
-        return aRowGenerator().withLeftDiagonal(
+        return aRowBuilder().withLeftDiagonal(
                 topRow.getSymbolAt(LEFT_CELL_INDEX),
                 middleRow.getSymbolAt(MIDDLE_CELL_INDEX),
-                bottomRow.getSymbolAt(RIGHT_CELL_INDEX)).generate();
+                bottomRow.getSymbolAt(RIGHT_CELL_INDEX)).build();
     }
 
     private Row generateVerticalRow(int startingOffset) {
-        return aRowGenerator().withVerticalRow(
+        return aRowBuilder().withVerticalRow(
                 topRow.getSymbolAt(startingOffset),
                 middleRow.getSymbolAt(startingOffset),
                 bottomRow.getSymbolAt(startingOffset),
-                startingOffset).generate();
+                startingOffset).build();
     }
 
     private boolean isVacantAt(Row row, int index) {

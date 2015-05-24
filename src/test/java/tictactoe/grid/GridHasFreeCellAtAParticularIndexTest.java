@@ -20,7 +20,7 @@ import static tictactoe.grid.RowBuilder.aRowBuilder;
  * Created by Georgina on 17/05/2015.
  */
 @RunWith(Parameterized.class)
-public class GridHasFreeCellAtIndexTest {
+public class GridHasFreeCellAtAParticularIndexTest {
 
     private static final Row EMPTY_TOP_ROW = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, 0).build();
     private static final Row EMPTY_MIDDLE_ROW = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
@@ -32,7 +32,7 @@ public class GridHasFreeCellAtIndexTest {
     private final Row middleRow;
     private final int freeCellIndex;
 
-    public GridHasFreeCellAtIndexTest(Row top, Row middle, Row bottom, int index) {
+    public GridHasFreeCellAtAParticularIndexTest(Row top, Row middle, Row bottom, int index) {
         this.topRow = top;
         this.middleRow = middle;
         this.bottomRow = bottom;

@@ -23,6 +23,8 @@ import static tictactoe.grid.State.WIN;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class GameTest {
+    private static final String CURRENT_GRID_FORMATION = "-the-current-grid-";
+
     @Mock private Player playerO;
     @Mock private Player playerX;
     @Mock private Prompt prompt;
@@ -49,17 +51,21 @@ public class GameTest {
     @Test
     public void gameEndsWhenGridContainsThreeXsInARow() {
         when(grid.getWinStatus()).thenReturn(new GameStatus(WIN, X));
+        when(grid.display()).thenReturn(CURRENT_GRID_FORMATION);
 
         game.play();
 
+        verify(prompt, times(2)).display(CURRENT_GRID_FORMATION);
         verify(prompt, times(1)).display("PlayerX wins");
     }
 
     @Test
     public void gameEndsWhenGridContainsThreeOsInARow() {
         when(grid.getWinStatus()).thenReturn(new GameStatus(WIN, O));
+        when(grid.display()).thenReturn(CURRENT_GRID_FORMATION);
         game.play();
 
+        verify(prompt, times(2)).display(CURRENT_GRID_FORMATION);
         verify(prompt, times(1)).display("PlayerO wins");
     }
 
