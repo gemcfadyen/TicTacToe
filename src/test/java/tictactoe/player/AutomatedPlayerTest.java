@@ -10,6 +10,7 @@ import tictactoe.grid.status.GameStatus;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
+import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.X;
 
 /**
@@ -18,31 +19,36 @@ import static tictactoe.Symbol.X;
 @RunWith(MockitoJUnitRunner.class)
 public class AutomatedPlayerTest {
     private static final int NO_WINNING_MOVE = -1;
+    private Player automatedPlayer = new AutomatedPlayer(X);
+    @Mock
+    private Grid grid;
 
-    @Mock private Grid grid;
-
-    public AutomatedPlayerTest() {
-        super();
+    @Test
+    public void returnsPlayerSymbol() {
+        assertThat(automatedPlayer.getSymbol(), is(X));
     }
 
     @Test
     public void takesWinningMove() {
         when(grid.evaluateWinningMoveFor(X)).thenReturn(GameStatus.potentialWinAt(2));
 
-        Player automatedPlayer = new AutomatedPlayer(X);
-        int playersMove = automatedPlayer.nextMoveOn(grid);
-
-        assertThat(playersMove, is(2));
+        assertThat(automatedPlayer.nextMoveOn(grid), is(2));
     }
 
     @Test
-    public void noWinningMoveAvailable() {
+    public void noStrategicMoveAvailable() {
         when(grid.evaluateWinningMoveFor(X)).thenReturn(GameStatus.noWin());
+        when(grid.evaluateWinningMoveFor(O)).thenReturn(GameStatus.noWin());
 
-        Player automatedPlayer = new AutomatedPlayer(X);
-        int playersMove = automatedPlayer.nextMoveOn(grid);
+        assertThat(automatedPlayer.nextMoveOn(grid), is(NO_WINNING_MOVE));
+    }
 
-        assertThat(playersMove, is(NO_WINNING_MOVE));
+    @Test
+    public void takeOpponentsWinningMove() {
+        when(grid.evaluateWinningMoveFor(X)).thenReturn(GameStatus.noWin());
+        when(grid.evaluateWinningMoveFor(O)).thenReturn(GameStatus.potentialWinAt(7));
+
+        assertThat(automatedPlayer.nextMoveOn(grid), is(7));
     }
 
 }
