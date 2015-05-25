@@ -2,10 +2,9 @@ package tictactoe.player;
 
 import tictactoe.Symbol;
 import tictactoe.grid.Grid;
-import tictactoe.grid.status.GameStatus;
-
-import static tictactoe.Symbol.O;
-import static tictactoe.Symbol.X;
+import tictactoe.player.gameplan.BlockOpponentsWinningMove;
+import tictactoe.player.gameplan.GamePlan;
+import tictactoe.player.gameplan.TakeWinningMove;
 
 /**
  * Created by Georgina on 25/05/2015.
@@ -14,29 +13,29 @@ public class AutomatedPlayer implements Player {
     private static final int NO_WINNING_MOVE = -1;
 
     private final Symbol symbol;
+    private final GamePlan[] orderedGamePlan;
 
     public AutomatedPlayer(Symbol symbol) {
         this.symbol = symbol;
+        this.orderedGamePlan = orderedGamePlan();
     }
 
     @Override
     public int nextMoveOn(Grid grid) {
-        GameStatus status = grid.evaluateWinningMoveFor(symbol);
-        if (status.hasPotentialWin()) {
-            return status.getWinningIndex();
+        for (GamePlan gamePlan : orderedGamePlan) {
+            int move = gamePlan.execute(grid, symbol);
+            if (move != NO_WINNING_MOVE) {
+                return move;
+            }
         }
 
-        GameStatus opponentsStatus = grid.evaluateWinningMoveFor(opponent(symbol));
-        if (opponentsStatus.hasPotentialWin()) {
-            return opponentsStatus.getWinningIndex();
-        }
-
-        return NO_WINNING_MOVE;
-
+       return NO_WINNING_MOVE;
     }
 
-    private Symbol opponent(Symbol symbol) {
-        return (symbol == X) ? O : X;
+    private GamePlan[] orderedGamePlan() {
+        return new GamePlan[] {
+                    new TakeWinningMove(),
+                    new BlockOpponentsWinningMove() };
     }
 
     @Override

@@ -20,8 +20,7 @@ import static tictactoe.Symbol.X;
 public class AutomatedPlayerTest {
     private static final int NO_WINNING_MOVE = -1;
     private Player automatedPlayer = new AutomatedPlayer(X);
-    @Mock
-    private Grid grid;
+    @Mock private Grid grid;
 
     @Test
     public void returnsPlayerSymbol() {
