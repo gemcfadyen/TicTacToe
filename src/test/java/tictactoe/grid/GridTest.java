@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -53,11 +54,10 @@ public class GridTest {
         assertThat(updatedCell.getSymbol(), is(equalTo(X)));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NoSuchElementException.class)
     public void exceptionThrownIfOffsetIsOutOfRange() {
         grid.update(10, X);
     }
-
 
     private Cell getCellWithOffset(Row row, int offset) {
         return row.getCellWithOffset(offset);

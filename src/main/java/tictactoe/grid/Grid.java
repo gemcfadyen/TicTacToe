@@ -1,6 +1,7 @@
 package tictactoe.grid;
 
 import tictactoe.Symbol;
+import tictactoe.grid.status.GameStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +9,6 @@ import java.util.List;
 import static tictactoe.Symbol.VACANT;
 import static tictactoe.grid.Row.FIRST_CELL_INDEX;
 import static tictactoe.grid.RowBuilder.aRowBuilder;
-import static tictactoe.grid.State.NO_WIN;
-import static tictactoe.grid.State.WIN;
 
 /**
  * Created by Georgina on 16/05/2015.
@@ -34,7 +33,7 @@ public class Grid {
 
     public boolean isEmptyAt(int index) {
         Row row = determineRowFrom(index);
-        return isVacantAt(row, index);
+        return row.isVacantAt(index);
     }
 
     public void update(int index, Symbol symbol) {
@@ -44,13 +43,13 @@ public class Grid {
         }
     }
 
-    public GameStatus getWinStatus() {
+    public GameStatus evaluateWinningStatus() {
         for (Row row : generateRowsForAllDirections()) {
             if (row.isWinningRow()) {
-                return new GameStatus(WIN, row.getSymbolAt(FIRST_CELL_INDEX));
+                return GameStatus.winFor(row.getSymbolAt(FIRST_CELL_INDEX));
             }
         }
-        return new GameStatus(NO_WIN);
+        return GameStatus.noWin();
 
     }
 
@@ -63,7 +62,7 @@ public class Grid {
     }
 
     public List<Row> rows() {
-       return horizontalRows();
+        return horizontalRows();
     }
 
     private List<Row> horizontalRows() {
@@ -111,16 +110,6 @@ public class Grid {
                 startingOffset).build();
     }
 
-    private boolean isVacantAt(Row row, int index) {
-        Cell[] cells = row.getCells();
-        for (Cell cell : cells) {
-            if (cell.getOffset() == index) {
-                return cell.getSymbol() == VACANT;
-            }
-        }
-        return false;
-    }
-
     private Row determineRowFrom(int index) {
         if (index < NUMBER_OF_CELLS_IN_ROW) {
             return topRow;
@@ -130,4 +119,21 @@ public class Grid {
         }
         return bottomRow;
     }
+
+    public GameStatus evaluateWinningMoveFor(Symbol symbol) {
+        List<Row> rows = generateRowsForAllDirections();
+        for (Row row : rows) {
+            Cell remainingVacantCell = row.getWinningCellFor(symbol);
+            if (isWinningMoveAt(remainingVacantCell)) {
+                return GameStatus.potentialWinAt(remainingVacantCell.getOffset());
+            }
+        }
+
+        return GameStatus.noWin();
+    }
+
+    private boolean isWinningMoveAt(Cell remainingVacantCell) {
+        return remainingVacantCell != null;
+    }
 }
+
