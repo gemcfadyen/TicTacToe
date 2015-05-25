@@ -15,7 +15,7 @@ public class BlockOpponentsWinningMove implements GamePlan {
     public int execute(Grid grid, Symbol symbol) {
         GameStatus opponentsStatus = grid.evaluateWinningMoveFor(opponent(symbol));
         if (opponentsStatus.hasPotentialWin()) {
-            return opponentsStatus.getWinningIndex();
+            return opponentsStatus.getIndexOfMove();
         }
         return NO_WINNING_MOVE;
     }

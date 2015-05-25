@@ -36,6 +36,17 @@ public class GridTest {
     }
 
     @Test
+    public void identifiesAnEmptyGrid() {
+        Grid emptyGrid = GridFactory.createEmptyGrid();
+        assertThat(emptyGrid.isEmpty(), is(true));
+    }
+
+    @Test
+    public void identifiesThatGridIsNotEmpty() {
+        assertThat(grid.isEmpty(), is(false));
+    }
+
+    @Test
     public void updateGridAtGivenIndex() {
         grid.update(6, X);
 
@@ -59,7 +70,7 @@ public class GridTest {
         grid.update(10, X);
     }
 
-    private Cell getCellWithOffset(Row row, int offset) {
+     private Cell getCellWithOffset(Row row, int offset) {
         return row.getCellWithOffset(offset);
     }
 

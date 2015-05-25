@@ -73,6 +73,6 @@ public class GridContainsAPotentiallyWinningRowTest {
                 middleRow,
                 bottomRow);
 
-        assertThat(grid.evaluateWinningMoveFor(symbol).getWinningIndex(), is(winningIndex));
+        assertThat(grid.evaluateWinningMoveFor(symbol).getIndexOfMove(), is(winningIndex));
     }
 }

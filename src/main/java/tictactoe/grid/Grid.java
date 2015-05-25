@@ -1,10 +1,12 @@
 package tictactoe.grid;
 
+import com.google.common.collect.ImmutableMap;
 import tictactoe.Symbol;
 import tictactoe.grid.status.GameStatus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static tictactoe.Symbol.VACANT;
 import static tictactoe.grid.Row.FIRST_CELL_INDEX;
@@ -19,7 +21,14 @@ public class Grid {
     public static final int BOTTOM_ROW_OFFSET = NUMBER_OF_CELLS_IN_ROW * 2;
     private static final int LEFT_CELL_INDEX = 0;
     private static final int MIDDLE_CELL_INDEX = 1;
-    private static final int RIGHT_CELL_INDEX = 2;
+    private static final int RIGHT_CELL_INDEX = NUMBER_OF_CELLS_IN_ROW - 1;
+
+    public static final Map<Integer, Integer> CORNERS_AND_THEIR_OPPOSITES = ImmutableMap.<Integer, Integer>builder()
+            .put(LEFT_CELL_INDEX, TOTAL_CELLS - 1)
+            .put(NUMBER_OF_CELLS_IN_ROW - 1, BOTTOM_ROW_OFFSET)
+            .put(BOTTOM_ROW_OFFSET, NUMBER_OF_CELLS_IN_ROW - 1)
+            .put(TOTAL_CELLS - 1, LEFT_CELL_INDEX)
+            .build();
 
     private Row topRow;
     private Row middleRow;
@@ -34,6 +43,44 @@ public class Grid {
     public boolean isEmptyAt(int index) {
         Row row = determineRowFrom(index);
         return row.isVacantAt(index);
+    }
+
+    public boolean isEmpty() {
+        boolean allEmpty = true;
+        List<Row> horizontalRows = horizontalRows();
+        for (Row horizontalRow : horizontalRows) {
+            allEmpty = allEmpty && horizontalRow.isVacant();
+        }
+        return allEmpty;
+    }
+
+    public GameStatus evaluateForkFormations(Symbol symbol) {
+        GameStatus status = checkForForks(topRow, symbol);
+        if (!status.hasPotentialFork()) {
+           return checkForForks(bottomRow, symbol);
+        }
+        return status;
+    }
+
+    private GameStatus checkForForks(Row row, Symbol symbol) {
+        if (row.freeRowWithOccupiedCorner(symbol) && hasForkFormationInVerticalRows(symbol)) {
+                return GameStatus.potentialForkAt(getOppositeCornerOf(row.getIndexOf(symbol)));
+            }
+
+        return GameStatus.noWin();
+    }
+
+    private boolean hasForkFormationInVerticalRows(Symbol symbol) {
+        return checkForkInVertical(generateVerticalRow(LEFT_CELL_INDEX), symbol)
+                || checkForkInVertical(generateVerticalRow(NUMBER_OF_CELLS_IN_ROW - 1), symbol);
+    }
+
+    private boolean checkForkInVertical(Row row, Symbol symbol) {
+        return row.isVacant() || row.freeRowWithOccupiedCorner(symbol);
+    }
+
+    private int getOppositeCornerOf(int index) {
+        return CORNERS_AND_THEIR_OPPOSITES.get(index);
     }
 
     public void update(int index, Symbol symbol) {
@@ -53,16 +100,28 @@ public class Grid {
 
     }
 
+    public List<Row> rows() {
+        return horizontalRows();
+    }
+
+    public GameStatus evaluateWinningMoveFor(Symbol symbol) {
+        List<Row> rows = generateRowsForAllDirections();
+        for (Row row : rows) {
+            Cell remainingVacantCell = row.getWinningCellFor(symbol);
+            if (isWinningMoveAt(remainingVacantCell)) {
+                return GameStatus.potentialWinAt(remainingVacantCell.getOffset());
+            }
+        }
+
+        return GameStatus.noWin();
+    }
+
     private List<Row> generateRowsForAllDirections() {
         List<Row> allRows = horizontalRows();
         allRows.addAll(verticalRows());
         allRows.addAll(diagonalRows());
 
         return allRows;
-    }
-
-    public List<Row> rows() {
-        return horizontalRows();
     }
 
     private List<Row> horizontalRows() {
@@ -118,18 +177,6 @@ public class Grid {
             return middleRow;
         }
         return bottomRow;
-    }
-
-    public GameStatus evaluateWinningMoveFor(Symbol symbol) {
-        List<Row> rows = generateRowsForAllDirections();
-        for (Row row : rows) {
-            Cell remainingVacantCell = row.getWinningCellFor(symbol);
-            if (isWinningMoveAt(remainingVacantCell)) {
-                return GameStatus.potentialWinAt(remainingVacantCell.getOffset());
-            }
-        }
-
-        return GameStatus.noWin();
     }
 
     private boolean isWinningMoveAt(Cell remainingVacantCell) {

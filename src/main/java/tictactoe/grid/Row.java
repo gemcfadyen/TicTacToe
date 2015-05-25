@@ -1,6 +1,7 @@
 package tictactoe.grid;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import tictactoe.Symbol;
 
 import java.util.List;
@@ -36,7 +37,9 @@ public class Row {
 
     public boolean isWinningRow() {
         Symbol symbol = getSymbolAt(FIRST_CELL_INDEX);
-        return all(cells, checkAllCellsHaveTheSame(symbol));
+        return (symbol == VACANT)
+                ? false
+                : all(cells, checkAllCellsHaveTheSame(symbol));
     }
 
     public void putSymbolAt(int offset, Symbol symbol) {
@@ -54,6 +57,10 @@ public class Row {
         return cellWithOffset.getSymbol() == VACANT;
     }
 
+    public boolean isVacant() {
+        return all(cells, checkAllCellsHaveTheSame(VACANT));
+    }
+
     public Cell getWinningCellFor(Symbol symbol) {
         Iterable<Cell> vacantCell = filter(cells, cell -> cell.getSymbol() == VACANT);
         Iterable<Cell> cellsWithSymbol = filter(cells, cell -> cell.getSymbol() == symbol);
@@ -67,16 +74,28 @@ public class Row {
         return new Predicate<Cell>() {
             @Override
             public boolean apply(Cell cell) {
-                return isNotVacant() && symbolsMatch(cell);
+                return symbolsMatch(cell);
             }
 
             private boolean symbolsMatch(Cell cell) {
                 return cell.getSymbol() == firstSymbol;
             }
 
-            private boolean isNotVacant() {
-                return firstSymbol != VACANT;
-            }
         };
+    }
+
+    public boolean freeRowWithOccupiedCorner(Symbol symbol) {
+        Iterable<Cell> vacantCell = filter(cells, cell -> cell.getSymbol() == VACANT);
+        Iterable<Cell> cellsWithSymbol = filter(cells, cell -> cell.getSymbol() == symbol && cell.isCorner());
+
+        return (size(vacantCell) == NUMBER_OF_CELLS_IN_ROW - 1
+                && size(cellsWithSymbol) == 1)
+                ? true
+                : false;
+    }
+
+    public int getIndexOf(Symbol symbol) {
+        Iterable<Cell> cellWithSymbol = filter(cells, cell -> cell.getSymbol() == symbol);
+        return Iterables.getOnlyElement(cellWithSymbol).getOffset();
     }
 }

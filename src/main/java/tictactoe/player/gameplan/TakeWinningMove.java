@@ -12,7 +12,7 @@ public class TakeWinningMove implements GamePlan {
     public int execute(Grid grid, Symbol symbol) {
         GameStatus status = grid.evaluateWinningMoveFor(symbol);
         if (status.hasPotentialWin()) {
-            return status.getWinningIndex();
+            return status.getIndexOfMove();
         }
         return NO_WINNING_MOVE;
     }

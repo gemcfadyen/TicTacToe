@@ -2,6 +2,8 @@ package tictactoe.grid;
 
 import tictactoe.Symbol;
 
+import static tictactoe.grid.Grid.CORNERS_AND_THEIR_OPPOSITES;
+
 /**
  * Created by Georgina on 17/05/2015.
  */
@@ -24,5 +26,9 @@ public class Cell {
 
     public void setSymbol(Symbol symbol) {
         this.symbol = symbol;
+    }
+
+    public boolean isCorner() {
+        return CORNERS_AND_THEIR_OPPOSITES.containsKey(offset);
     }
 }

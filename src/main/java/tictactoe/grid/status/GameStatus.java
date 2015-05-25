@@ -3,6 +3,7 @@ package tictactoe.grid.status;
 import tictactoe.Symbol;
 import tictactoe.grid.State;
 
+import static tictactoe.grid.State.POTENTIAL_FORK;
 import static tictactoe.grid.State.WIN;
 
 /**
@@ -11,7 +12,7 @@ import static tictactoe.grid.State.WIN;
 
 public final class GameStatus {
     private Symbol winningSymbol;
-    private int winningIndex;
+    private int indexOfMove;
     private final State state;
 
     public static GameStatus noWin() {
@@ -26,6 +27,10 @@ public final class GameStatus {
         return new GameStatus(State.POTENTIAL_WIN, index);
     }
 
+    public static GameStatus potentialForkAt(int index) {
+        return new GameStatus(State.POTENTIAL_FORK, index);
+    }
+
     private GameStatus(State state) {
         this.state = state;
     }
@@ -35,9 +40,9 @@ public final class GameStatus {
         this.winningSymbol = winningSymbol;
     }
 
-    private GameStatus(State state, int winningIndex) {
+    private GameStatus(State state, int indexOfMove) {
         this.state = state;
-        this.winningIndex = winningIndex;
+        this.indexOfMove = indexOfMove;
     }
 
     public Symbol winningSymbol() {
@@ -52,8 +57,12 @@ public final class GameStatus {
         return state == State.POTENTIAL_WIN;
     }
 
-    public int getWinningIndex() {
-        return winningIndex;
+    public int getIndexOfMove() {
+        return indexOfMove;
+    }
+
+    public boolean hasPotentialFork() {
+        return state == POTENTIAL_FORK;
     }
 }
 
