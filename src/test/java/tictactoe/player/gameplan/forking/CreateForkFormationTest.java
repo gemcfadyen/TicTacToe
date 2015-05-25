@@ -1,4 +1,4 @@
-package tictactoe.player.gameplan;
+package tictactoe.player.gameplan.forking;
 
 import org.junit.Test;
 import tictactoe.grid.Grid;
@@ -17,8 +17,8 @@ import static tictactoe.grid.RowBuilder.aRowBuilder;
 /**
  * Created by Georgina on 25/05/2015.
  */
-public class CreateForkTest {
-    private CreateFork fork = new CreateFork();
+public class CreateForkFormationTest {
+    private CreateForkFormation fork = new CreateForkFormation();
 
     @Test
     public void takeCornerOnEmptyGrid() {

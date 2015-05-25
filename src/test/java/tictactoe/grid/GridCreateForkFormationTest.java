@@ -15,7 +15,7 @@ import static tictactoe.grid.RowBuilder.aRowBuilder;
 /**
  * Created by Georgina on 25/05/2015.
  */
-public class GridCreateForkTest {
+public class GridCreateForkFormationTest {
     @Test
     public void takeOppositeCornerOfTopLeftToStartFork() {
         Row topRow = aRowBuilder().withHorizontalRow(X, VACANT, VACANT, 0).build();

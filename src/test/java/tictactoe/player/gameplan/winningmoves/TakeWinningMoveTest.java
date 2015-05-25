@@ -1,7 +1,9 @@
-package tictactoe.player.gameplan;
+package tictactoe.player.gameplan.winningmoves;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 import tictactoe.grid.Grid;
 import tictactoe.grid.Row;
 
@@ -13,13 +15,14 @@ import static tictactoe.Symbol.X;
 import static tictactoe.grid.Grid.BOTTOM_ROW_OFFSET;
 import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 import static tictactoe.grid.RowBuilder.aRowBuilder;
-import static tictactoe.player.gameplan.GamePlan.NO_WINNING_MOVE;
+import static tictactoe.player.gameplan.GamePlan.NO_SUGGESTED_MOVE;
 
 /**
  * Created by Georgina on 25/05/2015.
  */
-public class BlockOpponentsWinningMoveTest {
-    private BlockOpponentsWinningMove blockOpponentsWinningMove = new BlockOpponentsWinningMove();
+@RunWith(MockitoJUnitRunner.class)
+public class TakeWinningMoveTest {
+    private TakeWinningMove takeWinningMove = new TakeWinningMove();
     private Grid grid;
 
     @Before
@@ -33,12 +36,11 @@ public class BlockOpponentsWinningMoveTest {
 
     @Test
     public void indexOfWinningMoveIsReturned() {
-        assertThat(blockOpponentsWinningMove.execute(grid, X), is(NO_WINNING_MOVE));
+        assertThat(takeWinningMove.execute(grid, X), is(6));
     }
 
     @Test
     public void noWinningMoveAvailable() {
-        assertThat(blockOpponentsWinningMove.execute(grid, O), is(6));
+        assertThat(takeWinningMove.execute(grid, O), is(NO_SUGGESTED_MOVE));
     }
-
 }

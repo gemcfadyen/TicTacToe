@@ -2,9 +2,9 @@ package tictactoe.player;
 
 import tictactoe.Symbol;
 import tictactoe.grid.Grid;
-import tictactoe.player.gameplan.BlockOpponentsWinningMove;
 import tictactoe.player.gameplan.GamePlan;
-import tictactoe.player.gameplan.TakeWinningMove;
+import tictactoe.player.gameplan.winningmoves.BlockOpponentsWinningMove;
+import tictactoe.player.gameplan.winningmoves.TakeWinningMove;
 
 /**
  * Created by Georgina on 25/05/2015.
