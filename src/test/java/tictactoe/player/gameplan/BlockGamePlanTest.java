@@ -1,9 +1,10 @@
-package tictactoe.player.gameplan.winningmoves;
+package tictactoe.player.gameplan;
 
 import org.junit.Before;
 import org.junit.Test;
 import tictactoe.grid.Grid;
 import tictactoe.grid.Row;
+import tictactoe.player.gameplan.winningmoves.TakeWinningMove;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -16,10 +17,10 @@ import static tictactoe.grid.RowBuilder.aRowBuilder;
 import static tictactoe.player.gameplan.GamePlan.NO_SUGGESTED_MOVE;
 
 /**
- * Created by Georgina on 25/05/2015.
+ * Created by Georgina on 26/05/2015.
  */
-public class BlockOpponentsWinningMoveTest {
-    private BlockOpponentsWinningMove blockOpponentsWinningMove = new BlockOpponentsWinningMove();
+public class BlockGamePlanTest {
+    private Block opponentsWinningMove = new Block(new TakeWinningMove());
     private Grid grid;
 
     @Before
@@ -33,12 +34,12 @@ public class BlockOpponentsWinningMoveTest {
 
     @Test
     public void indexOfWinningMoveIsReturned() {
-        assertThat(blockOpponentsWinningMove.execute(grid, X), is(NO_SUGGESTED_MOVE));
+        assertThat(opponentsWinningMove.execute(grid, X), is(NO_SUGGESTED_MOVE));
     }
 
     @Test
     public void noWinningMoveAvailable() {
-        assertThat(blockOpponentsWinningMove.execute(grid, O), is(6));
+        assertThat(opponentsWinningMove.execute(grid, O), is(6));
     }
 
 }

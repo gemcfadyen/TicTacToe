@@ -36,14 +36,8 @@ public class AutomatedPlayerTest {
 
     @Test
     public void noStrategicMoveAvailable() {
-        when(grid.evaluateWinningMoveFor(X)).thenReturn(GameStatus.noWin());
-        when(grid.evaluateWinningMoveFor(O)).thenReturn(GameStatus.noWin());
-        when(grid.isEmpty()).thenReturn(false);
-        when(grid.centerCellTaken()).thenReturn(false);
-        when(grid.evaluateForForksWhenCenterIsOccupied(X)).thenReturn(GameStatus.noWin());
-        when(grid.evaluateForksFromTopRow(X)).thenReturn(GameStatus.noWin());
-        when(grid.evaluateForksFromVerticalRows(X)).thenReturn(GameStatus.noWin());
-        when(grid.evaluateForksFromBottomRow(X)).thenReturn(GameStatus.noWin());
+        noSuggestedMovesForAutomatedPlayer();
+        noPotentialForksForOpponent();
 
         assertThat(automatedPlayer.nextMoveOn(grid), is(NO_WINNING_MOVE));
     }
@@ -58,8 +52,7 @@ public class AutomatedPlayerTest {
 
     @Test
     public void takeOpeningMoveInTopLeftCell() {
-        when(grid.evaluateWinningMoveFor(X)).thenReturn(GameStatus.noWin());
-        when(grid.evaluateWinningMoveFor(O)).thenReturn(GameStatus.noWin());
+        noPotentialWinForAutomatedPlayerOrOpponent();
         when(grid.isEmpty()).thenReturn(true);
 
         assertThat(automatedPlayer.nextMoveOn(grid), is(0));
@@ -67,8 +60,7 @@ public class AutomatedPlayerTest {
 
     @Test
     public void startForkWhenCenterIsTaken() {
-        when(grid.evaluateWinningMoveFor(X)).thenReturn(GameStatus.noWin());
-        when(grid.evaluateWinningMoveFor(O)).thenReturn(GameStatus.noWin());
+        noPotentialWinForAutomatedPlayerOrOpponent();
         when(grid.isEmpty()).thenReturn(false);
         when(grid.centerCellTaken()).thenReturn(true);
         when(grid.evaluateForForksWhenCenterIsOccupied(X)).thenReturn(GameStatus.potentialForkAt(2));
@@ -78,11 +70,8 @@ public class AutomatedPlayerTest {
 
     @Test
     public void startForkFromTopRowWhenCenterIsOccupied() {
-        when(grid.evaluateWinningMoveFor(X)).thenReturn(GameStatus.noWin());
-        when(grid.evaluateWinningMoveFor(O)).thenReturn(GameStatus.noWin());
-        when(grid.isEmpty()).thenReturn(false);
-        when(grid.centerCellTaken()).thenReturn(false);
-        when(grid.evaluateForForksWhenCenterIsOccupied(X)).thenReturn(GameStatus.noWin());
+        noPotentialWinForAutomatedPlayerOrOpponent();
+        noForksAroundCenterCell();
         when(grid.evaluateForksFromTopRow(X)).thenReturn(GameStatus.potentialForkAt(2));
 
         assertThat(automatedPlayer.nextMoveOn(grid), is(2));
@@ -90,11 +79,8 @@ public class AutomatedPlayerTest {
 
     @Test
     public void startForkFromVerticalRowWhenCenterIsOccupied() {
-        when(grid.evaluateWinningMoveFor(X)).thenReturn(GameStatus.noWin());
-        when(grid.evaluateWinningMoveFor(O)).thenReturn(GameStatus.noWin());
-        when(grid.isEmpty()).thenReturn(false);
-        when(grid.centerCellTaken()).thenReturn(false);
-        when(grid.evaluateForForksWhenCenterIsOccupied(X)).thenReturn(GameStatus.noWin());
+        noPotentialWinForAutomatedPlayerOrOpponent();
+        noForksAroundCenterCell();
         when(grid.evaluateForksFromTopRow(X)).thenReturn(GameStatus.noWin());
         when(grid.evaluateForksFromVerticalRows(X)).thenReturn(GameStatus.potentialForkAt(2));
 
@@ -103,11 +89,8 @@ public class AutomatedPlayerTest {
 
     @Test
     public void startForkFromBottomRowWhenCenterIsOccupied() {
-        when(grid.evaluateWinningMoveFor(X)).thenReturn(GameStatus.noWin());
-        when(grid.evaluateWinningMoveFor(O)).thenReturn(GameStatus.noWin());
-        when(grid.isEmpty()).thenReturn(false);
-        when(grid.centerCellTaken()).thenReturn(false);
-        when(grid.evaluateForForksWhenCenterIsOccupied(X)).thenReturn(GameStatus.noWin());
+        noPotentialWinForAutomatedPlayerOrOpponent();
+        noForksAroundCenterCell();
         when(grid.evaluateForksFromTopRow(X)).thenReturn(GameStatus.noWin());
         when(grid.evaluateForksFromVerticalRows(X)).thenReturn(GameStatus.noWin());
         when(grid.evaluateForksFromBottomRow(X)).thenReturn(GameStatus.potentialForkAt(2));
@@ -115,4 +98,70 @@ public class AutomatedPlayerTest {
         assertThat(automatedPlayer.nextMoveOn(grid), is(2));
     }
 
+    @Test
+    public void blockOpponentsForkWhenCenterIsTaken() {
+        noPotentialWinForAutomatedPlayerOrOpponent();
+        noForksAroundCenterCell();
+        when(grid.centerCellTaken()).thenReturn(true);
+        when(grid.evaluateForForksWhenCenterIsOccupied(O)).thenReturn(GameStatus.potentialForkAt(3));
+
+        assertThat(automatedPlayer.nextMoveOn(grid), is(3));
+    }
+
+    @Test
+    public void blockOpponentsForkFromTopRowWhenCenterIsVacant() {
+        noSuggestedMovesForAutomatedPlayer();
+        when(grid.evaluateForForksWhenCenterIsOccupied(O)).thenReturn(GameStatus.noWin());
+        when(grid.evaluateForksFromTopRow(O)).thenReturn(GameStatus.potentialForkAt(3));
+
+        assertThat(automatedPlayer.nextMoveOn(grid), is(3));
+    }
+
+    @Test
+    public void blockOpponentsForkFromVerticalRowWhenCenterIsOccupied() {
+        noSuggestedMovesForAutomatedPlayer();
+        when(grid.evaluateForForksWhenCenterIsOccupied(O)).thenReturn(GameStatus.noWin());
+        when(grid.evaluateForksFromTopRow(O)).thenReturn(GameStatus.noWin());
+        when(grid.evaluateForksFromVerticalRows(O)).thenReturn(GameStatus.potentialForkAt(3));
+
+        assertThat(automatedPlayer.nextMoveOn(grid), is(3));
+    }
+
+    @Test
+    public void blockOpponentsForkFromBottomRowWhenCenterIsOccupied() {
+        noSuggestedMovesForAutomatedPlayer();
+        when(grid.evaluateForForksWhenCenterIsOccupied(O)).thenReturn(GameStatus.noWin());
+        when(grid.evaluateForksFromTopRow(O)).thenReturn(GameStatus.noWin());
+        when(grid.evaluateForksFromVerticalRows(O)).thenReturn(GameStatus.noWin());
+        when(grid.evaluateForksFromBottomRow(O)).thenReturn(GameStatus.potentialForkAt(3));
+
+        assertThat(automatedPlayer.nextMoveOn(grid), is(3));
+    }
+
+    private void noPotentialWinForAutomatedPlayerOrOpponent() {
+        when(grid.evaluateWinningMoveFor(X)).thenReturn(GameStatus.noWin());
+        when(grid.evaluateWinningMoveFor(O)).thenReturn(GameStatus.noWin());
+    }
+
+    private void noSuggestedMovesForAutomatedPlayer() {
+        noPotentialWinForAutomatedPlayerOrOpponent();
+        noForksAroundCenterCell();
+        when(grid.evaluateForksFromTopRow(X)).thenReturn(GameStatus.noWin());
+        when(grid.evaluateForksFromVerticalRows(X)).thenReturn(GameStatus.noWin());
+        when(grid.evaluateForksFromBottomRow(X)).thenReturn(GameStatus.noWin());
+    }
+
+    private void noForksAroundCenterCell() {
+        when(grid.isEmpty()).thenReturn(false);
+        when(grid.centerCellTaken()).thenReturn(false);
+        when(grid.evaluateForForksWhenCenterIsOccupied(X)).thenReturn(GameStatus.noWin());
+    }
+
+    private void noPotentialForksForOpponent() {
+        when(grid.evaluateForForksWhenCenterIsOccupied(O)).thenReturn(GameStatus.noWin());
+        when(grid.evaluateForForksWhenCenterIsOccupied(O)).thenReturn(GameStatus.noWin());
+        when(grid.evaluateForksFromTopRow(O)).thenReturn(GameStatus.noWin());
+        when(grid.evaluateForksFromVerticalRows(O)).thenReturn(GameStatus.noWin());
+        when(grid.evaluateForksFromBottomRow(O)).thenReturn(GameStatus.noWin());
+    }
 }

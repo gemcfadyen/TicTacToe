@@ -1,4 +1,4 @@
-package tictactoe.player.gameplan.winningmoves;
+package tictactoe.player.gameplan;
 
 import tictactoe.Symbol;
 import tictactoe.grid.Grid;
@@ -7,12 +7,19 @@ import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.X;
 
 /**
- * Created by Georgina on 25/05/2015.
+ * Created by Georgina on 26/05/2015.
  */
-public class BlockOpponentsWinningMove extends WinningMoveGamePlan {
+public class Block implements GamePlan {
+
+    private final GamePlan gamePlan;
+
+    public Block(GamePlan gamePlan) {
+        this.gamePlan = gamePlan;
+    }
+
     @Override
     public int execute(Grid grid, Symbol symbol) {
-        return super.execute(grid, opponent(symbol));
+        return gamePlan.execute(grid, opponent(symbol));
     }
 
     private Symbol opponent(Symbol symbol) {
