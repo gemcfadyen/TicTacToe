@@ -2,7 +2,6 @@ package tictactoe.player.gameplan.forking;
 
 import org.junit.Test;
 import tictactoe.grid.Grid;
-import tictactoe.grid.GridFactory;
 import tictactoe.grid.Row;
 
 import static org.hamcrest.MatcherAssert.assertThat;

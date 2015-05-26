@@ -1,24 +1,24 @@
 package tictactoe.player.gameplan.forking;
 
-import org.junit.Test;
-import tictactoe.grid.Grid;
-import tictactoe.grid.Row;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static tictactoe.Symbol.O;
-import static tictactoe.Symbol.VACANT;
-import static tictactoe.Symbol.X;
-import static tictactoe.grid.Grid.BOTTOM_ROW_OFFSET;
-import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
-import static tictactoe.grid.RowBuilder.aRowBuilder;
+//import org.junit.Test;
+//import tictactoe.grid.Grid;
+//import tictactoe.grid.Row;
+//
+//import static org.hamcrest.MatcherAssert.assertThat;
+//import static org.hamcrest.Matchers.is;
+//import static tictactoe.Symbol.O;
+//import static tictactoe.Symbol.VACANT;
+//import static tictactoe.Symbol.X;
+//import static tictactoe.grid.Grid.BOTTOM_ROW_OFFSET;
+//import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
+//import static tictactoe.grid.RowBuilder.aRowBuilder;
 
 /**
  * Created by Georgina on 25/05/2015.
  */
 public class BlockOpponentsForkTest {
-    private BlockOpponentsFork blockOpponentsFork = new BlockOpponentsFork();
-
+//    private BlockOpponentsFork blockOpponentsFork = new BlockOpponentsFork();
+//
 //    @Test
 //    public void takeBottomRightCornerToBlockOpponentsFork() {
 //        Row topRow = aRowBuilder().withHorizontalRow(X, VACANT, VACANT, 0).build();
