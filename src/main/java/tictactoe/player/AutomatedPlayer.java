@@ -3,6 +3,11 @@ package tictactoe.player;
 import tictactoe.Symbol;
 import tictactoe.grid.Grid;
 import tictactoe.player.gameplan.GamePlan;
+import tictactoe.player.gameplan.TopLeftCornerMove;
+import tictactoe.player.gameplan.forking.ForkFormationFromBottomRowWhenCenterIsVacant;
+import tictactoe.player.gameplan.forking.ForkFormationFromTopRowWhenCenterIsVacant;
+import tictactoe.player.gameplan.forking.ForkFormationInVerticalRowsWhenCenterIsVacant;
+import tictactoe.player.gameplan.forking.ForkFormationWhenCenterCellIsOccupied;
 import tictactoe.player.gameplan.winningmoves.BlockOpponentsWinningMove;
 import tictactoe.player.gameplan.winningmoves.TakeWinningMove;
 
@@ -29,13 +34,19 @@ public class AutomatedPlayer implements Player {
             }
         }
 
-       return NO_WINNING_MOVE;
+        return NO_WINNING_MOVE;
     }
 
     private GamePlan[] orderedGamePlan() {
-        return new GamePlan[] {
-                    new TakeWinningMove(),
-                    new BlockOpponentsWinningMove() };
+        return new GamePlan[]{
+                new TakeWinningMove(),
+                new BlockOpponentsWinningMove(),
+                new TopLeftCornerMove(),
+                new ForkFormationWhenCenterCellIsOccupied(),
+                new ForkFormationFromTopRowWhenCenterIsVacant(),
+                new ForkFormationInVerticalRowsWhenCenterIsVacant(),
+                new ForkFormationFromBottomRowWhenCenterIsVacant()
+        };
     }
 
     @Override
