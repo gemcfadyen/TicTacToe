@@ -62,11 +62,153 @@ public class CreateForkFormationTest {
     @Test
     public void takeOppositeCornerOfBottomRightToStartFork() {
         Row topRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, 0).build();
-        Row middleRow = aRowBuilder().withHorizontalRow(O, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
+        Row middleRow = aRowBuilder().withHorizontalRow(VACANT, O, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
         Row bottomRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, X, BOTTOM_ROW_OFFSET).build();
 
         Grid grid = new Grid(topRow, middleRow, bottomRow);
 
         assertThat(fork.execute(grid, X), is(0));
     }
+
+    //centre is not taken
+    // X - *
+    // -
+    // -
+    @Test
+    public void whenCentreIsNotTakenStartForkingFormationFromCornersOnTopRow() {
+        Row topRow = aRowBuilder().withHorizontalRow(X, VACANT, VACANT, 0).build();
+        Row middleRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, O, NUMBER_OF_CELLS_IN_ROW).build();
+        Row bottomRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
+
+        Grid grid = new Grid(topRow, middleRow, bottomRow);
+
+        assertThat(fork.execute(grid, X), is(2));
+    }
+
+    // X - *
+    // O  -
+    //    -
+    @Test
+    public void whenCentreIsNotTakenAndRightVerticalIsVacantStartForkingFormationFromCornersOnTopRow() {
+        Row topRow = aRowBuilder().withHorizontalRow(X, VACANT, VACANT, 0).build();
+        Row middleRow = aRowBuilder().withHorizontalRow(O, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
+        Row bottomRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
+
+        Grid grid = new Grid(topRow, middleRow, bottomRow);
+
+        assertThat(fork.execute(grid, X), is(2));
+    }
+
+    // X O -
+    // -
+    // * - -
+    @Test
+    public void whenCentreIsNotTakenAndBottomHorizontalIsVacantStartFork() {
+        Row topRow = aRowBuilder().withHorizontalRow(X, O, VACANT, 0).build();
+        Row middleRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
+        Row bottomRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
+
+        Grid grid = new Grid(topRow, middleRow, bottomRow);
+
+        assertThat(fork.execute(grid, X), is(6));
+    }
+
+    // - - -
+    // - - O
+    // * - X
+    @Test
+    public void whenCentreIsNotTakenAndLeftHorizontalIsVacantStartFork() {
+        Row topRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, 0).build();
+        Row middleRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, O, NUMBER_OF_CELLS_IN_ROW).build();
+        Row bottomRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, X, BOTTOM_ROW_OFFSET).build();
+
+        Grid grid = new Grid(topRow, middleRow, bottomRow);
+
+        assertThat(fork.execute(grid, X), is(6));
+    }
+
+    // - - -
+    // O - -
+    // X - *
+    @Test
+    public void whenCentreIsNotTakenAndRightHorizontalIsVacantStartFork() {
+        Row topRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, 0).build();
+        Row middleRow = aRowBuilder().withHorizontalRow(O, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
+        Row bottomRow = aRowBuilder().withHorizontalRow(X, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
+
+        Grid grid = new Grid(topRow, middleRow, bottomRow);
+
+        assertThat(fork.execute(grid, X), is(8));
+    }
+
+    // - - X
+    // O - -
+    // - - *
+    @Test
+    public void whenCentreIsNotTakenAndRightVerticalIsVacantStartFork() {
+        Row topRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, X, 0).build();
+        Row middleRow = aRowBuilder().withHorizontalRow(O, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
+        Row bottomRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
+
+        Grid grid = new Grid(topRow, middleRow, bottomRow);
+
+        assertThat(fork.execute(grid, X), is(0));
+    }
+
+
+    // * - -
+    // - - O
+    // X - -
+    @Test
+    public void whenCentreIsNotTakenAndRightVerticalCornerIsVacantStartFork() {
+        Row topRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, O, 0).build();
+        Row middleRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
+        Row bottomRow = aRowBuilder().withHorizontalRow(X, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
+
+        Grid grid = new Grid(topRow, middleRow, bottomRow);
+
+        assertThat(fork.execute(grid, X), is(0));
+    }
+
+//    // - - -
+//    // - - O
+//    // - - -
+//    @Test
+//    public void whenOpponentHasStartedTakeCornerToStartFork() {
+//        Row topRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, 0).build();
+//        Row middleRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, O, NUMBER_OF_CELLS_IN_ROW).build();
+//        Row bottomRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
+//
+//        Grid grid = new Grid(topRow, middleRow, bottomRow);
+//
+//        assertThat(fork.execute(grid, X), is(0));
+//    }
+//
+//
+//    // - O -
+//    // - - -
+//    // - - -
+//    @Test
+//    public void whenOpponentHasStartedTakeACornerToStartFork() {
+//        Row topRow = aRowBuilder().withHorizontalRow(VACANT, O, VACANT, 0).build();
+//        Row middleRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
+//        Row bottomRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
+//
+//        Grid grid = new Grid(topRow, middleRow, bottomRow);
+//
+//        assertThat(fork.execute(grid, X), is(6));
+//    }
+//    // * - -
+//    // - O -
+//    // - - -
+//    @Test
+//    public void whenOpponentHasStartedWithCentreTakeACornerToStartFork() {
+//        Row topRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, 0).build();
+//        Row middleRow = aRowBuilder().withHorizontalRow(VACANT, O, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
+//        Row bottomRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
+//
+//        Grid grid = new Grid(topRow, middleRow, bottomRow);
+//
+//        assertThat(fork.execute(grid, X), is(0));
+//    }
 }

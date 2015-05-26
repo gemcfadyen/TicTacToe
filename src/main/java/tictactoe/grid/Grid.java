@@ -22,6 +22,7 @@ public class Grid {
     private static final int LEFT_CELL_INDEX = 0;
     private static final int MIDDLE_CELL_INDEX = 1;
     private static final int RIGHT_CELL_INDEX = NUMBER_OF_CELLS_IN_ROW - 1;
+    private static final int CENTRE = 4; //TODO calculate
 
     public static final Map<Integer, Integer> CORNERS_AND_THEIR_OPPOSITES = ImmutableMap.<Integer, Integer>builder()
             .put(LEFT_CELL_INDEX, TOTAL_CELLS - 1)
@@ -55,19 +56,66 @@ public class Grid {
     }
 
     public GameStatus evaluateForkFormations(Symbol symbol) {
-        GameStatus status = checkForForks(topRow, symbol);
-        if (!status.hasPotentialFork()) {
-           return checkForForks(bottomRow, symbol);
+
+        if (centreCellTaken()) {
+            GameStatus status = checkForForks(topRow, symbol);
+            if (!status.hasPotentialFork()) {
+                return checkForForks(bottomRow, symbol);
+            } else {
+                return status;
+            }
         }
-        return status;
+
+        if (!centreCellTaken()) {
+            if (forkingFromLeftCornerHorizontally(topRow, symbol)) {
+                return GameStatus.potentialForkAt(getFreeCornerIn(topRow));
+            } else if (forkingFromLeftCornerVertically(generateVerticalRow(0), symbol)) {
+                return GameStatus.potentialForkAt(getFreeCornerIn(generateVerticalRow(0)));
+            } else if (forkingFromLeftCornerHorizontally(bottomRow, symbol)) {
+                return GameStatus.potentialForkAt(getFreeCornerIn(bottomRow));
+            }
+        }
+
+//        if (containsEmptyForkFormation(topRow)) {
+//            return GameStatus.potentialForkAt(getFreeCornerIn(topRow));
+//        } else if (containsEmptyForkFormation(bottomRow)) {
+//            return GameStatus.potentialForkAt(getFreeCornerIn(bottomRow));
+//        }
+
+        return GameStatus.noWin();
+    }
+
+//    private boolean containsEmptyForkFormation(Row row) {
+//        return row.isVacant() && (generateVerticalRow(0).isVacant() || generateVerticalRow(2).isVacant());
+//    }
+
+    private int getFreeCornerIn(Row row) {
+        return row.getIndexOfFreeCorner();
+    }
+
+    private boolean centreCellTaken() {
+        return !isEmptyAt(CENTRE);
     }
 
     private GameStatus checkForForks(Row row, Symbol symbol) {
-        if (row.freeRowWithOccupiedCorner(symbol) && hasForkFormationInVerticalRows(symbol)) {
-                return GameStatus.potentialForkAt(getOppositeCornerOf(row.getIndexOf(symbol)));
-            }
+        if (forkingFromLeftCornerHorizontally(row, symbol)) {
+            return GameStatus.potentialForkAt(getOppositeCornerOf(row.getIndexOf(symbol)));
+        }
 
         return GameStatus.noWin();
+    }
+
+    private boolean forkingFromLeftCornerVertically(Row row, Symbol symbol) {
+        return row.freeRowWithOccupiedCorner(symbol) && hasForkFormationInHorizontalRows(symbol);
+    }
+
+    private boolean hasForkFormationInHorizontalRows(Symbol symbol) {
+        return checkForkInVertical(topRow, symbol)
+                || checkForkInVertical(bottomRow, symbol);
+    }
+
+    private boolean forkingFromLeftCornerHorizontally(Row row, Symbol symbol) {
+        return row.freeRowWithOccupiedCorner(symbol) && hasForkFormationInVerticalRows(symbol);
     }
 
     private boolean hasForkFormationInVerticalRows(Symbol symbol) {
