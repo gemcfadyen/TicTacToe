@@ -12,7 +12,7 @@ public class ForkFormationFromTopRowWhenCenterIsVacant implements GamePlan {
     @Override
     public int execute(Grid grid, Symbol symbol) {
         if (!grid.centerCellTaken()) {
-            GameStatus gameStatus = grid.evaluateForForksInTopRowWhenCentreIsVacant(symbol);
+            GameStatus gameStatus = grid.evaluateForksFromTopRow(symbol);
             if (gameStatus.hasPotentialFork()) {
                 return gameStatus.getIndexOfMove();
             }

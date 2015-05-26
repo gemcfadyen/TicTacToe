@@ -62,7 +62,7 @@ public class GridCreateForkFormationTest {
         Row bottomRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, X, BOTTOM_ROW_OFFSET).build();
         Grid grid = new Grid(topRow, middleRow, bottomRow);
 
-        GameStatus gameStatus = grid.evaluateForForksInBottomRowWhenCentreIsVacant(X);
+        GameStatus gameStatus = grid.evaluateForksFromBottomRow(X);
 
         assertThat(gameStatus.hasPotentialFork(), is(true));
         assertThat(gameStatus.getIndexOfMove(), is(6));
@@ -75,7 +75,7 @@ public class GridCreateForkFormationTest {
         Row bottomRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
         Grid grid = new Grid(topRow, middleRow, bottomRow);
 
-        GameStatus gameStatus = grid.evaluateForForksInTopRowWhenCentreIsVacant(X);
+        GameStatus gameStatus = grid.evaluateForksFromTopRow(X);
 
         assertThat(gameStatus.hasPotentialFork(), is(true));
         assertThat(gameStatus.getIndexOfMove(), is(2));
@@ -88,7 +88,7 @@ public class GridCreateForkFormationTest {
         Row bottomRow = aRowBuilder().withHorizontalRow(X, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
         Grid grid = new Grid(topRow, middleRow, bottomRow);
 
-        GameStatus gameStatus = grid.evaluateForForksWhenCenterIsVacant(X);
+        GameStatus gameStatus = grid.evaluateForksFromVerticalRows(X);
 
         assertThat(gameStatus.hasPotentialFork(), is(true));
         assertThat(gameStatus.getIndexOfMove(), is(0));

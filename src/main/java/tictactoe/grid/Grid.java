@@ -23,7 +23,7 @@ public class Grid {
     private static final int LEFT_CELL_INDEX = 0;
     private static final int MIDDLE_CELL_INDEX = 1;
     private static final int RIGHT_CELL_INDEX = NUMBER_OF_CELLS_IN_ROW - 1;
-    private static final int CENTRE = 4; //TODO calculate
+    private static final int CENTRE = TOTAL_CELLS / 2;
 
     public static final Map<Integer, Integer> CORNERS_AND_THEIR_OPPOSITES = ImmutableMap.<Integer, Integer>builder()
             .put(LEFT_CELL_INDEX, TOTAL_CELLS - 1)
@@ -67,59 +67,29 @@ public class Grid {
 
     }
 
-    private GameStatus evaluateForForksAroundEdge(Row rowToConsider, Symbol symbol) {
-        Function<Row, Integer> oppositeCornerFunction = row -> getFreeCornerIn(row);
-        GameStatus gameStatus = checkForPotentialForkUsingOppositeCorners(rowToConsider, symbol, oppositeCornerFunction);
+    private GameStatus evaluateForForksAroundEdgeOfGrid(Row rowToConsider, Symbol symbol) {
+        Function<Row, Integer> freeCornerInRow = row -> getFreeCornerIn(row);
+        GameStatus gameStatus = checkForPotentialForkUsingOppositeCorners(rowToConsider, symbol, freeCornerInRow);
         if (gameStatus.hasPotentialFork()) {
             return gameStatus;
         }
         return gameStatus;
     }
 
-    public GameStatus evaluateForForksInTopRowWhenCentreIsVacant(Symbol symbol) {
-        return evaluateForForksAroundEdge(topRow, symbol);
+    public GameStatus evaluateForksFromTopRow(Symbol symbol) {
+        return evaluateForForksAroundEdgeOfGrid(topRow, symbol);
     }
 
-    public GameStatus evaluateForForksInBottomRowWhenCentreIsVacant(Symbol symbol) {
-        return evaluateForForksAroundEdge(bottomRow, symbol);
+    public GameStatus evaluateForksFromBottomRow(Symbol symbol) {
+        return evaluateForForksAroundEdgeOfGrid(bottomRow, symbol);
     }
 
-    //TODO rename as no mention of centers
-    public GameStatus evaluateForForksWhenCenterIsVacant(Symbol symbol) {
-        return evaluateForForksAroundEdge(generateVerticalRow(LEFT_CELL_INDEX), symbol);
-    }
-
-    private int getFreeCornerIn(Row row) {
-        return row.getIndexOfFreeCorner();
+    public GameStatus evaluateForksFromVerticalRows(Symbol symbol) {
+        return evaluateForForksAroundEdgeOfGrid(generateVerticalRow(LEFT_CELL_INDEX), symbol);
     }
 
     public boolean centerCellTaken() {
         return !isEmptyAt(CENTRE);
-    }
-
-    private GameStatus checkForPotentialForkUsingOppositeCorners(Row row, Symbol symbol, Function<Row, Integer> function) {
-        if (vacantLShapedFormationAround(row, symbol)) {
-            return GameStatus.potentialForkAt(function.apply(row));
-        }
-
-        return GameStatus.noWin();
-    }
-
-    private boolean vacantLShapedFormationAround(Row row, Symbol symbol) {
-        return row.freeRowWithOccupiedCorner(symbol) && hasForkFormationInVerticalRows(symbol);
-    }
-
-    private boolean hasForkFormationInVerticalRows(Symbol symbol) {
-        return checkForkInVertical(generateVerticalRow(LEFT_CELL_INDEX), symbol)
-                || checkForkInVertical(generateVerticalRow(NUMBER_OF_CELLS_IN_ROW - 1), symbol);
-    }
-
-    private boolean checkForkInVertical(Row row, Symbol symbol) {
-        return row.isVacant() || row.freeRowWithOccupiedCorner(symbol);
-    }
-
-    private int getOppositeCornerOf(int index) {
-        return CORNERS_AND_THEIR_OPPOSITES.get(index);
     }
 
     public void update(int index, Symbol symbol) {
@@ -206,6 +176,35 @@ public class Grid {
                 middleRow.getSymbolAt(startingOffset),
                 bottomRow.getSymbolAt(startingOffset),
                 startingOffset).build();
+    }
+
+    private GameStatus checkForPotentialForkUsingOppositeCorners(Row row, Symbol symbol, Function<Row, Integer> function) {
+        if (vacantLShapedFormationAround(row, symbol)) {
+            return GameStatus.potentialForkAt(function.apply(row));
+        }
+
+        return GameStatus.noWin();
+    }
+
+    private boolean vacantLShapedFormationAround(Row row, Symbol symbol) {
+        return row.freeRowWithOccupiedCorner(symbol) && hasForkFormationInVerticalRows(symbol);
+    }
+
+    private boolean hasForkFormationInVerticalRows(Symbol symbol) {
+        return checkForkInVertical(generateVerticalRow(LEFT_CELL_INDEX), symbol)
+                || checkForkInVertical(generateVerticalRow(NUMBER_OF_CELLS_IN_ROW - 1), symbol);
+    }
+
+    private boolean checkForkInVertical(Row row, Symbol symbol) {
+        return row.isVacant() || row.freeRowWithOccupiedCorner(symbol);
+    }
+
+    private int getOppositeCornerOf(int index) {
+        return CORNERS_AND_THEIR_OPPOSITES.get(index);
+    }
+
+    private int getFreeCornerIn(Row row) {
+        return row.getIndexOfFreeCorner();
     }
 
     private Row determineRowFrom(int index) {
