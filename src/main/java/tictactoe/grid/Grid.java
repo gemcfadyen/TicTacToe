@@ -7,6 +7,7 @@ import tictactoe.grid.status.GameStatus;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import static tictactoe.Symbol.VACANT;
 import static tictactoe.grid.Row.FIRST_CELL_INDEX;
@@ -55,66 +56,56 @@ public class Grid {
         return allEmpty;
     }
 
-    public GameStatus evaluateForkFormations(Symbol symbol) {
 
-        if (centreCellTaken()) {
-            GameStatus status = checkForForks(topRow, symbol);
-            if (!status.hasPotentialFork()) {
-                return checkForForks(bottomRow, symbol);
-            } else {
-                return status;
-            }
-        }
+    public GameStatus evaluateForForksWhenCenterIsOccupied(Symbol symbol) {
+        Function<Row, Integer> diagonalOppositeCorner = row -> getOppositeCornerOf(row.getIndexOf(symbol));
 
-        if (!centreCellTaken()) {
-            if (forkingFromLeftCornerHorizontally(topRow, symbol)) {
-                return GameStatus.potentialForkAt(getFreeCornerIn(topRow));
-            } else if (forkingFromLeftCornerVertically(generateVerticalRow(0), symbol)) {
-                return GameStatus.potentialForkAt(getFreeCornerIn(generateVerticalRow(0)));
-            } else if (forkingFromLeftCornerHorizontally(bottomRow, symbol)) {
-                return GameStatus.potentialForkAt(getFreeCornerIn(bottomRow));
-            }
-        }
+        GameStatus status = checkForPotentialForkUsingOppositeCorners(topRow, symbol, diagonalOppositeCorner);
+        return status.hasPotentialFork()
+                ? status
+                : checkForPotentialForkUsingOppositeCorners(bottomRow, symbol, diagonalOppositeCorner);
 
-//        if (containsEmptyForkFormation(topRow)) {
-//            return GameStatus.potentialForkAt(getFreeCornerIn(topRow));
-//        } else if (containsEmptyForkFormation(bottomRow)) {
-//            return GameStatus.potentialForkAt(getFreeCornerIn(bottomRow));
-//        }
-
-        return GameStatus.noWin();
     }
 
-//    private boolean containsEmptyForkFormation(Row row) {
-//        return row.isVacant() && (generateVerticalRow(0).isVacant() || generateVerticalRow(2).isVacant());
-//    }
+    private GameStatus evaluateForForksAroundEdge(Row rowToConsider, Symbol symbol) {
+        Function<Row, Integer> oppositeCornerFunction = row -> getFreeCornerIn(row);
+        GameStatus gameStatus = checkForPotentialForkUsingOppositeCorners(rowToConsider, symbol, oppositeCornerFunction);
+        if (gameStatus.hasPotentialFork()) {
+            return gameStatus;
+        }
+        return gameStatus;
+    }
+
+    public GameStatus evaluateForForksInTopRowWhenCentreIsVacant(Symbol symbol) {
+        return evaluateForForksAroundEdge(topRow, symbol);
+    }
+
+    public GameStatus evaluateForForksInBottomRowWhenCentreIsVacant(Symbol symbol) {
+        return evaluateForForksAroundEdge(bottomRow, symbol);
+    }
+
+    //TODO rename as no mention of centers
+    public GameStatus evaluateForForksWhenCenterIsVacant(Symbol symbol) {
+        return evaluateForForksAroundEdge(generateVerticalRow(LEFT_CELL_INDEX), symbol);
+    }
 
     private int getFreeCornerIn(Row row) {
         return row.getIndexOfFreeCorner();
     }
 
-    private boolean centreCellTaken() {
+    public boolean centerCellTaken() {
         return !isEmptyAt(CENTRE);
     }
 
-    private GameStatus checkForForks(Row row, Symbol symbol) {
-        if (forkingFromLeftCornerHorizontally(row, symbol)) {
-            return GameStatus.potentialForkAt(getOppositeCornerOf(row.getIndexOf(symbol)));
+    private GameStatus checkForPotentialForkUsingOppositeCorners(Row row, Symbol symbol, Function<Row, Integer> function) {
+        if (vacantLShapedFormationAround(row, symbol)) {
+            return GameStatus.potentialForkAt(function.apply(row));
         }
 
         return GameStatus.noWin();
     }
 
-    private boolean forkingFromLeftCornerVertically(Row row, Symbol symbol) {
-        return row.freeRowWithOccupiedCorner(symbol) && hasForkFormationInHorizontalRows(symbol);
-    }
-
-    private boolean hasForkFormationInHorizontalRows(Symbol symbol) {
-        return checkForkInVertical(topRow, symbol)
-                || checkForkInVertical(bottomRow, symbol);
-    }
-
-    private boolean forkingFromLeftCornerHorizontally(Row row, Symbol symbol) {
+    private boolean vacantLShapedFormationAround(Row row, Symbol symbol) {
         return row.freeRowWithOccupiedCorner(symbol) && hasForkFormationInVerticalRows(symbol);
     }
 
