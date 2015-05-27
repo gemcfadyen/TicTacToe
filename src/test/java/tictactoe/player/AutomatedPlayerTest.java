@@ -9,6 +9,7 @@ import tictactoe.grid.status.GameStatus;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.when;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.X;
@@ -39,6 +40,7 @@ public class AutomatedPlayerTest {
         noSuggestedMovesForAutomatedPlayer();
         noPotentialForksForOpponent();
         when(grid.centerCellTaken()).thenReturn(true);
+        when(grid.isEmptyAt(anyInt())).thenReturn(false);
 
         assertThat(automatedPlayer.nextMoveOn(grid), is(NO_WINNING_MOVE));
     }
@@ -146,6 +148,21 @@ public class AutomatedPlayerTest {
         when(grid.centerCellTaken()).thenReturn(false);
 
         assertThat(automatedPlayer.nextMoveOn(grid), is(4));
+
+    }
+
+    @Test
+    public void takeOppositeCornerMove() {
+        noSuggestedMovesForAutomatedPlayer();
+        noPotentialForksForOpponent();
+        when(grid.centerCellTaken()).thenReturn(true);
+        when(grid.isEmptyAt(0)).thenReturn(true);
+        when(grid.getSymbolAtCellWithOffset(8)).thenReturn(O);
+
+//        //grid.isEmptyAt(input.getKey())
+//        && grid.getSymbolAtCellWithOffset(input.getValue()) == opponent(symbol)
+
+        assertThat(automatedPlayer.nextMoveOn(grid), is(0));
 
     }
 

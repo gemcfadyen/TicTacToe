@@ -25,7 +25,7 @@ public class Grid {
     private static final int MIDDLE_CELL_INDEX = 1;
     private static final int RIGHT_CELL_INDEX = NUMBER_OF_CELLS_IN_ROW - 1;
 
-    public static final Map<Integer, Integer> CORNERS_AND_THEIR_OPPOSITES = ImmutableMap.<Integer, Integer>builder()
+    public static final Map<Integer, Integer> DIAGONAL_OPPOSITE_CORNERS = ImmutableMap.<Integer, Integer>builder()
             .put(LEFT_CELL_INDEX, TOTAL_CELLS - 1)
             .put(NUMBER_OF_CELLS_IN_ROW - 1, BOTTOM_ROW_OFFSET)
             .put(BOTTOM_ROW_OFFSET, NUMBER_OF_CELLS_IN_ROW - 1)
@@ -98,6 +98,12 @@ public class Grid {
             row.putSymbolAt(index, symbol);
         }
     }
+
+    public Symbol getSymbolAtCellWithOffset(int offset) {
+        Row row = determineRowFrom(offset);
+        return row.getCellWithOffset(offset).getSymbol();
+    }
+
 
     public GameStatus evaluateWinningStatus() {
         for (Row row : generateRowsForAllDirections()) {
@@ -200,7 +206,7 @@ public class Grid {
     }
 
     private int getOppositeCornerOf(int index) {
-        return CORNERS_AND_THEIR_OPPOSITES.get(index);
+        return DIAGONAL_OPPOSITE_CORNERS.get(index);
     }
 
     private int getFreeCornerIn(Row row) {

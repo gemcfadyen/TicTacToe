@@ -2,7 +2,7 @@ package tictactoe.grid;
 
 import tictactoe.Symbol;
 
-import static tictactoe.grid.Grid.CORNERS_AND_THEIR_OPPOSITES;
+import static tictactoe.grid.Grid.DIAGONAL_OPPOSITE_CORNERS;
 
 /**
  * Created by Georgina on 17/05/2015.
@@ -29,6 +29,6 @@ public class Cell {
     }
 
     public boolean isCorner() {
-        return CORNERS_AND_THEIR_OPPOSITES.containsKey(offset);
+        return DIAGONAL_OPPOSITE_CORNERS.containsKey(offset);
     }
 }
