@@ -20,10 +20,10 @@ public class Grid {
     public static final int NUMBER_OF_CELLS_IN_ROW = 3;
     public static final int TOTAL_CELLS = NUMBER_OF_CELLS_IN_ROW * NUMBER_OF_CELLS_IN_ROW;
     public static final int BOTTOM_ROW_OFFSET = NUMBER_OF_CELLS_IN_ROW * 2;
+    public static final int CENTER = TOTAL_CELLS / 2;
     private static final int LEFT_CELL_INDEX = 0;
     private static final int MIDDLE_CELL_INDEX = 1;
     private static final int RIGHT_CELL_INDEX = NUMBER_OF_CELLS_IN_ROW - 1;
-    private static final int CENTRE = TOTAL_CELLS / 2;
 
     public static final Map<Integer, Integer> CORNERS_AND_THEIR_OPPOSITES = ImmutableMap.<Integer, Integer>builder()
             .put(LEFT_CELL_INDEX, TOTAL_CELLS - 1)
@@ -89,7 +89,7 @@ public class Grid {
     }
 
     public boolean centerCellTaken() {
-        return !isEmptyAt(CENTRE);
+        return !isEmptyAt(CENTER);
     }
 
     public void update(int index, Symbol symbol) {

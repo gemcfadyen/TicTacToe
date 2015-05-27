@@ -10,4 +10,8 @@
 
     <suppress checks="ParameterAssignment"
               files="[\\/]test[\\/]"/>
+
+    <suppress checks="InnerAssignmentCheck"
+              files="[\\/]test[\\/]"/>
+
 </suppressions>

@@ -38,6 +38,7 @@ public class AutomatedPlayerTest {
     public void noStrategicMoveAvailable() {
         noSuggestedMovesForAutomatedPlayer();
         noPotentialForksForOpponent();
+        when(grid.centerCellTaken()).thenReturn(true);
 
         assertThat(automatedPlayer.nextMoveOn(grid), is(NO_WINNING_MOVE));
     }
@@ -136,6 +137,16 @@ public class AutomatedPlayerTest {
         when(grid.evaluateForksFromBottomRow(O)).thenReturn(GameStatus.potentialForkAt(3));
 
         assertThat(automatedPlayer.nextMoveOn(grid), is(3));
+    }
+
+    @Test
+    public void takeCenterMove() {
+        noSuggestedMovesForAutomatedPlayer();
+        noPotentialForksForOpponent();
+        when(grid.centerCellTaken()).thenReturn(false);
+
+        assertThat(automatedPlayer.nextMoveOn(grid), is(4));
+
     }
 
     private void noPotentialWinForAutomatedPlayerOrOpponent() {

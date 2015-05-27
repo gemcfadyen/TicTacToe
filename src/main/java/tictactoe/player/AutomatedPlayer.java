@@ -4,6 +4,7 @@ import tictactoe.Symbol;
 import tictactoe.grid.Grid;
 import tictactoe.player.gameplan.Block;
 import tictactoe.player.gameplan.GamePlan;
+import tictactoe.player.gameplan.TakeCenterMove;
 import tictactoe.player.gameplan.TopLeftCornerMove;
 import tictactoe.player.gameplan.forking.ForkFormationFromBottomRowWhenCenterIsVacant;
 import tictactoe.player.gameplan.forking.ForkFormationFromTopRowWhenCenterIsVacant;
@@ -57,7 +58,9 @@ public class AutomatedPlayer implements Player {
                 new Block(new ForkFormationWhenCenterCellIsOccupied()),
                 new Block(new ForkFormationFromTopRowWhenCenterIsVacant()),
                 new Block(new ForkFormationInVerticalRowsWhenCenterIsVacant()),
-                new Block(new ForkFormationFromBottomRowWhenCenterIsVacant())
+                new Block(new ForkFormationFromBottomRowWhenCenterIsVacant()),
+
+                new TakeCenterMove()
         };
     }
 }
