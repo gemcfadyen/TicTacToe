@@ -159,11 +159,25 @@ public class AutomatedPlayerTest {
         when(grid.isEmptyAt(0)).thenReturn(true);
         when(grid.getSymbolAtCellWithOffset(8)).thenReturn(O);
 
-//        //grid.isEmptyAt(input.getKey())
-//        && grid.getSymbolAtCellWithOffset(input.getValue()) == opponent(symbol)
-
         assertThat(automatedPlayer.nextMoveOn(grid), is(0));
+    }
 
+    @Test
+    public void takeFreeCornerMove() {
+        noSuggestedMovesForAutomatedPlayer();
+        noPotentialForksForOpponent();
+        when(grid.centerCellTaken()).thenReturn(true);
+        threeCornersOccupiedBySamePlayer();
+
+        assertThat(automatedPlayer.nextMoveOn(grid), is(6));
+    }
+
+    private void threeCornersOccupiedBySamePlayer() {
+        when(grid.isEmptyAt(0)).thenReturn(false);
+        when(grid.isEmptyAt(2)).thenReturn(false);
+        when(grid.isEmptyAt(8)).thenReturn(false);
+        when(grid.isEmptyAt(6)).thenReturn(true);
+        when(grid.getSymbolAtCellWithOffset(2)).thenReturn(O);
     }
 
     private void noPotentialWinForAutomatedPlayerOrOpponent() {
