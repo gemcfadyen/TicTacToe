@@ -23,8 +23,8 @@ public final class GameStatus {
         return new GameStatus(State.WIN, symbol);
     }
 
-    public static GameStatus potentialWinAt(int index) {
-        return new GameStatus(State.POTENTIAL_WIN, index);
+    public static GameStatus potentialMoveAt(int index) {
+        return new GameStatus(State.POTENTIAL_MOVE, index);
     }
 
     public static GameStatus potentialForkAt(int index) {
@@ -53,8 +53,8 @@ public final class GameStatus {
         return state == WIN;
     }
 
-    public boolean hasPotentialWin() {
-        return state == State.POTENTIAL_WIN;
+    public boolean hasPotentialMove() {
+        return state == State.POTENTIAL_MOVE;
     }
 
     public int getIndexOfMove() {

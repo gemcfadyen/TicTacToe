@@ -30,7 +30,7 @@ public class AutomatedPlayerTest {
 
     @Test
     public void takesWinningMove() {
-        when(grid.evaluateWinningMoveFor(X)).thenReturn(GameStatus.potentialWinAt(2));
+        when(grid.evaluateWinningMoveFor(X)).thenReturn(GameStatus.potentialMoveAt(2));
 
         assertThat(automatedPlayer.nextMoveOn(grid), is(2));
     }
@@ -41,6 +41,8 @@ public class AutomatedPlayerTest {
         noPotentialForksForOpponent();
         when(grid.centerCellTaken()).thenReturn(true);
         when(grid.isEmptyAt(anyInt())).thenReturn(false);
+        allCornersOccupiedBySamePlayer();
+        when(grid.getVacantCell()).thenReturn(GameStatus.noWin());
 
         assertThat(automatedPlayer.nextMoveOn(grid), is(NO_WINNING_MOVE));
     }
@@ -48,7 +50,7 @@ public class AutomatedPlayerTest {
     @Test
     public void takeOpponentsWinningMove() {
         when(grid.evaluateWinningMoveFor(X)).thenReturn(GameStatus.noWin());
-        when(grid.evaluateWinningMoveFor(O)).thenReturn(GameStatus.potentialWinAt(7));
+        when(grid.evaluateWinningMoveFor(O)).thenReturn(GameStatus.potentialMoveAt(7));
 
         assertThat(automatedPlayer.nextMoveOn(grid), is(7));
     }
@@ -163,13 +165,31 @@ public class AutomatedPlayerTest {
     }
 
     @Test
-    public void takeFreeCornerMove() {
+    public void takeVacantCornerMove() {
         noSuggestedMovesForAutomatedPlayer();
         noPotentialForksForOpponent();
         when(grid.centerCellTaken()).thenReturn(true);
         threeCornersOccupiedBySamePlayer();
 
         assertThat(automatedPlayer.nextMoveOn(grid), is(6));
+    }
+
+    @Test
+    public void takeAnyVacantCellMove() {
+        noSuggestedMovesForAutomatedPlayer();
+        noPotentialForksForOpponent();
+        when(grid.centerCellTaken()).thenReturn(true);
+        allCornersOccupiedBySamePlayer();
+        when(grid.getVacantCell()).thenReturn(GameStatus.potentialMoveAt(1));
+
+        assertThat(automatedPlayer.nextMoveOn(grid), is(1));
+    }
+
+    private void allCornersOccupiedBySamePlayer() {
+        when(grid.isEmptyAt(0)).thenReturn(false);
+        when(grid.isEmptyAt(2)).thenReturn(false);
+        when(grid.isEmptyAt(6)).thenReturn(false);
+        when(grid.isEmptyAt(8)).thenReturn(false);
     }
 
     private void threeCornersOccupiedBySamePlayer() {

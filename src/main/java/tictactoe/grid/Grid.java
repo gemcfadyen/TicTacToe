@@ -56,6 +56,14 @@ public class Grid {
         return allEmpty;
     }
 
+    public GameStatus getVacantCell() {
+        for (int cellOffset = LEFT_CELL_INDEX; cellOffset < TOTAL_CELLS; cellOffset++) {
+            if (isEmptyAt(cellOffset)) {
+                return GameStatus.potentialMoveAt(cellOffset);
+            }
+        }
+        return GameStatus.noWin();
+    }
 
     public GameStatus evaluateForForksWhenCenterIsOccupied(Symbol symbol) {
         Function<Row, Integer> diagonalOppositeCorner = row -> getOppositeCornerOf(row.getIndexOf(symbol));
@@ -99,11 +107,11 @@ public class Grid {
         }
     }
 
+
     public Symbol getSymbolAtCellWithOffset(int offset) {
         Row row = determineRowFrom(offset);
         return row.getCellWithOffset(offset).getSymbol();
     }
-
 
     public GameStatus evaluateWinningStatus() {
         for (Row row : generateRowsForAllDirections()) {
@@ -124,7 +132,7 @@ public class Grid {
         for (Row row : rows) {
             Cell remainingVacantCell = row.getWinningCellFor(symbol);
             if (isWinningMoveAt(remainingVacantCell)) {
-                return GameStatus.potentialWinAt(remainingVacantCell.getOffset());
+                return GameStatus.potentialMoveAt(remainingVacantCell.getOffset());
             }
         }
 

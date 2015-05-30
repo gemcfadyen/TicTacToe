@@ -35,8 +35,8 @@ public class ForkFormationFromTopRowWhenCenterIsVacantTest {
     }
 
     // X - *
-    // O  -
-    //    -
+    // O   -
+    //     -
     @Test
     public void whenCentreIsNotTakenAndRightVerticalIsVacantStartForkingFormationFromCornersOnTopRow() {
         Row topRow = aRowBuilder().withHorizontalRow(X, VACANT, VACANT, 0).build();
@@ -76,5 +76,4 @@ public class ForkFormationFromTopRowWhenCenterIsVacantTest {
 
         assertThat(fork.execute(grid, X), is(-1));
     }
-
 }
