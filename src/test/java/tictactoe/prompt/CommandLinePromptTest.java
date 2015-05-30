@@ -60,9 +60,18 @@ public class CommandLinePromptTest {
     public void displaysMessage() {
         Prompt commandLinePrompt = createCommandLinePrompt();
 
-        commandLinePrompt.display("Hello World");
+        commandLinePrompt.displayWinningMessageFor(X);
 
-        assertThat(stringWriter.toString(), is("\nHello World\n"));
+        assertThat(stringWriter.toString(), is("\nPlayerX wins\n"));
+    }
+
+    @Test
+    public void displaysGameOVerMessage() {
+        Prompt commandLinePrompt = createCommandLinePrompt();
+
+        commandLinePrompt.displayGameOver();
+
+        assertThat(stringWriter.toString(), is("\nGame Over\n"));
     }
 
     @Test

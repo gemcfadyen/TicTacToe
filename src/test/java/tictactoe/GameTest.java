@@ -45,7 +45,7 @@ public class GameTest {
 
         verify(playerX, times(4)).nextMoveOn(grid);
         verify(playerO, times(5)).nextMoveOn(grid);
-        verify(prompt).display("Game Over");
+        verify(prompt).displayGameOver();
     }
 
     @Test
@@ -56,7 +56,7 @@ public class GameTest {
         game.play();
 
         verify(prompt, times(2)).display(grid.rows());
-        verify(prompt, times(1)).display("PlayerX wins");
+        verify(prompt, times(1)).displayWinningMessageFor(X);
     }
 
     @Test
@@ -67,7 +67,7 @@ public class GameTest {
         game.play();
 
         verify(prompt, times(2)).display(grid.rows());
-        verify(prompt, times(1)).display("PlayerO wins");
+        verify(prompt, times(1)).displayWinningMessageFor(O);
     }
 
     @Test
@@ -89,7 +89,7 @@ public class GameTest {
 
         game.play();
 
-        verify(prompt, times(2)).display("Game Over");
+        verify(prompt, times(2)).displayGameOver();
         verify(grid, times(2)).reset();
         verify(prompt, times(2)).promptPlayerToStartNewGame();
     }

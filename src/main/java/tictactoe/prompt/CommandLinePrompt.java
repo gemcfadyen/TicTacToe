@@ -1,5 +1,6 @@
 package tictactoe.prompt;
 
+import tictactoe.Symbol;
 import tictactoe.grid.Cell;
 import tictactoe.grid.Row;
 
@@ -9,6 +10,7 @@ import java.io.Writer;
 import java.util.List;
 
 import static tictactoe.Symbol.VACANT;
+import static java.lang.String.format;
 
 /**
  * Created by Georgina on 22/05/2015.
@@ -39,13 +41,18 @@ public class CommandLinePrompt implements Prompt {
     }
 
     @Override
-    public void promptPlayerToStartNewGame() {
-        writeToConsole("Play again? (Y/N)");
+    public void displayWinningMessageFor(Symbol symbol) {
+        writeToConsole(format("Player%s wins", symbol));
     }
 
     @Override
-    public void display(String message) {
-        writeToConsole(message);
+    public void displayGameOver() {
+        writeToConsole("Game Over");
+    }
+
+    @Override
+    public void promptPlayerToStartNewGame() {
+        writeToConsole("Play again? (Y/N)");
     }
 
     @Override

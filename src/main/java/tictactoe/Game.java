@@ -13,7 +13,6 @@ import static tictactoe.Symbol.X;
 import static tictactoe.grid.GridFactory.createEmptyGrid;
 import static tictactoe.player.PlayerFactory.createHumanPlayer;
 import static tictactoe.prompt.PromptFactory.createCommandLinePrompt;
-import static java.lang.String.format;
 
 /**
  * Created by Georgina on 16/05/2015.
@@ -74,7 +73,7 @@ public class Game {
             }
             currentPlayerIndex = opponent(currentPlayerIndex);
         }
-        prompt.display("Game Over");
+        prompt.displayGameOver();
     }
 
     private Symbol playersSymbol(int currentPlayerIndex) {
@@ -88,7 +87,7 @@ public class Game {
     private boolean isWinningMove() {
         GameStatus gameStatus = grid.evaluateWinningStatus();
         if (gameStatus.hasWinner()) {
-            prompt.display(format("Player%s wins", gameStatus.winningSymbol()));
+            prompt.displayWinningMessageFor(gameStatus.winningSymbol());
             return true;
         }
         return false;
