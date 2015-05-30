@@ -65,12 +65,18 @@ public class GridTest {
         assertThat(updatedCell.getSymbol(), is(equalTo(X)));
     }
 
+    @Test
+    public void resetGridToEmpty() {
+        grid.reset();
+        assertThat(grid.isEmpty(), is(true));
+    }
+
     @Test(expected = NoSuchElementException.class)
     public void exceptionThrownIfOffsetIsOutOfRange() {
         grid.update(10, X);
     }
 
-     private Cell getCellWithOffset(Row row, int offset) {
+    private Cell getCellWithOffset(Row row, int offset) {
         return row.getCellWithOffset(offset);
     }
 

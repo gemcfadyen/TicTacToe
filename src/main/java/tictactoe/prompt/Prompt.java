@@ -9,7 +9,8 @@ import java.util.List;
  */
 public interface Prompt {
     String readsInput();
-    void promptPlayer();
     void display(String message);
+    void promptPlayerForNextMove();
+    void promptPlayerToStartNewGame();
     void display(List<Row> rows);
 }

@@ -178,57 +178,10 @@ public class Grid {
         return remainingVacantCell != null;
     }
 
-//    private List<Row> generateRowsForAllDirections() {
-//        List<Row> allRows = horizontalRows();
-//        allRows.addAll(verticalRows());
-//        allRows.addAll(diagonalRows());
-//
-//        return allRows;
-//    }
-//
-//    private List<Row> horizontalRows() {
-//        List<Row> rows = new ArrayList<>();
-//        rows.add(topRow);
-//        rows.add(middleRow);
-//        rows.add(bottomRow);
-//        return rows;
-//    }
-//
-//    private List<Row> verticalRows() {
-//        List<Row> rows = new ArrayList<>();
-//        rows.add(generateVerticalRow(LEFT_CELL_INDEX));
-//        rows.add(generateVerticalRow(MIDDLE_CELL_INDEX));
-//        rows.add(generateVerticalRow(RIGHT_CELL_INDEX));
-//        return rows;
-//    }
-//
-//    private List<Row> diagonalRows() {
-//        List<Row> rows = new ArrayList<>();
-//        rows.add(generateRightDiagonal());
-//        rows.add(generateLeftDiagonal());
-//        return rows;
-//    }
-//
-//    private Row generateRightDiagonal() {
-//        return aRowBuilder().withRightDiagonal(
-//                topRow.getSymbolAt(RIGHT_CELL_INDEX),
-//                middleRow.getSymbolAt(MIDDLE_CELL_INDEX),
-//                bottomRow.getSymbolAt(LEFT_CELL_INDEX)).build();
-//    }
-//
-//    private Row generateLeftDiagonal() {
-//        return aRowBuilder().withLeftDiagonal(
-//                topRow.getSymbolAt(LEFT_CELL_INDEX),
-//                middleRow.getSymbolAt(MIDDLE_CELL_INDEX),
-//                bottomRow.getSymbolAt(RIGHT_CELL_INDEX)).build();
-//    }
-//
-//    private Row generateVerticalRow(int startingOffset) {
-//        return aRowBuilder().withVerticalRow(
-//                topRow.getSymbolAt(startingOffset),
-//                middleRow.getSymbolAt(startingOffset),
-//                bottomRow.getSymbolAt(startingOffset),
-//                startingOffset).build();
-//    }
+    public void reset() {
+        topRow.reset();
+        middleRow.reset();
+        bottomRow.reset();
+    }
 }
 

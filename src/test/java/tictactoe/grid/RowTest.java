@@ -101,9 +101,18 @@ public class RowTest {
     }
 
     @Test
-       public void getsIndexOfFreeCorner() {
+    public void getsIndexOfFreeCorner() {
         Row row = RowBuilder.aRowBuilder().withHorizontalRow(VACANT, O, O, NO_OFFSET).build();
         assertThat(row.getIndexOfFreeCorner(), is(0));
     }
 
+    @Test
+    public void resetsRowToEmpty() {
+        Row row = RowBuilder.aRowBuilder().withHorizontalRow(VACANT, O, O, NO_OFFSET).build();
+
+        row.reset();
+
+        assertThat(row.getSymbolAt(1), is(VACANT));
+        assertThat(row.getSymbolAt(2), is(VACANT));
+    }
 }

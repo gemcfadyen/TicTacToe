@@ -34,8 +34,13 @@ public class CommandLinePrompt implements Prompt {
     }
 
     @Override
-    public void promptPlayer() {
+    public void promptPlayerForNextMove() {
         writeToConsole("Please enter the number of the cell where you wish to put your next move");
+    }
+
+    @Override
+    public void promptPlayerToStartNewGame() {
+        writeToConsole("Play again? (Y/N)");
     }
 
     @Override

@@ -34,10 +34,19 @@ public class CommandLinePromptTest {
     @Test
     public void promptsUserForInput() {
         Prompt commandLinePrompt = createCommandLinePrompt();
-        commandLinePrompt.promptPlayer();
+        commandLinePrompt.promptPlayerForNextMove();
 
         assertThat(stringWriter.toString(),
                 is("\nPlease enter the number of the cell where you wish to put your next move\n"));
+    }
+
+    @Test
+    public void promptsUserToPlayNewGame() {
+        Prompt commandLinePrompt = createCommandLinePrompt();
+        commandLinePrompt.promptPlayerToStartNewGame();
+
+        assertThat(stringWriter.toString(),
+                is("\nPlay again? (Y/N)\n"));
     }
 
     @Test

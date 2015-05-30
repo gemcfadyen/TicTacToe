@@ -1,9 +1,12 @@
 package tictactoe;
 
+import com.google.common.collect.Lists;
 import tictactoe.grid.Grid;
 import tictactoe.grid.status.GameStatus;
 import tictactoe.player.Player;
 import tictactoe.prompt.Prompt;
+
+import java.util.List;
 
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.X;
@@ -50,12 +53,16 @@ public class Game {
     }
 
     public void play() {
-        prompt.display(grid.rows());
-        playGame();
-        prompt.display("Game Over");
+        boolean isGameInProgress = true;
+        while (isGameInProgress) {
+            grid.reset();
+            playGame();
+            isGameInProgress = replay();
+        }
     }
 
     private void playGame() {
+        prompt.display(grid.rows());
         int currentPlayerIndex = FIRST_PLAYER;
         for (int i = 0; i < Grid.TOTAL_CELLS; i++) {
 
@@ -67,6 +74,7 @@ public class Game {
             }
             currentPlayerIndex = opponent(currentPlayerIndex);
         }
+        prompt.display("Game Over");
     }
 
     private Symbol playersSymbol(int currentPlayerIndex) {
@@ -90,5 +98,28 @@ public class Game {
         return playersTurn == FIRST_PLAYER
                 ? SECOND_PLAYER
                 : FIRST_PLAYER;
+    }
+
+    private boolean replay() {
+        prompt.promptPlayerToStartNewGame();
+        String playAgainOption = prompt.readsInput();
+        playAgainOption = repromptUntilValid(playAgainOption);
+        return playAgainOption.equalsIgnoreCase("Y");
+    }
+
+    private String repromptUntilValid(String playAgainOption) {
+        String replayOption = playAgainOption;
+        while (!valid(replayOption)) {
+            prompt.promptPlayerToStartNewGame();
+            replayOption = prompt.readsInput();
+        }
+        return replayOption;
+    }
+
+    private boolean valid(String playAgainOption) {
+        List<String> validOptionsForNewGame = Lists.newArrayList("Y", "N");
+        return validOptionsForNewGame.contains(playAgainOption.toUpperCase())
+                ? true
+                : false;
     }
 }

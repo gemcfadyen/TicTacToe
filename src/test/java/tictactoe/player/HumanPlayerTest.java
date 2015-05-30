@@ -41,7 +41,7 @@ public class HumanPlayerTest {
 
         human.nextMoveOn(grid);
 
-        verify(prompt).promptPlayer();
+        verify(prompt).promptPlayerForNextMove();
     }
 
     @Test
@@ -62,7 +62,7 @@ public class HumanPlayerTest {
 
         human.nextMoveOn(grid);
 
-        verify(prompt, times(2)).promptPlayer();
+        verify(prompt, times(2)).promptPlayerForNextMove();
     }
 
     @Test
@@ -72,7 +72,7 @@ public class HumanPlayerTest {
 
         human.nextMoveOn(grid);
 
-        verify(prompt, times(2)).promptPlayer();
+        verify(prompt, times(2)).promptPlayerForNextMove();
     }
 
     @Test
@@ -82,7 +82,7 @@ public class HumanPlayerTest {
 
         human.nextMoveOn(grid);
 
-        verify(prompt, times(3)).promptPlayer();
+        verify(prompt, times(3)).promptPlayerForNextMove();
     }
 
     @Test
@@ -93,7 +93,7 @@ public class HumanPlayerTest {
 
         human.nextMoveOn(grid);
 
-        verify(prompt, times(2)).promptPlayer();
+        verify(prompt, times(2)).promptPlayerForNextMove();
     }
 
     @Test

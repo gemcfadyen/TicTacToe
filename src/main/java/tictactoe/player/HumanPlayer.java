@@ -22,7 +22,7 @@ public class HumanPlayer implements Player {
 
     @Override
     public int nextMoveOn(Grid grid) {
-        prompt.promptPlayer();
+        prompt.promptPlayerForNextMove();
         String nextMove = prompt.readsInput();
 
         return repromptUntilValid(nextMove, grid);
@@ -37,7 +37,7 @@ public class HumanPlayer implements Player {
         InputValidator[] validators = getInputValidators(grid);
         String move = nextMove;
         while (!valid(move, validators)) {
-            prompt.promptPlayer();
+            prompt.promptPlayerForNextMove();
             move = prompt.readsInput();
         }
         return Integer.valueOf(move);

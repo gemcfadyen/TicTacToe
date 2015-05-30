@@ -21,6 +21,9 @@ import static tictactoe.Symbol.X;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class GameTest {
+    private static final String DONT_REPLAY_GAME = "N";
+    private static final String REPLAY_GAME = "Y";
+
     @Mock private Player playerO;
     @Mock private Player playerX;
     @Mock private Prompt prompt;
@@ -36,6 +39,7 @@ public class GameTest {
     @Test
     public void gameEndsWhenNineMovesHaveBeenMade() {
         when(grid.evaluateWinningStatus()).thenReturn(GameStatus.noWin());
+        when(prompt.readsInput()).thenReturn(DONT_REPLAY_GAME);
 
         game.play();
 
@@ -47,6 +51,7 @@ public class GameTest {
     @Test
     public void gameEndsWhenGridContainsThreeXsInARow() {
         when(grid.evaluateWinningStatus()).thenReturn(GameStatus.winFor(X));
+        when(prompt.readsInput()).thenReturn(DONT_REPLAY_GAME);
 
         game.play();
 
@@ -57,6 +62,8 @@ public class GameTest {
     @Test
     public void gameEndsWhenGridContainsThreeOsInARow() {
         when(grid.evaluateWinningStatus()).thenReturn(GameStatus.winFor(O));
+        when(prompt.readsInput()).thenReturn(DONT_REPLAY_GAME);
+
         game.play();
 
         verify(prompt, times(2)).display(grid.rows());
@@ -68,9 +75,22 @@ public class GameTest {
         when(playerO.nextMoveOn(grid)).thenReturn(3);
         when(playerO.getSymbol()).thenReturn(O);
         when(grid.evaluateWinningStatus()).thenReturn(GameStatus.winFor(O));
+        when(prompt.readsInput()).thenReturn(DONT_REPLAY_GAME);
 
         game.play();
 
         verify(grid, times(1)).update(3, O);
+    }
+
+    @Test
+    public void repromptPlayerToStartANewGame() {
+        when(grid.evaluateWinningStatus()).thenReturn(GameStatus.noWin());
+        when(prompt.readsInput()).thenReturn(REPLAY_GAME).thenReturn(DONT_REPLAY_GAME);
+
+        game.play();
+
+        verify(prompt, times(2)).display("Game Over");
+        verify(grid, times(2)).reset();
+        verify(prompt, times(2)).promptPlayerToStartNewGame();
     }
 }
