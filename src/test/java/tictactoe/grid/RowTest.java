@@ -75,8 +75,8 @@ public class RowTest {
 
     @Test
     public void identifiesTheIndexOfAGivenSymbol() {
-        Row row = RowBuilder.aRowBuilder().withHorizontalRow(VACANT, VACANT, O, NO_OFFSET).build();
-        assertThat(row.getIndexOf(O), is(2));
+        Row row = RowBuilder.aRowBuilder().withHorizontalRow(VACANT, VACANT, O, BOTTOM_ROW_OFFSET).build();
+        assertThat(row.getCellOffsetOf(O), is(8));
     }
 
     @Test
@@ -99,4 +99,11 @@ public class RowTest {
 
         assertThat(row.getSymbolAt(0), is(O));
     }
+
+    @Test
+       public void getsIndexOfFreeCorner() {
+        Row row = RowBuilder.aRowBuilder().withHorizontalRow(VACANT, O, O, NO_OFFSET).build();
+        assertThat(row.getIndexOfFreeCorner(), is(0));
+    }
+
 }

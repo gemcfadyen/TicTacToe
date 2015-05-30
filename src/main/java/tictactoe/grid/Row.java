@@ -94,12 +94,11 @@ public class Row {
                 : false;
     }
 
-    public int getIndexOf(Symbol symbol) {
+    public int getCellOffsetOf(Symbol symbol) {
         Iterable<Cell> cellWithSymbol = filter(cells, cell -> cell.getSymbol() == symbol);
         return Iterables.getOnlyElement(cellWithSymbol).getOffset();
     }
 
-    //TODO write test
     public int getIndexOfFreeCorner() {
         Iterable<Cell> freeCornerCell = filter(cells, cell -> cell.isCorner() && cell.getSymbol() == VACANT);
         return  Iterables.getFirst(freeCornerCell, NO_CELL).getOffset();
