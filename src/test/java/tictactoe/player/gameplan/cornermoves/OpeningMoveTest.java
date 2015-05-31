@@ -1,8 +1,11 @@
-package tictactoe.player.gameplan;
+package tictactoe.player.gameplan.cornermoves;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import tictactoe.grid.Grid;
 import tictactoe.grid.GridFactory;
+import tictactoe.player.gameplan.GamePlan;
+import tictactoe.player.gameplan.cornermoves.TopLeftCornerMove;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -22,7 +25,7 @@ public class OpeningMoveTest {
     public void noSuggestedMoveIfCornerCellsAreOccupied() {
         Grid grid = GridFactory.createEmptyGrid();
         updateGridCornersWithSymbols(grid);
-        assertThat(topLeftCornerMove.execute(grid, X), is(GamePlan.NO_SUGGESTED_MOVE));
+        assertThat(topLeftCornerMove.execute(grid, X), Matchers.is(GamePlan.NO_SUGGESTED_MOVE));
     }
 
     private void updateGridCornersWithSymbols(Grid grid) {

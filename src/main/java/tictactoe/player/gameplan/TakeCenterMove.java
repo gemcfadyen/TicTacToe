@@ -2,6 +2,7 @@ package tictactoe.player.gameplan;
 
 import tictactoe.Symbol;
 import tictactoe.grid.Grid;
+import tictactoe.player.gameplan.GamePlan;
 
 import static tictactoe.grid.Grid.CENTER;
 

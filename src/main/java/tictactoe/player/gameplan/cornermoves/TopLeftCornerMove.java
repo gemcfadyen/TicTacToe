@@ -1,7 +1,8 @@
-package tictactoe.player.gameplan;
+package tictactoe.player.gameplan.cornermoves;
 
 import tictactoe.Symbol;
 import tictactoe.grid.Grid;
+import tictactoe.player.gameplan.GamePlan;
 
 public class TopLeftCornerMove implements GamePlan {
     private static final int TOP_LEFT_CORNER = 0;
