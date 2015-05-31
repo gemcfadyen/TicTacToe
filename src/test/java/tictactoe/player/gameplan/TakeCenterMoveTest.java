@@ -1,8 +1,5 @@
 package tictactoe.player.gameplan;
 
-/**
- * Created by Georgina on 27/05/2015.
- */
 import org.junit.Test;
 import tictactoe.grid.Grid;
 import tictactoe.grid.GridFactory;

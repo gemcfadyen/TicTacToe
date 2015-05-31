@@ -24,9 +24,6 @@ import static tictactoe.grid.Grid.BOTTOM_ROW_OFFSET;
 import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 import static tictactoe.grid.RowBuilder.aRowBuilder;
 
-/**
- * Created by Georgina on 22/05/2015.
- */
 public class CommandLinePromptTest {
     private static final int NO_OFFSET = 0;
     private Writer stringWriter;

@@ -6,9 +6,6 @@ import tictactoe.grid.Grid;
 
 import java.util.Map;
 
-/**
- * Created by Georgina on 30/05/2015
- */
 public class TakeEmptyCornerMove extends CornerMove implements GamePlan {
     @Override
     public int execute(Grid grid, Symbol symbol) {

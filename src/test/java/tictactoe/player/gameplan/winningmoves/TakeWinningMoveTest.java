@@ -17,9 +17,6 @@ import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 import static tictactoe.grid.RowBuilder.aRowBuilder;
 import static tictactoe.player.gameplan.GamePlan.NO_SUGGESTED_MOVE;
 
-/**
- * Created by Georgina on 25/05/2015.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class TakeWinningMoveTest {
     private TakeWinningMove takeWinningMove = new TakeWinningMove();

@@ -8,9 +8,6 @@ import tictactoe.player.inputvalidation.IsInGridBoundary;
 import tictactoe.player.inputvalidation.IsVacantCell;
 import tictactoe.prompt.Prompt;
 
-/**
- * Created by Georgina on 16/05/2015.
- */
 public class HumanPlayer implements Player {
     private final Prompt prompt;
     private final Symbol symbol;

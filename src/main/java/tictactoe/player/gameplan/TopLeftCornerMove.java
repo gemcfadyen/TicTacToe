@@ -3,9 +3,6 @@ package tictactoe.player.gameplan;
 import tictactoe.Symbol;
 import tictactoe.grid.Grid;
 
-/**
- * Created by Georgina on 26/05/2015.
- */
 public class TopLeftCornerMove implements GamePlan {
     private static final int TOP_LEFT_CORNER = 0;
 

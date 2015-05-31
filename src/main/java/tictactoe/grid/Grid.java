@@ -14,9 +14,6 @@ import static tictactoe.grid.RowGenerator.generateRowsForAllDirections;
 import static tictactoe.grid.RowGenerator.generateVerticalRow;
 import static tictactoe.grid.RowGenerator.horizontalRows;
 
-/**
- * Created by Georgina on 16/05/2015.
- */
 public class Grid {
     public static final int NUMBER_OF_CELLS_IN_ROW = 3;
     public static final int TOTAL_CELLS = NUMBER_OF_CELLS_IN_ROW * NUMBER_OF_CELLS_IN_ROW;

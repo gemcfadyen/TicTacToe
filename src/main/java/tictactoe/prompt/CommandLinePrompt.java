@@ -12,9 +12,6 @@ import java.util.List;
 import static tictactoe.Symbol.VACANT;
 import static java.lang.String.format;
 
-/**
- * Created by Georgina on 22/05/2015.
- */
 public class CommandLinePrompt implements Prompt {
     private static final String NEW_LINE_CHARACTER = "\n";
 

@@ -9,9 +9,6 @@ import static org.hamcrest.Matchers.is;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.X;
 
-/**
- * Created by Georgina on 26/05/2015.
- */
 public class OpeningMoveTest {
     private TopLeftCornerMove topLeftCornerMove = new TopLeftCornerMove();
 

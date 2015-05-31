@@ -4,9 +4,6 @@ import tictactoe.Symbol;
 
 import static tictactoe.grid.Grid.DIAGONAL_OPPOSITE_CORNERS;
 
-/**
- * Created by Georgina on 17/05/2015.
- */
 public class Cell {
     private Symbol symbol;
     private int offset;

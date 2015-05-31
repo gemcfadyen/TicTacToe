@@ -7,9 +7,6 @@ import java.util.Map;
 import static com.google.common.collect.Maps.filterEntries;
 import static tictactoe.grid.Grid.DIAGONAL_OPPOSITE_CORNERS;
 
-/**
- * Created by Georgina on 30/05/2015.
- */
 public class CornerMove {
 
     protected Map<Integer, Integer> applyToCorners(Predicate<Map.Entry<Integer, Integer>> function) {

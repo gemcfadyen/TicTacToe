@@ -16,9 +16,6 @@ import static org.mockito.Mockito.when;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.X;
 
-/**
- * Created by Georgina on 16/05/2015.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class GameTest {
     private static final String DONT_REPLAY_GAME = "N";

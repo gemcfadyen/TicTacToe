@@ -16,9 +16,6 @@ import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 import static tictactoe.grid.RowBuilder.aRowBuilder;
 import static tictactoe.player.gameplan.GamePlan.NO_SUGGESTED_MOVE;
 
-/**
- * Created by Georgina on 26/05/2015.
- */
 public class BlockGamePlanTest {
     private Block opponentsWinningMove = new Block(new TakeWinningMove());
     private Grid grid;

@@ -9,9 +9,6 @@ import static org.hamcrest.Matchers.is;
 import static tictactoe.Symbol.X;
 import static tictactoe.player.gameplan.GamePlan.NO_SUGGESTED_MOVE;
 
-/**
- * Created by Georgina on 30/05/2015.
- */
 public class TakeEmptyCornerMoveTest {
     private TakeEmptyCornerMove takeEmptyCornerMove = new TakeEmptyCornerMove();
 

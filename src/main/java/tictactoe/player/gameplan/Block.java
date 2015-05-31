@@ -6,9 +6,6 @@ import tictactoe.grid.Grid;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.X;
 
-/**
- * Created by Georgina on 26/05/2015.
- */
 public class Block implements GamePlan {
 
     private final GamePlan gamePlan;

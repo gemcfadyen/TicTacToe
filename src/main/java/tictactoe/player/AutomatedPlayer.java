@@ -14,9 +14,6 @@ import tictactoe.player.gameplan.forking.ForkFormationInVerticalRowsWhenCenterIs
 import tictactoe.player.gameplan.forking.ForkFormationWhenCenterCellIsOccupied;
 import tictactoe.player.gameplan.winningmoves.TakeWinningMove;
 
-/**
- * Created by Georgina on 25/05/2015.
- */
 public class AutomatedPlayer implements Player {
     private static final int NO_WINNING_MOVE = -1;
 

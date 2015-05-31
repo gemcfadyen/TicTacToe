@@ -16,9 +16,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static tictactoe.Symbol.X;
 
-/**
- * Created by Georgina on 16/05/2015.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class HumanPlayerTest {
     private static final Integer VACANT_CELL = 3;

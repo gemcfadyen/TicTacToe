@@ -15,9 +15,6 @@ import static com.google.common.collect.Lists.newArrayList;
 import static tictactoe.Symbol.VACANT;
 import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 
-/**
- * Created by Georgina on 17/05/2015.
- */
 public class Row {
     protected static final int FIRST_CELL_INDEX = 0;
     private static final Cell NO_CELL = null;

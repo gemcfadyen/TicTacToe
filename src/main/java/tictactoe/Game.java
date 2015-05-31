@@ -14,9 +14,6 @@ import static tictactoe.grid.GridFactory.createEmptyGrid;
 import static tictactoe.player.PlayerFactory.createHumanPlayer;
 import static tictactoe.prompt.PromptFactory.createCommandLinePrompt;
 
-/**
- * Created by Georgina on 16/05/2015.
- */
 public class Game {
     private static final int FIRST_PLAYER = 0;
     private static final int SECOND_PLAYER = 1;

@@ -15,9 +15,6 @@ import static tictactoe.Symbol.X;
 import static tictactoe.grid.status.GameStatus.noPotentialMove;
 import static tictactoe.grid.status.GameStatus.potentialMoveAt;
 
-/**
- * Created by Georgina on 25/05/2015.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class AutomatedPlayerTest {
     private static final int NO_WINNING_MOVE = -1;

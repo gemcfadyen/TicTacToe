@@ -5,9 +5,6 @@ import tictactoe.grid.Grid;
 import tictactoe.grid.status.GameStatus;
 import tictactoe.player.gameplan.GamePlan;
 
-/**
- * Created by Georgina on 26/05/2015.
- */
 public class ForkFormationWhenCenterCellIsOccupied implements GamePlan {
     @Override
     public int execute(Grid grid, Symbol symbol) {
@@ -20,6 +17,4 @@ public class ForkFormationWhenCenterCellIsOccupied implements GamePlan {
 
         return NO_SUGGESTED_MOVE;
     }
-
-
 }
