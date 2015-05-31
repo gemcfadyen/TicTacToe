@@ -5,9 +5,6 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-/**
- * Created by Georgina on 24/05/2015.
- */
 public class IsDigitTest {
     private IsDigit isDigitValidation = new IsDigit();
 

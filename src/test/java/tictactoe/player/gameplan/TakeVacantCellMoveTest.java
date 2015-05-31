@@ -20,6 +20,7 @@ import static tictactoe.grid.RowBuilder.aRowBuilder;
 
 @RunWith(Parameterized.class)
 public class TakeVacantCellMoveTest {
+    private static final int NO_SUGGESTED_MOVE = -1;
     private TakeVacantCellMove takeVacantCellMove = new TakeVacantCellMove();
 
     private static final int NO_OFFSET = 0;
@@ -62,7 +63,7 @@ public class TakeVacantCellMoveTest {
                         aRowBuilder().withHorizontalRow(O, X, O, NO_OFFSET).build(),
                         aRowBuilder().withHorizontalRow(X, X, O, NUMBER_OF_CELLS_IN_ROW).build(),
                         aRowBuilder().withHorizontalRow(O, X, O, BOTTOM_ROW_OFFSET).build(),
-                        -1
+                        NO_SUGGESTED_MOVE
                 }
         });
     }

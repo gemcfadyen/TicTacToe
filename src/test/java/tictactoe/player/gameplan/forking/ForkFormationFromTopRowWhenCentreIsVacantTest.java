@@ -14,6 +14,7 @@ import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 import static tictactoe.grid.RowBuilder.aRowBuilder;
 
 public class ForkFormationFromTopRowWhenCentreIsVacantTest {
+    private static final int NO_SUGGESTED_MOVE = -1;
     private ForkFormationFromTopRowWhenCentreIsVacant fork = new ForkFormationFromTopRowWhenCentreIsVacant();
 
     // X - *
@@ -70,6 +71,6 @@ public class ForkFormationFromTopRowWhenCentreIsVacantTest {
 
         Grid grid = new Grid(topRow, middleRow, bottomRow);
 
-        assertThat(fork.execute(grid, X), is(-1));
+        assertThat(fork.execute(grid, X), is(NO_SUGGESTED_MOVE));
     }
 }

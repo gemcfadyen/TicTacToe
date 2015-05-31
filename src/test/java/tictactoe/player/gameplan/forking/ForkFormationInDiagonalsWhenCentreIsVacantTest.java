@@ -14,6 +14,7 @@ import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 import static tictactoe.grid.RowBuilder.aRowBuilder;
 
 public class ForkFormationInDiagonalsWhenCentreIsVacantTest {
+    private static final int NO_SUGGESTED_MOVE = -1;
     private ForkFormationInDiagonalsWhenCentreIsVacant fork = new ForkFormationInDiagonalsWhenCentreIsVacant();
 
     @Test
@@ -59,5 +60,17 @@ public class ForkFormationInDiagonalsWhenCentreIsVacantTest {
 
         assertThat(fork.execute(grid, X), is(2));
     }
+
+    @Test
+    public void noPotentialMoveWhenNoForksAroundDiagonal() {
+        Row topRow = aRowBuilder().withHorizontalRow(X, VACANT, VACANT, 0).build();
+        Row middleRow = aRowBuilder().withHorizontalRow(O, O, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
+        Row bottomRow = aRowBuilder().withHorizontalRow(X, VACANT, O, BOTTOM_ROW_OFFSET).build();
+
+        Grid grid = new Grid(topRow, middleRow, bottomRow);
+
+        assertThat(fork.execute(grid, X), is(NO_SUGGESTED_MOVE));
+    }
+
 
 }

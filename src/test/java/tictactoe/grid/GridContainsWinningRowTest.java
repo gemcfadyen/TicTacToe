@@ -16,9 +16,6 @@ import static tictactoe.grid.Grid.BOTTOM_ROW_OFFSET;
 import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 import static tictactoe.grid.RowBuilder.aRowBuilder;
 
-/**
- * Created by Georgina on 17/05/2015.
- */
 @RunWith(Parameterized.class)
 public class GridContainsWinningRowTest {
     private static final int NO_OFFSET = 0;
@@ -49,14 +46,12 @@ public class GridContainsWinningRowTest {
                         aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build(),
                         true
                 },
-
                 {
                         aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NO_OFFSET).build(),
                         aRowBuilder().withHorizontalRow(O, O, O, NUMBER_OF_CELLS_IN_ROW).build(),
                         aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build(),
                         true
                 },
-
                 {
                         aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NO_OFFSET).build(),
                         aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build(),

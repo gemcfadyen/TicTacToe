@@ -11,9 +11,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by Georgina on 24/05/2015.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class IsVacantCellTest {
     @Mock private Grid grid;
