@@ -10,6 +10,8 @@ import java.util.function.Function;
 
 import static tictactoe.Symbol.VACANT;
 import static tictactoe.grid.Row.FIRST_CELL_INDEX;
+import static tictactoe.grid.RowGenerator.generateLeftDiagonal;
+import static tictactoe.grid.RowGenerator.generateRightDiagonal;
 import static tictactoe.grid.RowGenerator.generateRowsForAllDirections;
 import static tictactoe.grid.RowGenerator.generateVerticalRow;
 import static tictactoe.grid.RowGenerator.horizontalRows;
@@ -77,17 +79,23 @@ public class Grid {
     }
 
     public GameStatus evaluateForksFromTopRow(Symbol symbol) {
-        return evaluateForForksAroundEdgeOfGrid(topRow, symbol);
+        return checkForPotentialForkUsingOppositeCorners(topRow, symbol, freeCornerFunction());
     }
 
     public GameStatus evaluateForksFromBottomRow(Symbol symbol) {
-        return evaluateForForksAroundEdgeOfGrid(bottomRow, symbol);
+        return checkForPotentialForkUsingOppositeCorners(bottomRow, symbol, freeCornerFunction());
     }
 
     public GameStatus evaluateForksFromVerticalRows(Symbol symbol) {
-        return evaluateForForksAroundEdgeOfGrid(
-                generateVerticalRow(LEFT_CELL_INDEX, topRow, middleRow, bottomRow),
-                symbol);
+        return checkForPotentialForkUsingOppositeCorners(generateVerticalRow(LEFT_CELL_INDEX, topRow, middleRow, bottomRow), symbol, freeCornerFunction());
+    }
+
+    public GameStatus evaluateForksFromDiagonalRows(Symbol symbol) {
+        GameStatus gameStatus = checkForPotentialForksUsingDiagonal(generateLeftDiagonal(topRow, middleRow, bottomRow), symbol);
+
+        return gameStatus.hasPotentialMove()
+                ? gameStatus
+                : checkForPotentialForksUsingDiagonal(generateRightDiagonal(topRow, middleRow, bottomRow), symbol);
     }
 
     public GameStatus evaluateWinningStatus() {
@@ -107,7 +115,6 @@ public class Grid {
                 return potentialMoveAt(remainingVacantCell.getOffset());
             }
         }
-
         return noWin();
     }
 
@@ -142,14 +149,14 @@ public class Grid {
     }
 
     private GameStatus checkForPotentialForkUsingOppositeCorners(Row row, Symbol symbol, Function<Row, Integer> function) {
-        if (vacantLShapedFormationAround(row, symbol)) {
+        if (vacantLShapedFormationAroundVerticalRows(row, symbol)) {
             return potentialMoveAt(function.apply(row));
         }
 
         return noPotentialMove();
     }
 
-    private boolean vacantLShapedFormationAround(Row row, Symbol symbol) {
+    private boolean vacantLShapedFormationAroundVerticalRows(Row row, Symbol symbol) {
         return row.freeRowWithOccupiedCorner(symbol) && hasForkFormationInVerticalRows(symbol);
     }
 
@@ -158,17 +165,29 @@ public class Grid {
                 || checkForkInVertical(generateVerticalRow(NUMBER_OF_CELLS_IN_ROW - 1, topRow, middleRow, bottomRow), symbol);
     }
 
+    private GameStatus checkForPotentialForksUsingDiagonal(Row diagonalRow, Symbol symbol) {
+        if (vacantLShapedFormationAroundHorizontalRows(symbol, diagonalRow)) {
+            return potentialMoveAt(freeCornerFunction().apply(diagonalRow));
+        }
+        return noPotentialMove();
+    }
+
+    private boolean vacantLShapedFormationAroundHorizontalRows(Symbol symbol, Row leftDiagonal) {
+        return leftDiagonal.freeRowWithOccupiedCorner(symbol)
+                && hasForkFormationInHorizontalRows(symbol);
+    }
+
+    private boolean hasForkFormationInHorizontalRows(Symbol symbol) {
+        return checkForkInVertical(topRow, symbol)
+                || checkForkInVertical(bottomRow, symbol);
+    }
+
     private boolean checkForkInVertical(Row row, Symbol symbol) {
         return row.isVacant() || row.freeRowWithOccupiedCorner(symbol);
     }
 
-    private GameStatus evaluateForForksAroundEdgeOfGrid(Row rowToConsider, Symbol symbol) {
-        Function<Row, Integer> freeCornerInRow = Row::getIndexOfFreeCorner;
-        GameStatus gameStatus = checkForPotentialForkUsingOppositeCorners(rowToConsider, symbol, freeCornerInRow);
-        if (gameStatus.hasPotentialMove()) {
-            return gameStatus;
-        }
-        return gameStatus;
+    private Function<Row, Integer> freeCornerFunction() {
+        return Row::getIndexOfFreeCorner;
     }
 
     private Row determineRowFrom(int index) {

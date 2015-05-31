@@ -84,7 +84,7 @@ public class AutomatedPlayerTest {
     }
 
     @Test
-    public void startForkWhenCentreIsTaken() {
+    public void startForkWhenCentreIsOccupied() {
         noPotentialWinForAutomatedPlayerOrOpponent();
         when(grid.isEmpty()).thenReturn(false);
         when(grid.centreCellTaken()).thenReturn(true);
@@ -94,7 +94,7 @@ public class AutomatedPlayerTest {
     }
 
     @Test
-    public void startForkFromTopRowWhenCentreIsOccupied() {
+    public void startForkFromTopRowWhenCentreIsVacant() {
         noPotentialWinForAutomatedPlayerOrOpponent();
         noForksAroundCentreCell();
         when(grid.evaluateForksFromTopRow(X)).thenReturn(potentialMoveAt(2));
@@ -103,7 +103,7 @@ public class AutomatedPlayerTest {
     }
 
     @Test
-    public void startForkFromVerticalRowWhenCentreIsOccupied() {
+    public void startForkFromVerticalRowWhenCentreIsVacant() {
         noPotentialWinForAutomatedPlayerOrOpponent();
         noForksAroundCentreCell();
         when(grid.evaluateForksFromTopRow(X)).thenReturn(noPotentialMove());
@@ -113,12 +113,22 @@ public class AutomatedPlayerTest {
     }
 
     @Test
-    public void startForkFromBottomRowWhenCentreIsOccupied() {
+    public void startForkFromBottomRowWhenCentreIsVacant() {
         noPotentialWinForAutomatedPlayerOrOpponent();
         noForksAroundCentreCell();
         when(grid.evaluateForksFromTopRow(X)).thenReturn(noPotentialMove());
         when(grid.evaluateForksFromVerticalRows(X)).thenReturn(noPotentialMove());
         when(grid.evaluateForksFromBottomRow(X)).thenReturn(potentialMoveAt(2));
+
+        assertThat(automatedPlayer.nextMoveOn(grid), is(2));
+    }
+
+    @Test
+    public void startForkAroundDiagonalsWhenCentreIsVacant() {
+        noPotentialWinForAutomatedPlayerOrOpponent();
+        noForksAroundCentreCell();
+        noHorizontalOrVerticalForks();
+        when(grid.evaluateForksFromDiagonalRows(X)).thenReturn(potentialMoveAt(2));
 
         assertThat(automatedPlayer.nextMoveOn(grid), is(2));
     }
@@ -143,7 +153,7 @@ public class AutomatedPlayerTest {
     }
 
     @Test
-    public void blockOpponentsForkFromVerticalRowWhenCentreIsOccupied() {
+    public void blockOpponentsForkFromVerticalRowWhenCentreIsVacant() {
         noSuggestedMovesForAutomatedPlayer();
         when(grid.evaluateForForksWhenCentreIsOccupied(O)).thenReturn(noPotentialMove());
         when(grid.evaluateForksFromTopRow(O)).thenReturn(noPotentialMove());
@@ -153,7 +163,7 @@ public class AutomatedPlayerTest {
     }
 
     @Test
-    public void blockOpponentsForkFromBottomRowWhenCentreIsOccupied() {
+    public void blockOpponentsForkFromBottomRowWhenCentreIsVacant() {
         noSuggestedMovesForAutomatedPlayer();
         when(grid.evaluateForForksWhenCentreIsOccupied(O)).thenReturn(noPotentialMove());
         when(grid.evaluateForksFromTopRow(O)).thenReturn(noPotentialMove());
@@ -161,6 +171,15 @@ public class AutomatedPlayerTest {
         when(grid.evaluateForksFromBottomRow(O)).thenReturn(potentialMoveAt(3));
 
         assertThat(automatedPlayer.nextMoveOn(grid), is(3));
+    }
+
+    @Test
+    public void blockOpponentsForkFromDiagonalRowWhenCentreIsVacant() {
+        noSuggestedMovesForAutomatedPlayer();
+        noHorizontalOrVerticalForksForOpponent();
+        when(grid.evaluateForksFromDiagonalRows(O)).thenReturn(potentialMoveAt(7));
+
+        assertThat(automatedPlayer.nextMoveOn(grid), is(7));
     }
 
     @Test
@@ -205,6 +224,19 @@ public class AutomatedPlayerTest {
         assertThat(automatedPlayer.nextMoveOn(grid), is(1));
     }
 
+    private void noHorizontalOrVerticalForks() {
+        when(grid.evaluateForksFromTopRow(X)).thenReturn(noPotentialMove());
+        when(grid.evaluateForksFromVerticalRows(X)).thenReturn(noPotentialMove());
+        when(grid.evaluateForksFromBottomRow(X)).thenReturn(noPotentialMove());
+    }
+
+    private void noHorizontalOrVerticalForksForOpponent() {
+        when(grid.evaluateForForksWhenCentreIsOccupied(O)).thenReturn(noPotentialMove());
+        when(grid.evaluateForksFromTopRow(O)).thenReturn(noPotentialMove());
+        when(grid.evaluateForksFromVerticalRows(O)).thenReturn(noPotentialMove());
+        when(grid.evaluateForksFromBottomRow(O)).thenReturn(noPotentialMove());
+    }
+
     private void allCornersOccupiedBySamePlayer() {
         when(grid.isEmptyAt(0)).thenReturn(false);
         when(grid.isEmptyAt(2)).thenReturn(false);
@@ -228,22 +260,19 @@ public class AutomatedPlayerTest {
     private void noSuggestedMovesForAutomatedPlayer() {
         noPotentialWinForAutomatedPlayerOrOpponent();
         noForksAroundCentreCell();
-        when(grid.evaluateForksFromTopRow(X)).thenReturn(noPotentialMove());
-        when(grid.evaluateForksFromVerticalRows(X)).thenReturn(noPotentialMove());
-        when(grid.evaluateForksFromBottomRow(X)).thenReturn(noPotentialMove());
+        noHorizontalOrVerticalForks();
     }
 
     private void noForksAroundCentreCell() {
         when(grid.isEmpty()).thenReturn(false);
         when(grid.centreCellTaken()).thenReturn(false);
         when(grid.evaluateForForksWhenCentreIsOccupied(X)).thenReturn(noPotentialMove());
+        when(grid.evaluateForksFromDiagonalRows(X)).thenReturn(noPotentialMove());
     }
 
     private void noPotentialForksForOpponent() {
         when(grid.evaluateForForksWhenCentreIsOccupied(O)).thenReturn(noPotentialMove());
-        when(grid.evaluateForForksWhenCentreIsOccupied(O)).thenReturn(noPotentialMove());
-        when(grid.evaluateForksFromTopRow(O)).thenReturn(noPotentialMove());
-        when(grid.evaluateForksFromVerticalRows(O)).thenReturn(noPotentialMove());
-        when(grid.evaluateForksFromBottomRow(O)).thenReturn(noPotentialMove());
+        noHorizontalOrVerticalForksForOpponent();
+        when(grid.evaluateForksFromDiagonalRows(O)).thenReturn(noPotentialMove());
     }
 }

@@ -8,6 +8,7 @@ import tictactoe.player.gameplan.TakeCentreMove;
 import tictactoe.player.gameplan.TakeVacantCellMove;
 import tictactoe.player.gameplan.cornermoves.TakeOppositeCornerMove;
 import tictactoe.player.gameplan.cornermoves.TopLeftCornerMove;
+import tictactoe.player.gameplan.forking.ForkFormationInDiagonalsWhenCentreIsVacant;
 import tictactoe.player.gameplan.forking.ForkFormationFromBottomRowWhenCentreIsVacant;
 import tictactoe.player.gameplan.forking.ForkFormationFromTopRowWhenCentreIsVacant;
 import tictactoe.player.gameplan.forking.ForkFormationInVerticalRowsWhenCentreIsVacant;
@@ -58,11 +59,13 @@ public class AutomatedPlayer implements Player {
                 new ForkFormationFromTopRowWhenCentreIsVacant(),
                 new ForkFormationInVerticalRowsWhenCentreIsVacant(),
                 new ForkFormationFromBottomRowWhenCentreIsVacant(),
+                new ForkFormationInDiagonalsWhenCentreIsVacant(),
 
                 new Block(new ForkFormationWhenCentreCellIsOccupied()),
                 new Block(new ForkFormationFromTopRowWhenCentreIsVacant()),
                 new Block(new ForkFormationInVerticalRowsWhenCentreIsVacant()),
                 new Block(new ForkFormationFromBottomRowWhenCentreIsVacant()),
+                new Block(new ForkFormationInDiagonalsWhenCentreIsVacant()),
 
                 new TakeCentreMove(),
                 new TakeOppositeCornerMove(),

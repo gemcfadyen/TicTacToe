@@ -50,14 +50,14 @@ public class RowGenerator {
         return rows;
     }
 
-    private static Row generateRightDiagonal(Row topRow, Row middleRow, Row bottomRow) {
+    protected static Row generateRightDiagonal(Row topRow, Row middleRow, Row bottomRow) {
         return aRowBuilder().withRightDiagonal(
                 topRow.getSymbolAt(RIGHT_CELL_INDEX),
                 middleRow.getSymbolAt(MIDDLE_CELL_INDEX),
                 bottomRow.getSymbolAt(LEFT_CELL_INDEX)).build();
     }
 
-    private static Row generateLeftDiagonal(Row topRow, Row middleRow, Row bottomRow) {
+    protected static Row generateLeftDiagonal(Row topRow, Row middleRow, Row bottomRow) {
         return aRowBuilder().withLeftDiagonal(
                 topRow.getSymbolAt(LEFT_CELL_INDEX),
                 middleRow.getSymbolAt(MIDDLE_CELL_INDEX),

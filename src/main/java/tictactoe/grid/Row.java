@@ -95,7 +95,9 @@ public class Row {
 
     public int getIndexOfFreeCorner() {
         Iterable<Cell> freeCornerCell = filter(cells, cell -> cell.isCorner() && cell.getSymbol() == VACANT);
-        return  Iterables.getFirst(freeCornerCell, NO_CELL).getOffset();
+        Cell first = Iterables.getFirst(freeCornerCell, NO_CELL);
+        System.out.println("Free corner is " + first);
+        return  first.getOffset();
     }
 
     public void reset() {

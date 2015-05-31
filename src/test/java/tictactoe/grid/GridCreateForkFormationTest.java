@@ -12,9 +12,6 @@ import static tictactoe.grid.Grid.BOTTOM_ROW_OFFSET;
 import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 import static tictactoe.grid.RowBuilder.aRowBuilder;
 
-/**
- * Created by Georgina on 25/05/2015.
- */
 public class GridCreateForkFormationTest {
     @Test
     public void takeOppositeCornerOfTopLeftToStartFork() {
@@ -93,4 +90,7 @@ public class GridCreateForkFormationTest {
         assertThat(gameStatus.hasPotentialMove(), is(true));
         assertThat(gameStatus.getIndexOfMove(), is(0));
     }
+
+
+
 }
