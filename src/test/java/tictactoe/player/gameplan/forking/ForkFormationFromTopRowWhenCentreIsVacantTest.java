@@ -16,7 +16,6 @@ import static tictactoe.grid.RowBuilder.aRowBuilder;
 public class ForkFormationFromTopRowWhenCentreIsVacantTest {
     private ForkFormationFromTopRowWhenCentreIsVacant fork = new ForkFormationFromTopRowWhenCentreIsVacant();
 
-
     // X - *
     // -
     // -

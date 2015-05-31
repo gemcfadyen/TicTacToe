@@ -13,6 +13,10 @@ import static tictactoe.grid.Row.FIRST_CELL_INDEX;
 import static tictactoe.grid.RowGenerator.generateRowsForAllDirections;
 import static tictactoe.grid.RowGenerator.generateVerticalRow;
 import static tictactoe.grid.RowGenerator.horizontalRows;
+import static tictactoe.grid.status.GameStatus.noPotentialMove;
+import static tictactoe.grid.status.GameStatus.noWin;
+import static tictactoe.grid.status.GameStatus.potentialMoveAt;
+import static tictactoe.grid.status.GameStatus.winFor;
 
 public class Grid {
     public static final int NUMBER_OF_CELLS_IN_ROW = 3;
@@ -56,10 +60,10 @@ public class Grid {
     public GameStatus getVacantCell() {
         for (int offset = LEFT_CELL_INDEX; offset < TOTAL_CELLS; offset++) {
             if (isEmptyAt(offset)) {
-                return GameStatus.potentialMoveAt(offset);
+                return potentialMoveAt(offset);
             }
         }
-        return GameStatus.noPotentialMove();
+        return noPotentialMove();
     }
 
     public GameStatus evaluateForForksWhenCentreIsOccupied(Symbol symbol) {
@@ -70,15 +74,6 @@ public class Grid {
                 ? status
                 : checkForPotentialForkUsingOppositeCorners(bottomRow, symbol, diagonalOppositeCorner);
 
-    }
-
-    private GameStatus evaluateForForksAroundEdgeOfGrid(Row rowToConsider, Symbol symbol) {
-        Function<Row, Integer> freeCornerInRow = row -> row.getIndexOfFreeCorner();
-        GameStatus gameStatus = checkForPotentialForkUsingOppositeCorners(rowToConsider, symbol, freeCornerInRow);
-        if (gameStatus.hasPotentialMove()) {
-            return gameStatus;
-        }
-        return gameStatus;
     }
 
     public GameStatus evaluateForksFromTopRow(Symbol symbol) {
@@ -93,6 +88,27 @@ public class Grid {
         return evaluateForForksAroundEdgeOfGrid(
                 generateVerticalRow(LEFT_CELL_INDEX, topRow, middleRow, bottomRow),
                 symbol);
+    }
+
+    public GameStatus evaluateWinningStatus() {
+        for (Row row : generateRowsForAllDirections(topRow, middleRow, bottomRow)) {
+            if (row.isWinningRow()) {
+                return winFor(row.getSymbolAt(FIRST_CELL_INDEX));
+            }
+        }
+        return noWin();
+    }
+
+    public GameStatus evaluateWinningMoveFor(Symbol symbol) {
+        List<Row> rows = generateRowsForAllDirections(topRow, middleRow, bottomRow);
+        for (Row row : rows) {
+            Cell remainingVacantCell = row.getWinningCellFor(symbol);
+            if (isWinningMoveAt(remainingVacantCell)) {
+                return potentialMoveAt(remainingVacantCell.getOffset());
+            }
+        }
+
+        return noWin();
     }
 
     public boolean centreCellTaken() {
@@ -111,41 +127,26 @@ public class Grid {
         return row.getCellWithOffset(offset).getSymbol();
     }
 
-    public GameStatus evaluateWinningStatus() {
-        for (Row row : generateRowsForAllDirections(topRow, middleRow, bottomRow)) {
-            if (row.isWinningRow()) {
-                return GameStatus.winFor(row.getSymbolAt(FIRST_CELL_INDEX));
-            }
-        }
-        return GameStatus.noWin();
+    public List<Row> rows() {
+        return horizontalRows(topRow, middleRow, bottomRow);
     }
 
-    public GameStatus evaluateWinningMoveFor(Symbol symbol) {
-        List<Row> rows = generateRowsForAllDirections(topRow, middleRow, bottomRow);
-        for (Row row : rows) {
-            Cell remainingVacantCell = row.getWinningCellFor(symbol);
-            if (isWinningMoveAt(remainingVacantCell)) {
-                return GameStatus.potentialMoveAt(remainingVacantCell.getOffset());
-            }
-        }
-
-        return GameStatus.noWin();
+    public void reset() {
+        topRow.reset();
+        middleRow.reset();
+        bottomRow.reset();
     }
 
     private int getOppositeCornerOf(int index) {
         return DIAGONAL_OPPOSITE_CORNERS.get(index);
     }
 
-    public List<Row> rows() {
-        return horizontalRows(topRow, middleRow, bottomRow);
-    }
-
     private GameStatus checkForPotentialForkUsingOppositeCorners(Row row, Symbol symbol, Function<Row, Integer> function) {
         if (vacantLShapedFormationAround(row, symbol)) {
-            return GameStatus.potentialMoveAt(function.apply(row));
+            return potentialMoveAt(function.apply(row));
         }
 
-        return GameStatus.noPotentialMove();
+        return noPotentialMove();
     }
 
     private boolean vacantLShapedFormationAround(Row row, Symbol symbol) {
@@ -161,6 +162,15 @@ public class Grid {
         return row.isVacant() || row.freeRowWithOccupiedCorner(symbol);
     }
 
+    private GameStatus evaluateForForksAroundEdgeOfGrid(Row rowToConsider, Symbol symbol) {
+        Function<Row, Integer> freeCornerInRow = Row::getIndexOfFreeCorner;
+        GameStatus gameStatus = checkForPotentialForkUsingOppositeCorners(rowToConsider, symbol, freeCornerInRow);
+        if (gameStatus.hasPotentialMove()) {
+            return gameStatus;
+        }
+        return gameStatus;
+    }
+
     private Row determineRowFrom(int index) {
         if (index < NUMBER_OF_CELLS_IN_ROW) {
             return topRow;
@@ -173,12 +183,6 @@ public class Grid {
 
     private boolean isWinningMoveAt(Cell remainingVacantCell) {
         return remainingVacantCell != null;
-    }
-
-    public void reset() {
-        topRow.reset();
-        middleRow.reset();
-        bottomRow.reset();
     }
 }
 

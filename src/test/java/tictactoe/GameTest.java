@@ -6,7 +6,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import tictactoe.grid.Grid;
-import tictactoe.grid.status.GameStatus;
 import tictactoe.player.Player;
 import tictactoe.prompt.Prompt;
 
@@ -15,6 +14,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.X;
+import static tictactoe.grid.status.GameStatus.noWin;
+import static tictactoe.grid.status.GameStatus.winFor;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GameTest {
@@ -35,7 +36,7 @@ public class GameTest {
 
     @Test
     public void gameEndsWhenNineMovesHaveBeenMade() {
-        when(grid.evaluateWinningStatus()).thenReturn(GameStatus.noWin());
+        when(grid.evaluateWinningStatus()).thenReturn(noWin());
         when(prompt.readsInput()).thenReturn(DONT_REPLAY_GAME);
 
         game.play();
@@ -47,7 +48,7 @@ public class GameTest {
 
     @Test
     public void gameEndsWhenGridContainsThreeXsInARow() {
-        when(grid.evaluateWinningStatus()).thenReturn(GameStatus.winFor(X));
+        when(grid.evaluateWinningStatus()).thenReturn(winFor(X));
         when(prompt.readsInput()).thenReturn(DONT_REPLAY_GAME);
 
         game.play();
@@ -58,7 +59,7 @@ public class GameTest {
 
     @Test
     public void gameEndsWhenGridContainsThreeOsInARow() {
-        when(grid.evaluateWinningStatus()).thenReturn(GameStatus.winFor(O));
+        when(grid.evaluateWinningStatus()).thenReturn(winFor(O));
         when(prompt.readsInput()).thenReturn(DONT_REPLAY_GAME);
 
         game.play();
@@ -71,7 +72,7 @@ public class GameTest {
     public void gridIsUpdatedOnceAPlayerHasMadeTheirMove() {
         when(playerO.nextMoveOn(grid)).thenReturn(3);
         when(playerO.getSymbol()).thenReturn(O);
-        when(grid.evaluateWinningStatus()).thenReturn(GameStatus.winFor(O));
+        when(grid.evaluateWinningStatus()).thenReturn(winFor(O));
         when(prompt.readsInput()).thenReturn(DONT_REPLAY_GAME);
 
         game.play();
@@ -81,7 +82,7 @@ public class GameTest {
 
     @Test
     public void repromptPlayerToStartANewGame() {
-        when(grid.evaluateWinningStatus()).thenReturn(GameStatus.noWin());
+        when(grid.evaluateWinningStatus()).thenReturn(noWin());
         when(prompt.readsInput()).thenReturn(REPLAY_GAME).thenReturn(DONT_REPLAY_GAME);
 
         game.play();

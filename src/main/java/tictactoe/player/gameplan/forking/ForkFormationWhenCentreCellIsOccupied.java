@@ -14,7 +14,6 @@ public class ForkFormationWhenCentreCellIsOccupied implements GamePlan {
                 return gameStatus.getIndexOfMove();
             }
         }
-
         return NO_SUGGESTED_MOVE;
     }
 }

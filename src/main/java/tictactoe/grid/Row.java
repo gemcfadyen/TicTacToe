@@ -34,9 +34,8 @@ public class Row {
 
     public boolean isWinningRow() {
         Symbol symbol = getSymbolAt(FIRST_CELL_INDEX);
-        return (symbol == VACANT)
-                ? false
-                : all(cells, checkAllCellsHaveTheSame(symbol));
+        return symbol != VACANT
+                && all(cells, checkAllCellsHaveTheSame(symbol));
     }
 
     public void putSymbolAt(int offset, Symbol symbol) {
@@ -85,10 +84,8 @@ public class Row {
         Iterable<Cell> vacantCell = filter(cells, cell -> cell.getSymbol() == VACANT);
         Iterable<Cell> cellsWithSymbol = filter(cells, cell -> cell.getSymbol() == symbol && cell.isCorner());
 
-        return (size(vacantCell) == NUMBER_OF_CELLS_IN_ROW - 1
-                && size(cellsWithSymbol) == 1)
-                ? true
-                : false;
+        return size(vacantCell) == NUMBER_OF_CELLS_IN_ROW - 1
+                && size(cellsWithSymbol) == 1;
     }
 
     public int getCellOffsetOf(Symbol symbol) {

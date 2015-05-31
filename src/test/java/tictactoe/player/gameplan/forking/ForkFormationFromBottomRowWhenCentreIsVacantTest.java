@@ -57,5 +57,4 @@ public class ForkFormationFromBottomRowWhenCentreIsVacantTest {
 
         assertThat(fork.execute(grid, X), is(-1));
     }
-
 }
