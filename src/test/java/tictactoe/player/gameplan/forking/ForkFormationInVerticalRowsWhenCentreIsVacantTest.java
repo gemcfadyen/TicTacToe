@@ -1,8 +1,13 @@
 package tictactoe.player.gameplan.forking;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import tictactoe.grid.Grid;
 import tictactoe.grid.Row;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -13,49 +18,51 @@ import static tictactoe.grid.Grid.BOTTOM_ROW_OFFSET;
 import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 import static tictactoe.grid.RowBuilder.aRowBuilder;
 
+@RunWith(Parameterized.class)
 public class ForkFormationInVerticalRowsWhenCentreIsVacantTest {
     private static final int NO_SUGGESTED_MOVE = -1;
+    private final Row topRow;
+    private final Row bottomRow;
+    private final Row middleRow;
+    private final int freeCellIndex;
+
     private ForkFormationInVerticalRowsWhenCentreIsVacant fork = new ForkFormationInVerticalRowsWhenCentreIsVacant();
 
-    // X O -
-    // -
-    // * - -
-    @Test
-    public void whenCentreIsNotTakenAndBottomHorizontalIsVacantStartFork() {
-        Row topRow = aRowBuilder().withHorizontalRow(X, O, VACANT, 0).build();
-        Row middleRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
-        Row bottomRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
-
-        Grid grid = new Grid(topRow, middleRow, bottomRow);
-
-        assertThat(fork.execute(grid, X), is(6));
+    public ForkFormationInVerticalRowsWhenCentreIsVacantTest(Row top, Row middle, Row bottom, int index) {
+        this.topRow = top;
+        this.middleRow = middle;
+        this.bottomRow = bottom;
+        this.freeCellIndex = index;
     }
 
-    // * - O
-    // - - -
-    // X - -
-    @Test
-    public void whenCentreIsNotTakenAndRightVerticalCornerIsVacantStartFork() {
-        Row topRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, O, 0).build();
-        Row middleRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
-        Row bottomRow = aRowBuilder().withHorizontalRow(X, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
-
-        Grid grid = new Grid(topRow, middleRow, bottomRow);
-
-        assertThat(fork.execute(grid, X), is(0));
+    @Parameterized.Parameters
+    public static Collection dataSetup() {
+        return Arrays.asList(new Object[][]{
+                {
+                        aRowBuilder().withHorizontalRow(X, O, VACANT, 0).build(),
+                        aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build(),
+                        aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build(),
+                        6
+                },
+                {
+                        aRowBuilder().withHorizontalRow(VACANT, VACANT, O, 0).build(),
+                        aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build(),
+                        aRowBuilder().withHorizontalRow(X, VACANT, VACANT, BOTTOM_ROW_OFFSET).build(),
+                        0
+                },
+                {
+                        aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, 0).build(),
+                        aRowBuilder().withHorizontalRow(VACANT, O, VACANT, NUMBER_OF_CELLS_IN_ROW).build(),
+                        aRowBuilder().withHorizontalRow(X, VACANT, VACANT, BOTTOM_ROW_OFFSET).build(),
+                        NO_SUGGESTED_MOVE
+                }
+        });
     }
 
-    // - - -
-    // - O -
-    // X - -
     @Test
-    public void doesNotFindForkIfCentreCellIsTaken() {
-        Row topRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, 0).build();
-        Row middleRow = aRowBuilder().withHorizontalRow(VACANT, O, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
-        Row bottomRow = aRowBuilder().withHorizontalRow(X, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
-
+    public void startForks() {
         Grid grid = new Grid(topRow, middleRow, bottomRow);
 
-        assertThat(fork.execute(grid, X), is(NO_SUGGESTED_MOVE));
+        assertThat(fork.execute(grid, X), is(freeCellIndex));
     }
 }
