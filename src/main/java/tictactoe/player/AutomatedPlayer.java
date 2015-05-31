@@ -13,15 +13,18 @@ import tictactoe.player.gameplan.forking.ForkFormationFromTopRowWhenCentreIsVaca
 import tictactoe.player.gameplan.forking.ForkFormationInVerticalRowsWhenCentreIsVacant;
 import tictactoe.player.gameplan.forking.ForkFormationWhenCentreCellIsOccupied;
 import tictactoe.player.gameplan.winningmoves.TakeWinningMove;
+import tictactoe.prompt.Prompt;
 
 public class AutomatedPlayer implements Player {
     private static final int NO_WINNING_MOVE = -1;
 
     private final Symbol symbol;
     private final GamePlan[] orderedGamePlan;
+    private final Prompt prompt;
 
-    public AutomatedPlayer(Symbol symbol) {
+    public AutomatedPlayer(Symbol symbol, Prompt prompt) {
         this.symbol = symbol;
+        this.prompt = prompt;
         this.orderedGamePlan = orderedGamePlan();
     }
 
@@ -29,7 +32,9 @@ public class AutomatedPlayer implements Player {
     public int nextMoveOn(Grid grid) {
         for (GamePlan gamePlan : orderedGamePlan) {
             int move = gamePlan.execute(grid, symbol);
+
             if (move != NO_WINNING_MOVE) {
+                prompt.display(move);
                 return move;
             }
         }

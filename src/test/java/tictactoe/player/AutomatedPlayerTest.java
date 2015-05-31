@@ -1,14 +1,18 @@
 package tictactoe.player;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import tictactoe.grid.Grid;
+import tictactoe.prompt.Prompt;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.X;
@@ -18,8 +22,16 @@ import static tictactoe.grid.status.GameStatus.potentialMoveAt;
 @RunWith(MockitoJUnitRunner.class)
 public class AutomatedPlayerTest {
     private static final int NO_WINNING_MOVE = -1;
-    private Player automatedPlayer = new AutomatedPlayer(X);
+
     @Mock private Grid grid;
+    @Mock private Prompt prompt;
+
+    private Player automatedPlayer;
+
+    @Before
+    public void setup() {
+        automatedPlayer = new AutomatedPlayer(X, prompt);
+    }
 
     @Test
     public void returnsPlayerSymbol() {
@@ -34,6 +46,15 @@ public class AutomatedPlayerTest {
     }
 
     @Test
+    public void displaysMoveThatWasTaken() {
+        when(grid.evaluateWinningMoveFor(X)).thenReturn(potentialMoveAt(2));
+
+        automatedPlayer.nextMoveOn(grid);
+
+        verify(prompt).display(2);
+    }
+
+    @Test
     public void noStrategicMoveAvailable() {
         noSuggestedMovesForAutomatedPlayer();
         noPotentialForksForOpponent();
@@ -43,6 +64,7 @@ public class AutomatedPlayerTest {
         when(grid.getVacantCell()).thenReturn(noPotentialMove());
 
         assertThat(automatedPlayer.nextMoveOn(grid), is(NO_WINNING_MOVE));
+        verifyZeroInteractions(prompt);
     }
 
     @Test

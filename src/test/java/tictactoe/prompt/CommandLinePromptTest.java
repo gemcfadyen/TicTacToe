@@ -83,6 +83,16 @@ public class CommandLinePromptTest {
         assertThat(stringWriter.toString(), is(equalTo(expectedGridDisplay.toString())));
     }
 
+    @Test
+    public void displaysIndexOfMoveTaken() {
+        Prompt commandLinePrompt = createCommandLinePrompt();
+
+        commandLinePrompt.display(2);
+
+        assertThat(stringWriter.toString(), is("\nPlacing symbol at 2\n"));
+    }
+
+
     @Test(expected = RuntimeException.class)
     public void exceptionIsThrownWhenThereIsAnErrorInReading() throws IOException {
         Prompt commandLinePrompt = createPromptWithMockedReaderAndWriterWhichThrowExceptions();

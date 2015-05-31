@@ -11,6 +11,7 @@ import java.util.List;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.X;
 import static tictactoe.grid.GridFactory.createEmptyGrid;
+import static tictactoe.player.PlayerFactory.createAutomatedPlayer;
 import static tictactoe.player.PlayerFactory.createHumanPlayer;
 import static tictactoe.prompt.PromptFactory.createCommandLinePrompt;
 
@@ -26,7 +27,7 @@ public class Game {
     Game() {
         grid = createEmptyGrid();
         prompt = createCommandLinePrompt();
-        players = initialiseOrderOfPlayers(createHumanPlayer(O, prompt), createHumanPlayer(X, prompt));
+        players = initialiseOrderOfPlayers(createAutomatedPlayer(X, prompt), createHumanPlayer(O, prompt));
     }
 
     protected Game(Grid grid, Player playerO, Player playerX, Prompt prompt) {

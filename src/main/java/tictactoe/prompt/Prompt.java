@@ -14,4 +14,5 @@ public interface Prompt {
     void displayWinningMessageFor(Symbol symbol);
     void displayGameOver();
     void display(List<Row> rows);
+    void display(int move);
 }

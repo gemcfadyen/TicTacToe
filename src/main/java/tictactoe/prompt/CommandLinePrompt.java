@@ -63,6 +63,11 @@ public class CommandLinePrompt implements Prompt {
         writeToConsole(gridDisplay.toString());
     }
 
+    @Override
+    public void display(int move) {
+        writeToConsole(format("Placing symbol at %s", move));
+    }
+
     private StringBuffer prints(Row row) {
         StringBuffer gridDisplay = new StringBuffer();
         gridDisplay.append(" | ");
