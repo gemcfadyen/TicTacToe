@@ -62,14 +62,14 @@ public class Grid {
                 return GameStatus.potentialMoveAt(offset);
             }
         }
-        return GameStatus.noWin();
+        return GameStatus.noPotentialMove();
     }
 
     public GameStatus evaluateForForksWhenCenterIsOccupied(Symbol symbol) {
         Function<Row, Integer> diagonalOppositeCorner = row -> getOppositeCornerOf(row.getCellOffsetOf(symbol));
 
         GameStatus status = checkForPotentialForkUsingOppositeCorners(topRow, symbol, diagonalOppositeCorner);
-        return status.hasPotentialFork()
+        return status.hasPotentialMove()
                 ? status
                 : checkForPotentialForkUsingOppositeCorners(bottomRow, symbol, diagonalOppositeCorner);
 
@@ -78,7 +78,7 @@ public class Grid {
     private GameStatus evaluateForForksAroundEdgeOfGrid(Row rowToConsider, Symbol symbol) {
         Function<Row, Integer> freeCornerInRow = row -> row.getIndexOfFreeCorner();
         GameStatus gameStatus = checkForPotentialForkUsingOppositeCorners(rowToConsider, symbol, freeCornerInRow);
-        if (gameStatus.hasPotentialFork()) {
+        if (gameStatus.hasPotentialMove()) {
             return gameStatus;
         }
         return gameStatus;
@@ -145,10 +145,10 @@ public class Grid {
 
     private GameStatus checkForPotentialForkUsingOppositeCorners(Row row, Symbol symbol, Function<Row, Integer> function) {
         if (vacantLShapedFormationAround(row, symbol)) {
-            return GameStatus.potentialForkAt(function.apply(row));
+            return GameStatus.potentialMoveAt(function.apply(row));
         }
 
-        return GameStatus.noWin();
+        return GameStatus.noPotentialMove();
     }
 
     private boolean vacantLShapedFormationAround(Row row, Symbol symbol) {

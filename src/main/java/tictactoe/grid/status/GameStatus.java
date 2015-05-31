@@ -3,33 +3,16 @@ package tictactoe.grid.status;
 import tictactoe.Symbol;
 import tictactoe.grid.State;
 
-import static tictactoe.grid.State.POTENTIAL_FORK;
+import static tictactoe.grid.State.NO_POTENTIAL_MOVE;
+import static tictactoe.grid.State.NO_WIN;
+import static tictactoe.grid.State.POTENTIAL_MOVE;
 import static tictactoe.grid.State.WIN;
-
-/**
- * Created by Georgina on 19/05/2015.
- */
+import static tictactoe.player.gameplan.GamePlan.NO_SUGGESTED_MOVE;
 
 public final class GameStatus {
     private Symbol winningSymbol;
-    private int indexOfMove;
+    private int indexOfMove = NO_SUGGESTED_MOVE;
     private final State state;
-
-    public static GameStatus noWin() {
-        return new GameStatus(State.NO_WIN);
-    }
-
-    public static GameStatus winFor(Symbol symbol) {
-        return new GameStatus(State.WIN, symbol);
-    }
-
-    public static GameStatus potentialMoveAt(int index) {
-        return new GameStatus(State.POTENTIAL_MOVE, index);
-    }
-
-    public static GameStatus potentialForkAt(int index) {
-        return new GameStatus(State.POTENTIAL_FORK, index);
-    }
 
     private GameStatus(State state) {
         this.state = state;
@@ -45,6 +28,22 @@ public final class GameStatus {
         this.indexOfMove = indexOfMove;
     }
 
+    public static GameStatus noWin() {
+        return new GameStatus(NO_WIN);
+    }
+
+    public static GameStatus winFor(Symbol symbol) {
+        return new GameStatus(WIN, symbol);
+    }
+
+    public static GameStatus potentialMoveAt(int index) {
+        return new GameStatus(POTENTIAL_MOVE, index);
+    }
+
+    public static GameStatus noPotentialMove() {
+        return new GameStatus(NO_POTENTIAL_MOVE);
+    }
+
     public Symbol winningSymbol() {
         return winningSymbol;
     }
@@ -54,16 +53,13 @@ public final class GameStatus {
     }
 
     public boolean hasPotentialMove() {
-        return state == State.POTENTIAL_MOVE;
+        return state == POTENTIAL_MOVE;
     }
 
     public int getIndexOfMove() {
         return indexOfMove;
     }
 
-    public boolean hasPotentialFork() {
-        return state == POTENTIAL_FORK;
-    }
 }
 
 

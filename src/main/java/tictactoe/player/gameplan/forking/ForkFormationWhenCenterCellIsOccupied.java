@@ -13,7 +13,7 @@ public class ForkFormationWhenCenterCellIsOccupied implements GamePlan {
     public int execute(Grid grid, Symbol symbol) {
         if (grid.centerCellTaken()) {
             GameStatus gameStatus = grid.evaluateForForksWhenCenterIsOccupied(symbol);
-            if (gameStatus.hasPotentialFork()) {
+            if (gameStatus.hasPotentialMove()) {
                 return gameStatus.getIndexOfMove();
             }
         }
