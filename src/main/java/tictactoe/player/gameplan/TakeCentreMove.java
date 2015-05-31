@@ -3,13 +3,13 @@ package tictactoe.player.gameplan;
 import tictactoe.Symbol;
 import tictactoe.grid.Grid;
 
-import static tictactoe.grid.Grid.CENTER;
+import static tictactoe.grid.Grid.CENTRE;
 
-public class TakeCenterMove implements GamePlan {
+public class TakeCentreMove implements GamePlan {
     @Override
     public int execute(Grid grid, Symbol symbol) {
-        return grid.centerCellTaken()
+        return grid.centreCellTaken()
                 ? NO_SUGGESTED_MOVE
-                : CENTER;
+                : CENTRE;
     }
 }

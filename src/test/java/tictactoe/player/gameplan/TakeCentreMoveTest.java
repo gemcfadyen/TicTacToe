@@ -8,22 +8,22 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.X;
-import static tictactoe.grid.Grid.CENTER;
+import static tictactoe.grid.Grid.CENTRE;
 import static tictactoe.player.gameplan.GamePlan.NO_SUGGESTED_MOVE;
 
-public class TakeCenterMoveTest {
-    private TakeCenterMove takeCenterMove = new TakeCenterMove();
+public class TakeCentreMoveTest {
+    private TakeCentreMove takeCentreMove = new TakeCentreMove();
 
     @Test
-    public void takesCenterMove() {
+    public void takesCentreMove() {
         Grid grid = GridFactory.createEmptyGrid();
-        assertThat(takeCenterMove.execute(grid, X), is(CENTER));
+        assertThat(takeCentreMove.execute(grid, X), is(CENTRE));
     }
 
     @Test
-    public void noSuggestedMoveWhenCenterCellIsOccupied() {
+    public void noSuggestedMoveWhenCentreCellIsOccupied() {
         Grid grid = GridFactory.createEmptyGrid();
-        grid.update(CENTER, O);
-        assertThat(takeCenterMove.execute(grid, X), is(NO_SUGGESTED_MOVE));
+        grid.update(CENTRE, O);
+        assertThat(takeCentreMove.execute(grid, X), is(NO_SUGGESTED_MOVE));
     }
 }

@@ -13,8 +13,8 @@ import static tictactoe.grid.Grid.BOTTOM_ROW_OFFSET;
 import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 import static tictactoe.grid.RowBuilder.aRowBuilder;
 
-public class ForkFormationWhenCenterCellIsOccupiedTest {
-    private ForkFormationWhenCenterCellIsOccupied fork = new ForkFormationWhenCenterCellIsOccupied();
+public class ForkFormationWhenCentreCellIsOccupiedTest {
+    private ForkFormationWhenCentreCellIsOccupied fork = new ForkFormationWhenCentreCellIsOccupied();
 
     @Test
     public void takeOppositeCornerOfTopLeftToStartFork() {
@@ -61,7 +61,7 @@ public class ForkFormationWhenCenterCellIsOccupiedTest {
     }
 
     @Test
-    public void doesNotFindForkIfCenterIsVacant() {
+    public void doesNotFindForkIfCentreIsVacant() {
         Row topRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, 0).build();
         Row middleRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, O, NUMBER_OF_CELLS_IN_ROW).build();
         Row bottomRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, X, BOTTOM_ROW_OFFSET).build();

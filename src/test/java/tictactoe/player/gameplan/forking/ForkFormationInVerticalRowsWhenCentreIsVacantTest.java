@@ -13,42 +13,42 @@ import static tictactoe.grid.Grid.BOTTOM_ROW_OFFSET;
 import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 import static tictactoe.grid.RowBuilder.aRowBuilder;
 
-public class ForkFormationFromBottomRowWhenCenterIsVacantTest {
-   private ForkFormationFromBottomRowWhenCenterIsVacant fork = new ForkFormationFromBottomRowWhenCenterIsVacant();
+public class ForkFormationInVerticalRowsWhenCentreIsVacantTest {
+   private ForkFormationInVerticalRowsWhenCentreIsVacant fork = new ForkFormationInVerticalRowsWhenCentreIsVacant();
 
-    // - - -
-    // - - O
-    // * - X
+    // X O -
+    // -
+    // * - -
     @Test
-    public void whenCentreIsNotTakenAndLeftHorizontalIsVacantStartFork() {
-        Row topRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, 0).build();
-        Row middleRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, O, NUMBER_OF_CELLS_IN_ROW).build();
-        Row bottomRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, X, BOTTOM_ROW_OFFSET).build();
+    public void whenCentreIsNotTakenAndBottomHorizontalIsVacantStartFork() {
+        Row topRow = aRowBuilder().withHorizontalRow(X, O, VACANT, 0).build();
+        Row middleRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
+        Row bottomRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
 
         Grid grid = new Grid(topRow, middleRow, bottomRow);
 
         assertThat(fork.execute(grid, X), is(6));
     }
 
+    // * - O
     // - - -
-    // O - -
-    // X - *
+    // X - -
     @Test
-    public void whenCentreIsNotTakenAndRightHorizontalIsVacantStartFork() {
-        Row topRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, 0).build();
-        Row middleRow = aRowBuilder().withHorizontalRow(O, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
+    public void whenCentreIsNotTakenAndRightVerticalCornerIsVacantStartFork() {
+        Row topRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, O, 0).build();
+        Row middleRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
         Row bottomRow = aRowBuilder().withHorizontalRow(X, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
 
         Grid grid = new Grid(topRow, middleRow, bottomRow);
 
-        assertThat(fork.execute(grid, X), is(8));
+        assertThat(fork.execute(grid, X), is(0));
     }
 
     // - - -
     // - O -
     // X - -
     @Test
-    public void doesNotFindForkIfCenterCellIsTaken() {
+    public void doesNotFindForkIfCentreCellIsTaken() {
         Row topRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, 0).build();
         Row middleRow = aRowBuilder().withHorizontalRow(VACANT, O, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
         Row bottomRow = aRowBuilder().withHorizontalRow(X, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
@@ -57,5 +57,4 @@ public class ForkFormationFromBottomRowWhenCenterIsVacantTest {
 
         assertThat(fork.execute(grid, X), is(-1));
     }
-
 }

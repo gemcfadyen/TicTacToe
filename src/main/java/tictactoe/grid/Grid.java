@@ -18,7 +18,7 @@ public class Grid {
     public static final int NUMBER_OF_CELLS_IN_ROW = 3;
     public static final int TOTAL_CELLS = NUMBER_OF_CELLS_IN_ROW * NUMBER_OF_CELLS_IN_ROW;
     public static final int BOTTOM_ROW_OFFSET = NUMBER_OF_CELLS_IN_ROW * 2;
-    public static final int CENTER = TOTAL_CELLS / 2;
+    public static final int CENTRE = TOTAL_CELLS / 2;
 
     protected static final int LEFT_CELL_INDEX = 0;
 
@@ -62,7 +62,7 @@ public class Grid {
         return GameStatus.noPotentialMove();
     }
 
-    public GameStatus evaluateForForksWhenCenterIsOccupied(Symbol symbol) {
+    public GameStatus evaluateForForksWhenCentreIsOccupied(Symbol symbol) {
         Function<Row, Integer> diagonalOppositeCorner = row -> getOppositeCornerOf(row.getCellOffsetOf(symbol));
 
         GameStatus status = checkForPotentialForkUsingOppositeCorners(topRow, symbol, diagonalOppositeCorner);
@@ -95,8 +95,8 @@ public class Grid {
                 symbol);
     }
 
-    public boolean centerCellTaken() {
-        return !isEmptyAt(CENTER);
+    public boolean centreCellTaken() {
+        return !isEmptyAt(CENTRE);
     }
 
     public void update(int offset, Symbol symbol) {

@@ -5,11 +5,11 @@ import tictactoe.grid.Grid;
 import tictactoe.grid.status.GameStatus;
 import tictactoe.player.gameplan.GamePlan;
 
-public class ForkFormationFromTopRowWhenCenterIsVacant implements GamePlan {
+public class ForkFormationFromBottomRowWhenCentreIsVacant implements GamePlan {
     @Override
     public int execute(Grid grid, Symbol symbol) {
-        if (!grid.centerCellTaken()) {
-            GameStatus gameStatus = grid.evaluateForksFromTopRow(symbol);
+        if (!grid.centreCellTaken()) {
+            GameStatus gameStatus = grid.evaluateForksFromBottomRow(symbol);
             if (gameStatus.hasPotentialMove()) {
                 return gameStatus.getIndexOfMove();
             }

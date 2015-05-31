@@ -4,14 +4,14 @@ import tictactoe.Symbol;
 import tictactoe.grid.Grid;
 import tictactoe.player.gameplan.Block;
 import tictactoe.player.gameplan.GamePlan;
-import tictactoe.player.gameplan.TakeCenterMove;
+import tictactoe.player.gameplan.TakeCentreMove;
 import tictactoe.player.gameplan.TakeVacantCellMove;
 import tictactoe.player.gameplan.cornermoves.TakeOppositeCornerMove;
 import tictactoe.player.gameplan.cornermoves.TopLeftCornerMove;
-import tictactoe.player.gameplan.forking.ForkFormationFromBottomRowWhenCenterIsVacant;
-import tictactoe.player.gameplan.forking.ForkFormationFromTopRowWhenCenterIsVacant;
-import tictactoe.player.gameplan.forking.ForkFormationInVerticalRowsWhenCenterIsVacant;
-import tictactoe.player.gameplan.forking.ForkFormationWhenCenterCellIsOccupied;
+import tictactoe.player.gameplan.forking.ForkFormationFromBottomRowWhenCentreIsVacant;
+import tictactoe.player.gameplan.forking.ForkFormationFromTopRowWhenCentreIsVacant;
+import tictactoe.player.gameplan.forking.ForkFormationInVerticalRowsWhenCentreIsVacant;
+import tictactoe.player.gameplan.forking.ForkFormationWhenCentreCellIsOccupied;
 import tictactoe.player.gameplan.winningmoves.TakeWinningMove;
 
 public class AutomatedPlayer implements Player {
@@ -49,17 +49,17 @@ public class AutomatedPlayer implements Player {
 
                 new TopLeftCornerMove(),
 
-                new ForkFormationWhenCenterCellIsOccupied(),
-                new ForkFormationFromTopRowWhenCenterIsVacant(),
-                new ForkFormationInVerticalRowsWhenCenterIsVacant(),
-                new ForkFormationFromBottomRowWhenCenterIsVacant(),
+                new ForkFormationWhenCentreCellIsOccupied(),
+                new ForkFormationFromTopRowWhenCentreIsVacant(),
+                new ForkFormationInVerticalRowsWhenCentreIsVacant(),
+                new ForkFormationFromBottomRowWhenCentreIsVacant(),
 
-                new Block(new ForkFormationWhenCenterCellIsOccupied()),
-                new Block(new ForkFormationFromTopRowWhenCenterIsVacant()),
-                new Block(new ForkFormationInVerticalRowsWhenCenterIsVacant()),
-                new Block(new ForkFormationFromBottomRowWhenCenterIsVacant()),
+                new Block(new ForkFormationWhenCentreCellIsOccupied()),
+                new Block(new ForkFormationFromTopRowWhenCentreIsVacant()),
+                new Block(new ForkFormationInVerticalRowsWhenCentreIsVacant()),
+                new Block(new ForkFormationFromBottomRowWhenCentreIsVacant()),
 
-                new TakeCenterMove(),
+                new TakeCentreMove(),
                 new TakeOppositeCornerMove(),
                 new TakeVacantCellMove()
         };
