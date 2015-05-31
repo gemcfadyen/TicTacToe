@@ -35,7 +35,7 @@ public class AutomatedPlayer implements Player {
             int move = gamePlan.execute(grid, symbol);
 
             if (move != NO_WINNING_MOVE) {
-                prompt.display(move);
+                prompt.display(symbol, move);
                 return move;
             }
         }

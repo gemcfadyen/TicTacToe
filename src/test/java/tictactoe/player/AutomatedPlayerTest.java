@@ -51,7 +51,7 @@ public class AutomatedPlayerTest {
 
         automatedPlayer.nextMoveOn(grid);
 
-        verify(prompt).display(2);
+        verify(prompt).display(X, 2);
     }
 
     @Test

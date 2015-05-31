@@ -87,9 +87,9 @@ public class CommandLinePromptTest {
     public void displaysIndexOfMoveTaken() {
         Prompt commandLinePrompt = createCommandLinePrompt();
 
-        commandLinePrompt.display(2);
+        commandLinePrompt.display(X, 2);
 
-        assertThat(stringWriter.toString(), is("\nPlacing symbol at 2\n"));
+        assertThat(stringWriter.toString(), is("\nPlacing symbol X at 2\n"));
     }
 
 

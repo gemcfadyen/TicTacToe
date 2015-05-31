@@ -64,8 +64,8 @@ public class CommandLinePrompt implements Prompt {
     }
 
     @Override
-    public void display(int move) {
-        writeToConsole(format("Placing symbol at %s", move));
+    public void display(Symbol symbol, int move) {
+        writeToConsole(format("Placing symbol %s at %s", symbol, move));
     }
 
     private StringBuffer prints(Row row) {
