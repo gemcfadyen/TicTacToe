@@ -63,6 +63,18 @@ public class ForkFormationInDiagonalsWhenCentreIsVacantTest {
                         2
                 },
                 {
+                        aRowBuilder().withHorizontalRow(X, O, X, 0).build(),
+                        aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build(),
+                        aRowBuilder().withHorizontalRow(O, VACANT, VACANT, BOTTOM_ROW_OFFSET).build(),
+                        8
+                },
+                {
+                        aRowBuilder().withHorizontalRow(O, VACANT, VACANT, 0).build(),
+                        aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build(),
+                        aRowBuilder().withHorizontalRow(X, O, X, BOTTOM_ROW_OFFSET).build(),
+                        2
+                },
+                {
                         aRowBuilder().withHorizontalRow(X, VACANT, VACANT, 0).build(),
                         aRowBuilder().withHorizontalRow(O, O, VACANT, NUMBER_OF_CELLS_IN_ROW).build(),
                         aRowBuilder().withHorizontalRow(X, VACANT, O, BOTTOM_ROW_OFFSET).build(),

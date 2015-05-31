@@ -200,6 +200,32 @@ public class GridCreateForkFormationTest {
     }
 
     @Test
+    public void forkFormationAroundLeftDiagonalWithVerticalRow() {
+        Row topRow = aRowBuilder().withHorizontalRow(X, O, X, 0).build();
+        Row middleRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
+        Row bottomRow = aRowBuilder().withHorizontalRow(O, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
+
+        Grid grid = new Grid(topRow, middleRow, bottomRow);
+        GameStatus gameStatus = grid.evaluateForksFromDiagonalRows(X);
+
+        assertThat(gameStatus.hasPotentialMove(), is(true));
+        assertThat(gameStatus.getIndexOfMove(), is(8));
+    }
+
+    @Test
+    public void forkFormationAroundRightDiagonalWithVerticalRow() {
+        Row topRow = aRowBuilder().withHorizontalRow(O, VACANT, VACANT, 0).build();
+        Row middleRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
+        Row bottomRow = aRowBuilder().withHorizontalRow(X, O, X, BOTTOM_ROW_OFFSET).build();
+
+        Grid grid = new Grid(topRow, middleRow, bottomRow);
+        GameStatus gameStatus = grid.evaluateForksFromDiagonalRows(X);
+
+        assertThat(gameStatus.hasPotentialMove(), is(true));
+        assertThat(gameStatus.getIndexOfMove(), is(2));
+    }
+
+    @Test
     public void noForksFoundAroundDiagonal() {
         Row topRow = aRowBuilder().withHorizontalRow(X, O, VACANT, 0).build();
         Row middleRow = aRowBuilder().withHorizontalRow(O, X, VACANT, NUMBER_OF_CELLS_IN_ROW).build();

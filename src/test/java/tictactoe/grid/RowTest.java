@@ -107,6 +107,12 @@ public class RowTest {
     }
 
     @Test
+    public void noFreeCornerCells() {
+        Row row = RowBuilder.aRowBuilder().withHorizontalRow(X, O, O, NO_OFFSET).build();
+        assertThat(row.getIndexOfFreeCorner(), is(-1));
+    }
+
+    @Test
     public void resetsRowToEmpty() {
         Row row = RowBuilder.aRowBuilder().withHorizontalRow(VACANT, O, O, NO_OFFSET).build();
 

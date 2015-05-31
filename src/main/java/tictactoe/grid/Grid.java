@@ -166,15 +166,15 @@ public class Grid {
     }
 
     private GameStatus checkForPotentialForksUsingDiagonal(Row diagonalRow, Symbol symbol) {
-        if (vacantLShapedFormationAroundHorizontalRows(symbol, diagonalRow)) {
+        if (vacantLShapedFormationAroundDiagonalRows(symbol, diagonalRow)) {
             return potentialMoveAt(freeCornerFunction().apply(diagonalRow));
         }
         return noPotentialMove();
     }
 
-    private boolean vacantLShapedFormationAroundHorizontalRows(Symbol symbol, Row leftDiagonal) {
-        return leftDiagonal.freeRowWithOccupiedCorner(symbol)
-                && hasForkFormationInHorizontalRows(symbol);
+    private boolean vacantLShapedFormationAroundDiagonalRows(Symbol symbol, Row diagonal) {
+        return diagonal.freeRowWithOccupiedCorner(symbol)
+                && (hasForkFormationInHorizontalRows(symbol) || hasForkFormationInVerticalRows(symbol));
     }
 
     private boolean hasForkFormationInHorizontalRows(Symbol symbol) {

@@ -18,6 +18,8 @@ import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 public class Row {
     protected static final int FIRST_CELL_INDEX = 0;
     private static final Cell NO_CELL = null;
+    private static final int NO_FREE_CORNER = -1;
+
     private List<Cell> cells;
 
     Row(Cell[] cells) {
@@ -96,8 +98,9 @@ public class Row {
     public int getIndexOfFreeCorner() {
         Iterable<Cell> freeCornerCell = filter(cells, cell -> cell.isCorner() && cell.getSymbol() == VACANT);
         Cell first = Iterables.getFirst(freeCornerCell, NO_CELL);
-        System.out.println("Free corner is " + first);
-        return  first.getOffset();
+        return first == null
+                ? NO_FREE_CORNER
+                : first.getOffset();
     }
 
     public void reset() {
