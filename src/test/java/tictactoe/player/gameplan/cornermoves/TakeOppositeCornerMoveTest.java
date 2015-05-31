@@ -3,7 +3,6 @@ package tictactoe.player.gameplan.cornermoves;
 import org.junit.Test;
 import tictactoe.grid.Grid;
 import tictactoe.grid.GridFactory;
-import tictactoe.player.gameplan.cornermoves.TakeOppositeCornerMove;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
