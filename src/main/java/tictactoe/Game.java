@@ -37,6 +37,13 @@ public class Game {
         this.prompt = prompt;
     }
 
+    protected Game(Grid grid, Prompt prompt, Player[] players) {
+        this.grid = grid;
+        this.players = new Player[NUMBER_OF_PLAYERS];
+        this.prompt = prompt;
+        this.players = players;
+    }
+
     public static void main(String[] args) {
         Game game = new Game();
         game.play();

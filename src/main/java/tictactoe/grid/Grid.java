@@ -143,7 +143,7 @@ public class Grid {
                 symbol,
                 LEFT_CELL_INDEX);
 
-        if(!gameStatus.hasPotentialMove()) {
+        if (!gameStatus.hasPotentialMove()) {
             gameStatus = checkForLShapedVacantRowsWithOccupiedCentres(
                     topRow,
                     generateVerticalRow(NUMBER_OF_CELLS_IN_ROW - 1, topRow, middleRow, bottomRow),
@@ -255,13 +255,13 @@ public class Grid {
         return remainingVacantCell != null;
     }
 
-    private boolean midCellOccupied(Row row, Symbol symbol) {
+    private boolean onlyMiddleCellOccupied(Row row, Symbol symbol) {
         return row.freeRowWithOccupiedMiddleCell(symbol);
     }
 
     private GameStatus checkForLShapedVacantRowsWithOccupiedCentres(Row horizontalRow, Row verticalRow, Symbol symbol, int cellIndex) {
-        if (midCellOccupied(horizontalRow, symbol) &&
-                midCellOccupied(verticalRow, symbol)) {
+        if (onlyMiddleCellOccupied(horizontalRow, symbol) && onlyMiddleCellOccupied(verticalRow, symbol)) {
+
             Integer nextMove = horizontalRow.getCellWithOffset(cellIndex).getOffset();
             if (isEmptyAt(nextMove)) {
                 return potentialMoveAt(nextMove);
