@@ -17,12 +17,7 @@ public class TakeEmptyCornerMove extends CornerMove implements GamePlan {
     }
 
     private Predicate<Map.Entry<Integer, Integer>> getVacantCorners(final Grid grid) {
-        return corner -> {
-            if (grid.isEmptyAt(corner.getKey())) {
-                return true;
-            }
-            return false;
-        };
+        return corner -> grid.isEmptyAt(corner.getKey());
     }
 }
 

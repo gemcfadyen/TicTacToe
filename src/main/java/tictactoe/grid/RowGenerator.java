@@ -35,6 +35,20 @@ public class RowGenerator {
                 startingOffset).build();
     }
 
+    protected static Row generateRightDiagonal(Row topRow, Row middleRow, Row bottomRow) {
+        return aRowBuilder().withRightDiagonal(
+                topRow.getSymbolAt(RIGHT_CELL_INDEX),
+                middleRow.getSymbolAt(MIDDLE_CELL_INDEX),
+                bottomRow.getSymbolAt(LEFT_CELL_INDEX)).build();
+    }
+
+    protected static Row generateLeftDiagonal(Row topRow, Row middleRow, Row bottomRow) {
+        return aRowBuilder().withLeftDiagonal(
+                topRow.getSymbolAt(LEFT_CELL_INDEX),
+                middleRow.getSymbolAt(MIDDLE_CELL_INDEX),
+                bottomRow.getSymbolAt(RIGHT_CELL_INDEX)).build();
+    }
+
     private static List<Row> verticalRows(Row topRow, Row middleRow, Row bottomRow) {
         List<Row> rows = newArrayList();
         rows.add(generateVerticalRow(LEFT_CELL_INDEX, topRow, middleRow, bottomRow));
@@ -48,19 +62,5 @@ public class RowGenerator {
         rows.add(generateRightDiagonal(topRow, middleRow, bottomRow));
         rows.add(generateLeftDiagonal(topRow, middleRow, bottomRow));
         return rows;
-    }
-
-    protected static Row generateRightDiagonal(Row topRow, Row middleRow, Row bottomRow) {
-        return aRowBuilder().withRightDiagonal(
-                topRow.getSymbolAt(RIGHT_CELL_INDEX),
-                middleRow.getSymbolAt(MIDDLE_CELL_INDEX),
-                bottomRow.getSymbolAt(LEFT_CELL_INDEX)).build();
-    }
-
-    protected static Row generateLeftDiagonal(Row topRow, Row middleRow, Row bottomRow) {
-        return aRowBuilder().withLeftDiagonal(
-                topRow.getSymbolAt(LEFT_CELL_INDEX),
-                middleRow.getSymbolAt(MIDDLE_CELL_INDEX),
-                bottomRow.getSymbolAt(RIGHT_CELL_INDEX)).build();
     }
 }

@@ -8,10 +8,6 @@ import static tictactoe.grid.Grid.TOTAL_CELLS;
 public final class RowBuilder {
     private Cell[] cells;
 
-    private RowBuilder() {
-
-    }
-
     public static RowBuilder aRowBuilder() {
         return new RowBuilder();
     }

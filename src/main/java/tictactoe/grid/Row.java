@@ -68,20 +68,6 @@ public class Row {
                 : NO_CELL;
     }
 
-    private Predicate<Cell> checkAllCellsHaveTheSame(final Symbol firstSymbol) {
-        return new Predicate<Cell>() {
-            @Override
-            public boolean apply(Cell cell) {
-                return symbolsMatch(cell);
-            }
-
-            private boolean symbolsMatch(Cell cell) {
-                return cell.getSymbol() == firstSymbol;
-            }
-
-        };
-    }
-
     public boolean freeRowWithOccupiedCorner(Symbol symbol) {
         Iterable<Cell> vacantCell = filter(cells, cell -> cell.getSymbol() == VACANT);
         Iterable<Cell> cellsWithSymbol = filter(cells, cell -> cell.getSymbol() == symbol && cell.isCorner());
@@ -107,5 +93,18 @@ public class Row {
         for (Cell cell : cells) {
             cell.setSymbol(VACANT);
         }
+    }
+
+    private Predicate<Cell> checkAllCellsHaveTheSame(final Symbol firstSymbol) {
+        return new Predicate<Cell>() {
+            @Override
+            public boolean apply(Cell cell) {
+                return symbolsMatch(cell);
+            }
+
+            private boolean symbolsMatch(Cell cell) {
+                return cell.getSymbol() == firstSymbol;
+            }
+        };
     }
 }
