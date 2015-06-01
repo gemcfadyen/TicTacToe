@@ -21,13 +21,13 @@ import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 import static tictactoe.grid.RowBuilder.aRowBuilder;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AutomatedForkingPlayerTest {
+public class AutomatedPlayerTest {
     @Mock private Prompt prompt;
     private Player automatedPlayer;
 
     @Before
     public void setup() {
-        automatedPlayer = new AutomatedForkingPlayer(X, prompt);
+        automatedPlayer = new AutomatedPlayer(X, prompt);
     }
 
     @Test
@@ -164,6 +164,28 @@ public class AutomatedForkingPlayerTest {
         );
 
         assertThat(automatedPlayer.nextMoveOn(gridWithOppositeCornerFree), is(8));
+    }
+
+    @Test
+    public void blockOpponentsForkFromCentre() {
+        Grid gridToBlockOpponentsFork = new Grid(
+                aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, 0).build(),
+                aRowBuilder().withHorizontalRow(VACANT, X, VACANT, NUMBER_OF_CELLS_IN_ROW).build(),
+                aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build()
+        );
+
+        assertThat(automatedPlayer.nextMoveOn(gridToBlockOpponentsFork), is(1));
+    }
+
+    @Test
+    public void blockOpponentsForkAroundCorner() {
+        Grid gridToBlockOpponentsFork = new Grid(
+                aRowBuilder().withHorizontalRow(O, VACANT, VACANT, 0).build(),
+                aRowBuilder().withHorizontalRow(VACANT, X, VACANT, NUMBER_OF_CELLS_IN_ROW).build(),
+                aRowBuilder().withHorizontalRow(VACANT, VACANT, O, BOTTOM_ROW_OFFSET).build()
+        );
+
+        assertThat(automatedPlayer.nextMoveOn(gridToBlockOpponentsFork), is(1));
     }
 
     @Test

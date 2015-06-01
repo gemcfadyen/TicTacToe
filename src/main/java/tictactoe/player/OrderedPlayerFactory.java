@@ -17,11 +17,7 @@ public class OrderedPlayerFactory {
     }
 
     private static Player createAutomatedPlayer(Symbol symbol, Prompt prompt) {
-        return new AutomatedForkingPlayer(symbol, prompt);
-    }
-
-    private static Player createAutomatedDefensePlayer(Symbol symbol, Prompt prompt) {
-        return new AutomatedDefensePlayer(symbol, prompt);
+        return new AutomatedPlayer(symbol, prompt);
     }
 
     public static Player[] createPlayersInOrder(String option, Prompt prompt) {
@@ -41,7 +37,7 @@ public class OrderedPlayerFactory {
     private static Player secondPlayer(String option, Prompt prompt) {
         return option.equalsIgnoreCase(AUTOMATED_PLAYER)
                 ? createHumanPlayer(O, prompt)
-                : createAutomatedDefensePlayer(O, prompt);
+                : createAutomatedPlayer(O, prompt);
     }
 
 }

@@ -152,7 +152,11 @@ public class Grid {
 
     private GameStatus checkForPotentialForkUsingOppositeCorners(Row row, Symbol symbol, Function<Row, Integer> function) {
         if (vacantLShapedFormationAroundVerticalRows(row, symbol)) {
-            return potentialMoveAt(function.apply(row));
+
+            Integer nextMove = function.apply(row);
+            if (isEmptyAt(nextMove)) {
+                return potentialMoveAt(nextMove);
+            }
         }
 
         return noPotentialMove();

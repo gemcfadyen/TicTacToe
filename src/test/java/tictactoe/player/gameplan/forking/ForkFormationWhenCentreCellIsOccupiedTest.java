@@ -68,6 +68,12 @@ public class ForkFormationWhenCentreCellIsOccupiedTest {
                         aRowBuilder().withHorizontalRow(VACANT, VACANT, O, NUMBER_OF_CELLS_IN_ROW).build(),
                         aRowBuilder().withHorizontalRow(VACANT, VACANT, X, BOTTOM_ROW_OFFSET).build(),
                         NO_SUGGESTED_MOVE
+                },
+                {
+                        aRowBuilder().withHorizontalRow(O, VACANT, VACANT, 0).build(),
+                        aRowBuilder().withHorizontalRow(VACANT, X, VACANT, NUMBER_OF_CELLS_IN_ROW).build(),
+                        aRowBuilder().withHorizontalRow(VACANT, VACANT, X, BOTTOM_ROW_OFFSET).build(),
+                        NO_SUGGESTED_MOVE
                 }
         });
     }
