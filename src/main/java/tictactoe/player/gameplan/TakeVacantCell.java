@@ -4,7 +4,7 @@ import tictactoe.Symbol;
 import tictactoe.grid.Grid;
 import tictactoe.grid.status.GameStatus;
 
-public class TakeVacantCellMove implements GamePlan {
+public class TakeVacantCell implements GamePlan {
     @Override
     public int execute(Grid grid, Symbol symbol) {
         GameStatus gameStatus = grid.getFirstVacantCell();

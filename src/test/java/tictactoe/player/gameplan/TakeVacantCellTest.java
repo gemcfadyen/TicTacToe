@@ -19,9 +19,9 @@ import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 import static tictactoe.grid.RowBuilder.aRowBuilder;
 
 @RunWith(Parameterized.class)
-public class TakeVacantCellMoveTest {
+public class TakeVacantCellTest {
     private static final int NO_SUGGESTED_MOVE = -1;
-    private TakeVacantCellMove takeVacantCellMove = new TakeVacantCellMove();
+    private TakeVacantCell takeVacantCell = new TakeVacantCell();
 
     private static final int NO_OFFSET = 0;
 
@@ -30,7 +30,7 @@ public class TakeVacantCellMoveTest {
     private final Row middleRow;
     private final int indexOfMove;
 
-    public TakeVacantCellMoveTest(Row top, Row middle, Row bottom, int suggestedMove) {
+    public TakeVacantCellTest(Row top, Row middle, Row bottom, int suggestedMove) {
         this.topRow = top;
         this.middleRow = middle;
         this.bottomRow = bottom;
@@ -73,6 +73,6 @@ public class TakeVacantCellMoveTest {
     public void returnsVacantCell() {
         Grid grid = new Grid(topRow, middleRow, bottomRow);
 
-        assertThat(takeVacantCellMove.execute(grid, X), is(indexOfMove));
+        assertThat(takeVacantCell.execute(grid, X), is(indexOfMove));
     }
 }

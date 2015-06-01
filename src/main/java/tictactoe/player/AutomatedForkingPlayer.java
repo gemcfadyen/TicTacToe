@@ -4,10 +4,10 @@ import tictactoe.Symbol;
 import tictactoe.player.gameplan.Block;
 import tictactoe.player.gameplan.GamePlan;
 import tictactoe.player.gameplan.TakeCentreMove;
-import tictactoe.player.gameplan.TakeVacantCellMove;
-import tictactoe.player.gameplan.cornermoves.TakeEmptyCornerMove;
-import tictactoe.player.gameplan.cornermoves.TakeOppositeCornerToOpponentMove;
-import tictactoe.player.gameplan.cornermoves.TopLeftCornerMove;
+import tictactoe.player.gameplan.TakeVacantCell;
+import tictactoe.player.gameplan.cornermoves.TakeEmptyCorner;
+import tictactoe.player.gameplan.cornermoves.TakeOppositeCornerToOpponent;
+import tictactoe.player.gameplan.cornermoves.TopLeftCorner;
 import tictactoe.player.gameplan.forking.ForkFormationFromBottomRowWhenCentreIsVacant;
 import tictactoe.player.gameplan.forking.ForkFormationFromTopRowWhenCentreIsVacant;
 import tictactoe.player.gameplan.forking.ForkFormationInDiagonalsWhenCentreIsVacant;
@@ -27,7 +27,7 @@ public class AutomatedForkingPlayer extends AutomatedPlayer implements Player {
                 new TakeWinningMove(),
                 new Block(new TakeWinningMove()),
 
-                new TopLeftCornerMove(),
+                new TopLeftCorner(),
 
                 new ForkFormationWhenCentreCellIsOccupied(),
                 new ForkFormationFromTopRowWhenCentreIsVacant(),
@@ -36,9 +36,9 @@ public class AutomatedForkingPlayer extends AutomatedPlayer implements Player {
                 new ForkFormationInDiagonalsWhenCentreIsVacant(),
 
                 new TakeCentreMove(),
-                new TakeOppositeCornerToOpponentMove(),
-                new TakeEmptyCornerMove(),
-                new TakeVacantCellMove()
+                new TakeOppositeCornerToOpponent(),
+                new TakeEmptyCorner(),
+                new TakeVacantCell()
         };
     }
 }

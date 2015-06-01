@@ -1,4 +1,4 @@
-package tictactoe.player.gameplan.cornermoves;
+package tictactoe.player.gameplan;
 
 import com.google.common.base.Predicate;
 

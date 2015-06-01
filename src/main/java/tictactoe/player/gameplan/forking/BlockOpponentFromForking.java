@@ -3,8 +3,8 @@ package tictactoe.player.gameplan.forking;
 import com.google.common.base.Predicate;
 import tictactoe.Symbol;
 import tictactoe.grid.Grid;
+import tictactoe.player.gameplan.CornerMove;
 import tictactoe.player.gameplan.GamePlan;
-import tictactoe.player.gameplan.cornermoves.CornerMove;
 
 import java.util.Map;
 
