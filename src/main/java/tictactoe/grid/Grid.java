@@ -59,13 +59,15 @@ public class Grid {
         return allEmpty;
     }
 
-    public GameStatus getVacantCell() {
-        for (int offset = LEFT_CELL_INDEX; offset < TOTAL_CELLS; offset++) {
-            if (isEmptyAt(offset)) {
-                return potentialMoveAt(offset);
-            }
-        }
-        return noPotentialMove();
+    public GameStatus getVacantCellOnEdge() {
+        Function<Integer, Boolean> emptyCellThatIsNotCorner = offset -> isEmptyAt(offset)
+                && !DIAGONAL_OPPOSITE_CORNERS.containsKey(offset);
+        return getVacantCell(emptyCellThatIsNotCorner);
+    }
+
+
+    public GameStatus getFirstVacantCell() {
+        return getVacantCell(offset -> isEmptyAt(offset));
     }
 
     public GameStatus evaluateForForksWhenCentreIsOccupied(Symbol symbol) {
@@ -184,6 +186,15 @@ public class Grid {
 
     private boolean checkForkInVertical(Row row, Symbol symbol) {
         return row.isVacant() || row.freeRowWithOccupiedCorner(symbol);
+    }
+
+    private GameStatus getVacantCell(Function<Integer, Boolean> cellConditions) {
+        for (int offset = LEFT_CELL_INDEX; offset < TOTAL_CELLS; offset++) {
+            if (cellConditions.apply(offset)) {
+                return potentialMoveAt(offset);
+            }
+        }
+        return noPotentialMove();
     }
 
     private Function<Row, Integer> freeCornerFunction() {

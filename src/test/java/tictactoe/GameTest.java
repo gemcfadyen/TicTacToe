@@ -21,6 +21,8 @@ import static tictactoe.grid.status.GameStatus.winFor;
 public class GameTest {
     private static final String DONT_REPLAY_GAME = "N";
     private static final String REPLAY_GAME = "Y";
+    private static final String INVALID = "invalid";
+    private static final String VALID_CHOICE = "A";
 
     @Mock private Player playerO;
     @Mock private Player playerX;
@@ -31,13 +33,19 @@ public class GameTest {
 
     @Before
     public void setup() {
-        game = new Game(grid, playerO, playerX, prompt);
+        game = new Game(grid, prompt) {
+            protected Player[] initialiseOrderedPlayers(String typeOfPlayerToGoFirst) {
+                return new Player[] {
+                        playerO, playerX
+                };
+            }
+        };
     }
 
     @Test
     public void gameEndsWhenNineMovesHaveBeenMade() {
         when(grid.evaluateWinningStatus()).thenReturn(noWin());
-        when(prompt.readsInput()).thenReturn(DONT_REPLAY_GAME);
+        when(prompt.readsInput()).thenReturn(VALID_CHOICE).thenReturn(DONT_REPLAY_GAME);
 
         game.play();
 
@@ -49,7 +57,7 @@ public class GameTest {
     @Test
     public void gameEndsWhenGridContainsThreeXsInARow() {
         when(grid.evaluateWinningStatus()).thenReturn(winFor(X));
-        when(prompt.readsInput()).thenReturn(DONT_REPLAY_GAME);
+        when(prompt.readsInput()).thenReturn(VALID_CHOICE).thenReturn(DONT_REPLAY_GAME);
 
         game.play();
 
@@ -60,7 +68,7 @@ public class GameTest {
     @Test
     public void gameEndsWhenGridContainsThreeOsInARow() {
         when(grid.evaluateWinningStatus()).thenReturn(winFor(O));
-        when(prompt.readsInput()).thenReturn(DONT_REPLAY_GAME);
+        when(prompt.readsInput()).thenReturn(VALID_CHOICE).thenReturn(DONT_REPLAY_GAME);
 
         game.play();
 
@@ -73,7 +81,7 @@ public class GameTest {
         when(playerO.nextMoveOn(grid)).thenReturn(3);
         when(playerO.getSymbol()).thenReturn(O);
         when(grid.evaluateWinningStatus()).thenReturn(winFor(O));
-        when(prompt.readsInput()).thenReturn(DONT_REPLAY_GAME);
+        when(prompt.readsInput()).thenReturn(VALID_CHOICE).thenReturn(DONT_REPLAY_GAME);
 
         game.play();
 
@@ -81,14 +89,28 @@ public class GameTest {
     }
 
     @Test
-    public void repromptPlayerToStartANewGame() {
+    public void repromptPlayerToStartANewGameWhenInvalidInputProvided() {
         when(grid.evaluateWinningStatus()).thenReturn(noWin());
-        when(prompt.readsInput()).thenReturn(REPLAY_GAME).thenReturn(DONT_REPLAY_GAME);
+        when(prompt.readsInput()).thenReturn(VALID_CHOICE).thenReturn(INVALID).thenReturn(REPLAY_GAME).thenReturn("A").thenReturn(DONT_REPLAY_GAME);
 
         game.play();
 
         verify(prompt, times(2)).displayGameOver();
+        verify(prompt, times(2)).promptForOrderOfPlay();
         verify(grid, times(2)).reset();
-        verify(prompt, times(2)).promptPlayerToStartNewGame();
+        verify(prompt, times(3)).promptPlayerToStartNewGame();
+    }
+
+
+    @Test
+    public void repromptPlayerForOrderOfPlayWhenInvalidInputProvided() {
+        when(grid.evaluateWinningStatus()).thenReturn(noWin());
+        when(prompt.readsInput()).thenReturn(INVALID).thenReturn(VALID_CHOICE).thenReturn(DONT_REPLAY_GAME);
+
+        game.play();
+
+        verify(prompt).displayGameOver();
+        verify(prompt, times(2)).promptForOrderOfPlay();
+        verify(prompt).promptPlayerToStartNewGame();
     }
 }

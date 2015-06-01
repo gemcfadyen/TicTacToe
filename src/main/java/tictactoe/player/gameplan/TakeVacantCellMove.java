@@ -7,7 +7,7 @@ import tictactoe.grid.status.GameStatus;
 public class TakeVacantCellMove implements GamePlan {
     @Override
     public int execute(Grid grid, Symbol symbol) {
-        GameStatus gameStatus = grid.getVacantCell();
+        GameStatus gameStatus = grid.getFirstVacantCell();
 
         return gameStatus.hasPotentialMove()
                 ? gameStatus.getIndexOfMove()

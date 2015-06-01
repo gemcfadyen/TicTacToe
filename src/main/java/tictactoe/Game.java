@@ -1,38 +1,39 @@
 package tictactoe;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.ImmutableList;
 import tictactoe.grid.Grid;
 import tictactoe.grid.status.GameStatus;
 import tictactoe.player.Player;
 import tictactoe.prompt.Prompt;
 
 import java.util.List;
+import java.util.function.Function;
 
-import static tictactoe.Symbol.O;
-import static tictactoe.Symbol.X;
 import static tictactoe.grid.GridFactory.createEmptyGrid;
-import static tictactoe.player.PlayerFactory.createAutomatedPlayer;
-import static tictactoe.player.PlayerFactory.createHumanPlayer;
+import static tictactoe.player.OrderedPlayerFactory.createPlayersInOrder;
 import static tictactoe.prompt.PromptFactory.createCommandLinePrompt;
 
 public class Game {
     private static final int FIRST_PLAYER = 0;
     private static final int SECOND_PLAYER = 1;
     private static final int NUMBER_OF_PLAYERS = 2;
+    private static final Void VOID = null;
+    private List<String> validOpponentChoices = ImmutableList.of("H", "A");
+    private List<String> validReplayOptions = ImmutableList.of("Y", "N");
 
     private final Grid grid;
-    private final Player[] players;
+    private Player[] players;
     private final Prompt prompt;
 
     Game() {
         grid = createEmptyGrid();
         prompt = createCommandLinePrompt();
-        players = initialiseOrderOfPlayers(createAutomatedPlayer(X, prompt), createHumanPlayer(O, prompt));
+        players = new Player[NUMBER_OF_PLAYERS];
     }
 
-    protected Game(Grid grid, Player playerO, Player playerX, Prompt prompt) {
+    protected Game(Grid grid, Prompt prompt) {
         this.grid = grid;
-        this.players = initialiseOrderOfPlayers(playerO, playerX);
+        this.players = new Player[NUMBER_OF_PLAYERS];
         this.prompt = prompt;
     }
 
@@ -41,21 +42,18 @@ public class Game {
         game.play();
     }
 
-    private Player[] initialiseOrderOfPlayers(Player playerO, Player playerX) {
-        Player[] players = new Player[NUMBER_OF_PLAYERS];
-        players[FIRST_PLAYER] = playerO;
-        players[SECOND_PLAYER] = playerX;
-
-        return players;
-    }
-
     public void play() {
         boolean isGameInProgress = true;
         while (isGameInProgress) {
             grid.reset();
+            players = configureOrderOfPlay();
             playGame();
             isGameInProgress = replay();
         }
+    }
+
+    protected Player[] initialiseOrderedPlayers(String typeOfPlayerToGoFirst) {
+        return createPlayersInOrder(typeOfPlayerToGoFirst, prompt);
     }
 
     private void playGame() {
@@ -100,23 +98,42 @@ public class Game {
     private boolean replay() {
         prompt.promptPlayerToStartNewGame();
         String playAgainOption = prompt.readsInput();
-        playAgainOption = repromptUntilValid(playAgainOption);
+        playAgainOption = repromptUntilValid(playAgainOption, validReplayOptions, repromptReplayOption());
         return playAgainOption.equalsIgnoreCase("Y");
     }
 
-    private String repromptUntilValid(String playAgainOption) {
-        String replayOption = playAgainOption;
-        while (!valid(replayOption)) {
+    private Function<Prompt, Void> repromptReplayOption() {
+        return prompt -> {
             prompt.promptPlayerToStartNewGame();
-            replayOption = prompt.readsInput();
-        }
-        return replayOption;
+            return VOID;
+        };
     }
 
-    private boolean valid(String playAgainOption) {
-        List<String> validOptionsForNewGame = Lists.newArrayList("Y", "N");
-        return validOptionsForNewGame.contains(playAgainOption.toUpperCase())
-                ? true
-                : false;
+    private Player[] configureOrderOfPlay() {
+        prompt.promptForOrderOfPlay();
+        String playerToGoFirst = prompt.readsInput();
+        playerToGoFirst = repromptUntilValid(playerToGoFirst, validOpponentChoices, repromptOrderOfPlay());
+        return initialiseOrderedPlayers(playerToGoFirst);
+    }
+
+    private Function<Prompt, Void> repromptOrderOfPlay() {
+        return prompt -> {
+            prompt.promptForOrderOfPlay();
+            return VOID;
+        };
+    }
+
+    private String repromptUntilValid(String playersInput, List<String> validOptions, Function<Prompt, Void> reprompt) {
+        String opponentOption = playersInput;
+        while (!valid(opponentOption, validOptions)) {
+            reprompt.apply(prompt);
+            opponentOption = prompt.readsInput();
+        }
+        return opponentOption;
+    }
+
+
+    private boolean valid(String playersInput, List<String> validOptions) {
+        return validOptions.contains(playersInput.toUpperCase());
     }
 }

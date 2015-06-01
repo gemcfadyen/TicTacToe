@@ -10,8 +10,8 @@ import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.X;
 import static tictactoe.player.gameplan.GamePlan.NO_SUGGESTED_MOVE;
 
-public class TakeOppositeCornerMoveTest {
-    private TakeOppositeCornerMove oppositeCornerMove = new TakeOppositeCornerMove();
+public class TakeOppositeCornerToOpponentMoveTest {
+    private TakeOppositeCornerToOpponentMove oppositeCornerMove = new TakeOppositeCornerToOpponentMove();
 
     @Test
     public void takeCornerOppositeOpponent() {
