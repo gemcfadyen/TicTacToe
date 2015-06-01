@@ -9,9 +9,10 @@ public class GridFactory {
     private static final int STARTING_INDEX = 0;
 
     public static Grid createEmptyGrid() {
-        Row emptyTopRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, STARTING_INDEX).build();
-        Row emptyMiddleRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build();
-        Row emptyBottomRow = aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
-        return new Grid(emptyTopRow, emptyMiddleRow, emptyBottomRow);
+        return new Grid(
+                aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, STARTING_INDEX).build(),
+                aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, NUMBER_OF_CELLS_IN_ROW).build(),
+                aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build()
+        );
     }
 }
