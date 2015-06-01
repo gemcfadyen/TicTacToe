@@ -47,6 +47,16 @@ public class CommandLinePromptTest {
     }
 
     @Test
+    public void promptsUserToChooseOrderOfPlay() {
+        Prompt commandLinePrompt = createCommandLinePrompt();
+
+        commandLinePrompt.promptForOrderOfPlay();
+
+        assertThat(stringWriter.toString(),
+                is("\nThe first player will have the symbol X. Please enter which player you wish to start the game - Automated Player or Human Player (A/H)\n"));
+    }
+
+    @Test
     public void readsInputFromTheCommandLine() {
         Prompt commandLinePrompt = createCommandLinePrompt();
 
@@ -63,7 +73,7 @@ public class CommandLinePromptTest {
     }
 
     @Test
-    public void displaysGameOVerMessage() {
+    public void displaysGameOverMessage() {
         Prompt commandLinePrompt = createCommandLinePrompt();
 
         commandLinePrompt.displayGameOver();

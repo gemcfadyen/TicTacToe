@@ -38,6 +38,11 @@ public class CommandLinePrompt implements Prompt {
     }
 
     @Override
+    public void promptForOrderOfPlay() {
+        writeToConsole("The first player will have the symbol X. Please enter which player you wish to start the game - Automated Player or Human Player (A/H)");
+    }
+
+    @Override
     public void displayWinningMessageFor(Symbol symbol) {
         writeToConsole(format("Player%s wins", symbol));
     }

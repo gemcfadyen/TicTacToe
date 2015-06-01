@@ -10,6 +10,7 @@ public interface Prompt {
 
     void promptPlayerToStartNewGame();
     void promptPlayerForNextMove();
+    void promptForOrderOfPlay();
 
     void displayWinningMessageFor(Symbol symbol);
     void displayGameOver();
