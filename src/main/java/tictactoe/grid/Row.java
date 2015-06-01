@@ -76,6 +76,12 @@ public class Row {
                 && size(cellsWithSymbol) == 1;
     }
 
+    public boolean freeRowWithOccupiedMiddleCell(Symbol symbol) {
+        return onlyOccupiedCellIsMiddleOfRow(symbol)
+                ? true
+                : false;
+    }
+
     public int getCellOffsetOf(Symbol symbol) {
         Iterable<Cell> cellWithSymbol = filter(cells, cell -> cell.getSymbol() == symbol);
         return Iterables.getOnlyElement(cellWithSymbol).getOffset();
@@ -93,6 +99,13 @@ public class Row {
         for (Cell cell : cells) {
             cell.setSymbol(VACANT);
         }
+    }
+
+    private boolean onlyOccupiedCellIsMiddleOfRow(Symbol symbol) {
+        Iterable<Cell> vacantCell = filter(cells, cell -> cell.getSymbol() == VACANT);
+        Symbol symbolAtMiddleCell = getSymbolAt(NUMBER_OF_CELLS_IN_ROW / 2);
+        return symbolAtMiddleCell.equals(symbol)
+                && size(vacantCell) == NUMBER_OF_CELLS_IN_ROW - 1;
     }
 
     private Predicate<Cell> checkAllCellsHaveTheSame(final Symbol firstSymbol) {

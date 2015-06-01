@@ -189,6 +189,17 @@ public class AutomatedPlayerTest {
     }
 
     @Test
+    public void blockCornerForks() {
+        Grid gridToBlockOpponentsFork = new Grid(
+                aRowBuilder().withHorizontalRow(VACANT, O, VACANT, 0).build(),
+                aRowBuilder().withHorizontalRow(VACANT, X, O, NUMBER_OF_CELLS_IN_ROW).build(),
+                aRowBuilder().withHorizontalRow(VACANT, VACANT, VACANT, BOTTOM_ROW_OFFSET).build()
+        );
+
+        assertThat(automatedPlayer.nextMoveOn(gridToBlockOpponentsFork), is(2));
+    }
+
+    @Test
     public void takeVacantCornerMove() {
         Grid gridWithFreeCorners = new Grid(
                 aRowBuilder().withHorizontalRow(O, X, O, 0).build(),

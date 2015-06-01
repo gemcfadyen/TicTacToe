@@ -136,6 +136,42 @@ public class Grid {
         return row.getCellWithOffset(offset).getSymbol();
     }
 
+    public GameStatus evaluateTopRowCornerTraps(Symbol symbol) {
+        GameStatus gameStatus = checkForLShapedVacantRowsWithOccupiedCentres(
+                topRow,
+                generateVerticalRow(LEFT_CELL_INDEX, topRow, middleRow, bottomRow),
+                symbol,
+                LEFT_CELL_INDEX);
+
+        if(!gameStatus.hasPotentialMove()) {
+            gameStatus = checkForLShapedVacantRowsWithOccupiedCentres(
+                    topRow,
+                    generateVerticalRow(NUMBER_OF_CELLS_IN_ROW - 1, topRow, middleRow, bottomRow),
+                    symbol,
+                    NUMBER_OF_CELLS_IN_ROW - 1);
+        }
+
+        return gameStatus;
+    }
+
+    public GameStatus evaluateBottomRowCornerTraps(Symbol symbol) {
+        GameStatus gameStatus = checkForLShapedVacantRowsWithOccupiedCentres(
+                bottomRow,
+                generateVerticalRow(LEFT_CELL_INDEX, topRow, middleRow, bottomRow),
+                symbol,
+                BOTTOM_ROW_OFFSET);
+
+        if (!gameStatus.hasPotentialMove()) {
+            gameStatus = checkForLShapedVacantRowsWithOccupiedCentres(
+                    bottomRow,
+                    generateVerticalRow(NUMBER_OF_CELLS_IN_ROW - 1, topRow, middleRow, bottomRow),
+                    symbol,
+                    TOTAL_CELLS - 1);
+        }
+
+        return gameStatus;
+    }
+
     public List<Row> rows() {
         return horizontalRows(topRow, middleRow, bottomRow);
     }
@@ -217,6 +253,21 @@ public class Grid {
 
     private boolean isWinningMoveAt(Cell remainingVacantCell) {
         return remainingVacantCell != null;
+    }
+
+    private boolean midCellOccupied(Row row, Symbol symbol) {
+        return row.freeRowWithOccupiedMiddleCell(symbol);
+    }
+
+    private GameStatus checkForLShapedVacantRowsWithOccupiedCentres(Row horizontalRow, Row verticalRow, Symbol symbol, int cellIndex) {
+        if (midCellOccupied(horizontalRow, symbol) &&
+                midCellOccupied(verticalRow, symbol)) {
+            Integer nextMove = horizontalRow.getCellWithOffset(cellIndex).getOffset();
+            if (isEmptyAt(nextMove)) {
+                return potentialMoveAt(nextMove);
+            }
+        }
+        return noPotentialMove();
     }
 }
 
