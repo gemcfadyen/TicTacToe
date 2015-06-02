@@ -80,15 +80,15 @@ public class Grid {
     }
 
     public GameStatus evaluateForksFromTopRow(Symbol symbol) {
-        return checkForPotentialForkUsingOppositeCorners(topRow, symbol, freeCornerFunction());
+        return checkForPotentialForkUsingOppositeCorners(topRow, symbol, vacantCornerFunction());
     }
 
     public GameStatus evaluateForksFromBottomRow(Symbol symbol) {
-        return checkForPotentialForkUsingOppositeCorners(bottomRow, symbol, freeCornerFunction());
+        return checkForPotentialForkUsingOppositeCorners(bottomRow, symbol, vacantCornerFunction());
     }
 
     public GameStatus evaluateForksFromVerticalRows(Symbol symbol) {
-        return checkForPotentialForkUsingOppositeCorners(generateVerticalRow(LEFT_CELL_INDEX, topRow, middleRow, bottomRow), symbol, freeCornerFunction());
+        return checkForPotentialForkUsingOppositeCorners(generateVerticalRow(LEFT_CELL_INDEX, topRow, middleRow, bottomRow), symbol, vacantCornerFunction());
     }
 
     public GameStatus evaluateForksFromDiagonalRows(Symbol symbol) {
@@ -199,7 +199,7 @@ public class Grid {
 
     private GameStatus checkForPotentialForksUsingDiagonal(Row diagonalRow, Symbol symbol) {
         if (forkFormationAroundDiagonalRows(symbol, diagonalRow)) {
-            return potentialMoveAt(freeCornerFunction().apply(diagonalRow));
+            return potentialMoveAt(vacantCornerFunction().apply(diagonalRow));
         }
         return noPotentialMove();
     }
@@ -216,15 +216,15 @@ public class Grid {
     }
 
     private boolean onlyMiddleCellOccupied(Row row, Symbol symbol) {
-        return row.freeRowWithOccupiedMiddleCell(symbol);
+        return row.hasOnlyMiddleCellOccupied(symbol);
     }
 
     private boolean forkFormationAround(Row row, Symbol symbol) {
-        return row.freeRowWithOccupiedCorner(symbol) && hasForkFormationInVerticalRows(symbol);
+        return row.hasOnlyCornerOccupied(symbol) && hasForkFormationInVerticalRows(symbol);
     }
 
     private boolean forkFormationAroundDiagonalRows(Symbol symbol, Row diagonal) {
-        return diagonal.freeRowWithOccupiedCorner(symbol)
+        return diagonal.hasOnlyCornerOccupied(symbol)
                 && (hasForkFormationInHorizontalRows(symbol) || hasForkFormationInVerticalRows(symbol));
     }
 
@@ -239,7 +239,7 @@ public class Grid {
     }
 
     private boolean checkForForkingPatternIn(Row row, Symbol symbol) {
-        return row.isVacant() || row.freeRowWithOccupiedCorner(symbol);
+        return row.isVacant() || row.hasOnlyCornerOccupied(symbol);
     }
 
     private GameStatus getVacantCell(Function<Integer, Boolean> cellConditions) {
@@ -251,8 +251,8 @@ public class Grid {
         return noPotentialMove();
     }
 
-    private Function<Row, Integer> freeCornerFunction() {
-        return Row::getIndexOfFreeCorner;
+    private Function<Row, Integer> vacantCornerFunction() {
+        return Row::getIndexOfVacantCorner;
     }
 
     private boolean isWinningMoveAt(Cell remainingVacantCell) {

@@ -53,25 +53,25 @@ public class RowTest {
     @Test
     public void identifiesRowWithTopLeftOccupiedCornerOnly() {
         Row row = aRowBuilder().withHorizontalRow(O, VACANT, VACANT, NO_OFFSET).build();
-        assertThat(row.freeRowWithOccupiedCorner(O), is(true));
+        assertThat(row.hasOnlyCornerOccupied(O), is(true));
     }
 
     @Test
     public void identifiesRowWithTopRightOccupiedCornerOnly() {
         Row row = aRowBuilder().withHorizontalRow(VACANT, VACANT, O, NO_OFFSET).build();
-        assertThat(row.freeRowWithOccupiedCorner(O), is(true));
+        assertThat(row.hasOnlyCornerOccupied(O), is(true));
     }
 
     @Test
     public void identifiesRowWithBottomLeftOccupiedCornerOnly() {
         Row row = aRowBuilder().withHorizontalRow(O, VACANT, VACANT, BOTTOM_ROW_OFFSET).build();
-        assertThat(row.freeRowWithOccupiedCorner(O), is(true));
+        assertThat(row.hasOnlyCornerOccupied(O), is(true));
     }
 
     @Test
     public void identifiesRowWithBottomRightOccupiedCornerOnly() {
         Row row = aRowBuilder().withHorizontalRow(VACANT, VACANT, O, BOTTOM_ROW_OFFSET).build();
-        assertThat(row.freeRowWithOccupiedCorner(O), is(true));
+        assertThat(row.hasOnlyCornerOccupied(O), is(true));
     }
 
     @Test
@@ -104,25 +104,25 @@ public class RowTest {
     @Test
     public void getsIndexOfFreeCorner() {
         Row row = aRowBuilder().withHorizontalRow(VACANT, O, O, NO_OFFSET).build();
-        assertThat(row.getIndexOfFreeCorner(), is(0));
+        assertThat(row.getIndexOfVacantCorner(), is(0));
     }
 
     @Test
     public void noFreeCornerCells() {
         Row row = aRowBuilder().withHorizontalRow(X, O, O, NO_OFFSET).build();
-        assertThat(row.getIndexOfFreeCorner(), is(-1));
+        assertThat(row.getIndexOfVacantCorner(), is(-1));
     }
 
     @Test
     public void middleOfVacantRowIsOccupiedWithSymbol() {
         Row row = aRowBuilder().withHorizontalRow(VACANT, O, VACANT, NO_OFFSET).build();
-        assertThat(row.freeRowWithOccupiedMiddleCell(O), is(true));
+        assertThat(row.hasOnlyMiddleCellOccupied(O), is(true));
     }
 
     @Test
     public void middleOfVacantRowIsNotOccupiedWithSymbol() {
         Row row = aRowBuilder().withHorizontalRow(X, VACANT, VACANT, NO_OFFSET).build();
-        assertThat(row.freeRowWithOccupiedMiddleCell(O), is(false));
+        assertThat(row.hasOnlyMiddleCellOccupied(O), is(false));
     }
 
     @Test

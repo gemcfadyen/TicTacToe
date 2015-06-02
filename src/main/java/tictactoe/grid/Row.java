@@ -18,7 +18,7 @@ import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 public class Row {
     protected static final int FIRST_CELL_INDEX = 0;
     private static final Cell NO_CELL = null;
-    private static final int NO_FREE_CORNER = -1;
+    private static final int NO_VACANT_CORNER = -1;
 
     private List<Cell> cells;
 
@@ -68,7 +68,7 @@ public class Row {
                 : NO_CELL;
     }
 
-    public boolean freeRowWithOccupiedCorner(Symbol symbol) {
+    public boolean hasOnlyCornerOccupied(Symbol symbol) {
         Iterable<Cell> vacantCell = filter(cells, cell -> cell.getSymbol() == VACANT);
         Iterable<Cell> cellsWithSymbol = filter(cells, cell -> cell.getSymbol() == symbol && cell.isCorner());
 
@@ -76,10 +76,12 @@ public class Row {
                 && size(cellsWithSymbol) == 1;
     }
 
-    public boolean freeRowWithOccupiedMiddleCell(Symbol symbol) {
-        return onlyOccupiedCellIsMiddleOfRow(symbol)
-                ? true
-                : false;
+    public boolean hasOnlyMiddleCellOccupied(Symbol symbol) {
+        Iterable<Cell> vacantCell = filter(cells, cell -> cell.getSymbol() == VACANT);
+        Symbol symbolAtMiddleCell = getSymbolAt(NUMBER_OF_CELLS_IN_ROW / 2);
+
+        return symbolAtMiddleCell.equals(symbol)
+                && size(vacantCell) == NUMBER_OF_CELLS_IN_ROW - 1;
     }
 
     public int getCellOffsetOf(Symbol symbol) {
@@ -87,11 +89,11 @@ public class Row {
         return Iterables.getOnlyElement(cellWithSymbol).getOffset();
     }
 
-    public int getIndexOfFreeCorner() {
-        Iterable<Cell> freeCornerCell = filter(cells, cell -> cell.isCorner() && cell.getSymbol() == VACANT);
-        Cell first = Iterables.getFirst(freeCornerCell, NO_CELL);
+    public int getIndexOfVacantCorner() {
+        Iterable<Cell> vacantCornerCell = filter(cells, cell -> cell.isCorner() && cell.getSymbol() == VACANT);
+        Cell first = Iterables.getFirst(vacantCornerCell, NO_CELL);
         return first == null
-                ? NO_FREE_CORNER
+                ? NO_VACANT_CORNER
                 : first.getOffset();
     }
 
@@ -99,13 +101,6 @@ public class Row {
         for (Cell cell : cells) {
             cell.setSymbol(VACANT);
         }
-    }
-
-    private boolean onlyOccupiedCellIsMiddleOfRow(Symbol symbol) {
-        Iterable<Cell> vacantCell = filter(cells, cell -> cell.getSymbol() == VACANT);
-        Symbol symbolAtMiddleCell = getSymbolAt(NUMBER_OF_CELLS_IN_ROW / 2);
-        return symbolAtMiddleCell.equals(symbol)
-                && size(vacantCell) == NUMBER_OF_CELLS_IN_ROW - 1;
     }
 
     private Predicate<Cell> checkAllCellsHaveTheSame(final Symbol firstSymbol) {
