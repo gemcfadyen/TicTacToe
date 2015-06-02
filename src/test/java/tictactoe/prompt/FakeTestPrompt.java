@@ -5,18 +5,20 @@ import tictactoe.grid.Row;
 
 import java.util.List;
 
-public class FakePromptForTest implements Prompt {
+public class FakeTestPrompt implements Prompt {
     private static final String GAME_OVER = "N";
     private static final String REPLAY_GAME = "Y";
 
     private int numberOfGamesLeftToPlay;
+    private Symbol symbolForNonAutomatedPlayer;
     private String[] inputs;
     private int indexOfInput = 0;
     private int opponentWin = 0;
 
-    public FakePromptForTest(int numberOfGamesLeftToPlay, String startingPlayerType) {
+    public FakeTestPrompt(int numberOfGamesLeftToPlay, String startingPlayerType, Symbol symbolForNonAutomatedPlayer) {
         this.numberOfGamesLeftToPlay = numberOfGamesLeftToPlay;
         inputs = new String[] {startingPlayerType, REPLAY_GAME};
+        this.symbolForNonAutomatedPlayer = symbolForNonAutomatedPlayer;
     }
 
     @Override
@@ -34,12 +36,12 @@ public class FakePromptForTest implements Prompt {
     @SuppressWarnings("PMD.SystemPrintln")
     public void displayWinningMessageFor(Symbol symbol) {
         System.out.println("Win for [" + symbol + "]");
-        if (symbol == Symbol.O) {
+        if (symbol.equals(symbolForNonAutomatedPlayer)) {
             opponentWin++;
         }
     }
 
-    public int countOpponentWins() {
+    public int totalWinsForNonAutomatedPlayer() {
         return opponentWin;
     }
 

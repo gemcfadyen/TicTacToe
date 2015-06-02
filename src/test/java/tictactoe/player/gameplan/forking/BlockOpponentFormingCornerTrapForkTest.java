@@ -19,16 +19,16 @@ import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 import static tictactoe.grid.RowBuilder.aRowBuilder;
 
 @RunWith(Parameterized.class)
-public class BlockOpponentCornerTrapForkTest {
+public class BlockOpponentFormingCornerTrapForkTest {
     private static final int NO_SUGGESTED_MOVE = -1;
     private final Row topRow;
     private final Row bottomRow;
     private final Row middleRow;
     private final int freeCellIndex;
 
-    private BlockOpponentCornerTrapFork blockCornerTrap = new BlockOpponentCornerTrapFork();
+    private BlockOpponentFormingCornerTrapFork blockCornerTrap = new BlockOpponentFormingCornerTrapFork();
 
-    public BlockOpponentCornerTrapForkTest(Row top, Row middle, Row bottom, int index) {
+    public BlockOpponentFormingCornerTrapForkTest(Row top, Row middle, Row bottom, int index) {
         this.topRow = top;
         this.middleRow = middle;
         this.bottomRow = bottom;

@@ -19,16 +19,16 @@ import static tictactoe.grid.Grid.NUMBER_OF_CELLS_IN_ROW;
 import static tictactoe.grid.RowBuilder.aRowBuilder;
 
 @RunWith(Parameterized.class)
-public class BlockOpponentFromForkingTest {
+public class BlockOpponentFormingForksInRowsTest {
     private static final int NO_SUGGESTED_MOVE = -1;
     private final Row topRow;
     private final Row bottomRow;
     private final Row middleRow;
     private final int freeCellIndex;
 
-    private BlockOpponentFromForking blockOpponentFromForking = new BlockOpponentFromForking();
+    private BlockOpponentFormingForksInRows blockOpponentFormingForksInRows = new BlockOpponentFormingForksInRows();
 
-    public BlockOpponentFromForkingTest(Row top, Row middle, Row bottom, int index) {
+    public BlockOpponentFormingForksInRowsTest(Row top, Row middle, Row bottom, int index) {
         this.topRow = top;
         this.middleRow = middle;
         this.bottomRow = bottom;
@@ -64,7 +64,7 @@ public class BlockOpponentFromForkingTest {
     public void blockPotentialFork() {
         Grid grid = new Grid(topRow, middleRow, bottomRow);
 
-        assertThat(blockOpponentFromForking.execute(grid, X), is(freeCellIndex));
+        assertThat(blockOpponentFormingForksInRows.execute(grid, X), is(freeCellIndex));
     }
 
 }

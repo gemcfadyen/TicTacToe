@@ -76,14 +76,14 @@ public class GridTest {
     }
 
     @Test
-    public void getVacantCellOnEdge() {
-        GameStatus gameStatus = grid.getVacantCellOnEdge();
+    public void getVacantNonCornerCellOnEdge() {
+        GameStatus gameStatus = grid.getVacantNonCornerCellOnEdge();
         assertThat(gameStatus.getIndexOfMove(), is(1));
     }
 
     @Test
     public void noVacantCellOnEdgeIfOnlyCornersAreFree() {
-        GameStatus gameStatus = gridWithNoEdgeCellsVacant().getVacantCellOnEdge();
+        GameStatus gameStatus = gridWithNoEdgeCellsVacant().getVacantNonCornerCellOnEdge();
         assertThat(gameStatus.hasPotentialMove(), is(false));
     }
 

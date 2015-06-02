@@ -4,8 +4,8 @@ import org.junit.Test;
 import tictactoe.grid.GridFactory;
 import tictactoe.player.AutomatedPlayer;
 import tictactoe.player.Player;
-import tictactoe.player.RandomNumberPlayerForTest;
-import tictactoe.prompt.FakePromptForTest;
+import tictactoe.player.RandomCellTestPlayer;
+import tictactoe.prompt.FakeTestPrompt;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -17,9 +17,9 @@ public class UnbeatableComputerPlayerPerformanceTest {
 
     @Test
     public void automatedPlayerOpensTheGameAndOpponentNeverWins() {
-        FakePromptForTest fakePrompt = new FakePromptForTest(TIMES, "A");
+        FakeTestPrompt fakePrompt = new FakeTestPrompt(TIMES, "A", O);
         Player automatedPlayer = new AutomatedPlayer(X, fakePrompt);
-        Player randomPlayer = new RandomNumberPlayerForTest(O);
+        Player randomPlayer = new RandomCellTestPlayer(O);
 
         Game game = new Game(GridFactory.createEmptyGrid(), fakePrompt, new Player[] {automatedPlayer, randomPlayer}) {
             protected Player[] initialiseOrderedPlayers(String typeOfPlayerToGoFirst) {
@@ -30,14 +30,14 @@ public class UnbeatableComputerPlayerPerformanceTest {
         };
 
         game.play();
-        assertThat(fakePrompt.countOpponentWins(), is(0));
+        assertThat(fakePrompt.totalWinsForNonAutomatedPlayer(), is(0));
     }
 
     @Test
     public void randomPlayerOpensTheGameAndNeverWins() {
-        FakePromptForTest fakePrompt = new FakePromptForTest(TIMES, "H");
+        FakeTestPrompt fakePrompt = new FakeTestPrompt(TIMES, "H", O);
         Player automatedPlayer = new AutomatedPlayer(X, fakePrompt);
-        Player randomPlayer = new RandomNumberPlayerForTest(O);
+        Player randomPlayer = new RandomCellTestPlayer(O);
 
         Game game = new Game(GridFactory.createEmptyGrid(), fakePrompt, new Player[] {automatedPlayer, randomPlayer}) {
             protected Player[] initialiseOrderedPlayers(String typeOfPlayerToGoFirst) {
@@ -48,7 +48,7 @@ public class UnbeatableComputerPlayerPerformanceTest {
         };
 
         game.play();
-        assertThat(fakePrompt.countOpponentWins(), is(0));
+        assertThat(fakePrompt.totalWinsForNonAutomatedPlayer(), is(0));
     }
 }
 

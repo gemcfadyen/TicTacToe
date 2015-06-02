@@ -9,8 +9,8 @@ import tictactoe.player.gameplan.TakeVacantCell;
 import tictactoe.player.gameplan.cornermoves.TakeEmptyCorner;
 import tictactoe.player.gameplan.cornermoves.TakeOppositeCornerToOpponent;
 import tictactoe.player.gameplan.cornermoves.TopLeftCorner;
-import tictactoe.player.gameplan.forking.BlockOpponentCornerTrapFork;
-import tictactoe.player.gameplan.forking.BlockOpponentFromForking;
+import tictactoe.player.gameplan.forking.BlockOpponentFormingCornerTrapFork;
+import tictactoe.player.gameplan.forking.BlockOpponentFormingForksInRows;
 import tictactoe.player.gameplan.forking.ForkFormationFromBottomRowWhenCentreIsVacant;
 import tictactoe.player.gameplan.forking.ForkFormationFromTopRowWhenCentreIsVacant;
 import tictactoe.player.gameplan.forking.ForkFormationInDiagonalsWhenCentreIsVacant;
@@ -68,15 +68,13 @@ public class AutomatedPlayer implements Player {
                 new TakeCentreMove(),
                 new TakeOppositeCornerToOpponent(),
 
-                new BlockOpponentCornerTrapFork(),
-                new BlockOpponentFromForking(),
+                new BlockOpponentFormingCornerTrapFork(),
+                new BlockOpponentFormingForksInRows(),
 
                 new TakeEmptyCorner(),
                 new TakeVacantCell()
         };
     }
-
-
 }
 
 class NoMovesAvailableException extends RuntimeException {

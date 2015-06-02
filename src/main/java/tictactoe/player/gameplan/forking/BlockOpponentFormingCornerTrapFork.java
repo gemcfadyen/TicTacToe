@@ -8,7 +8,7 @@ import tictactoe.player.gameplan.GamePlan;
 import static tictactoe.Symbol.O;
 import static tictactoe.Symbol.X;
 
-public class BlockOpponentCornerTrapFork implements GamePlan {
+public class BlockOpponentFormingCornerTrapFork implements GamePlan {
     @Override
     public int execute(Grid grid, Symbol symbol) {
         GameStatus gameStatus = grid.evaluateTopRowCornerTraps(opponent(symbol));

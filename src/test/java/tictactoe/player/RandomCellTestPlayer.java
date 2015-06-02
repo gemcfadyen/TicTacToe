@@ -7,11 +7,11 @@ import java.util.Random;
 
 import static tictactoe.grid.Grid.TOTAL_CELLS;
 
-public class RandomNumberPlayerForTest implements Player {
+public class RandomCellTestPlayer implements Player {
     private Symbol symbol;
     private final Random randomNumberGenerator;
 
-    public RandomNumberPlayerForTest(Symbol symbol) {
+    public RandomCellTestPlayer(Symbol symbol) {
         randomNumberGenerator = new Random();
         this.symbol = symbol;
     }
@@ -19,21 +19,21 @@ public class RandomNumberPlayerForTest implements Player {
     @Override
     @SuppressWarnings("PMD.SystemPrintln")
     public int nextMoveOn(Grid grid) {
-        int randomCellOffset = generateRandomCellOffset();
-        randomCellOffset = findVacantRandomCell(grid, randomCellOffset);
+        int randomCellOffset = generateRandomCellOffsetWithinRange();
+        randomCellOffset = regenerateUntilVacantCellFound(grid, randomCellOffset);
 
         System.out.println("Random Test Player Generated Cell Offset: [" + randomCellOffset + "]");
         return randomCellOffset;
     }
 
-    private int findVacantRandomCell(Grid grid, int randomCellOffset) {
+    private int regenerateUntilVacantCellFound(Grid grid, int randomCellOffset) {
         while (!grid.isEmptyAt(randomCellOffset)) {
-            randomCellOffset = generateRandomCellOffset();
+            randomCellOffset = generateRandomCellOffsetWithinRange();
         }
         return randomCellOffset;
     }
 
-    private int generateRandomCellOffset() {
+    private int generateRandomCellOffsetWithinRange() {
         return randomNumberGenerator.nextInt(TOTAL_CELLS);
     }
 
