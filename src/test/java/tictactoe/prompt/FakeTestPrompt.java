@@ -1,11 +1,13 @@
 package tictactoe.prompt;
 
+import org.apache.log4j.Logger;
 import tictactoe.Symbol;
 import tictactoe.grid.Row;
 
 import java.util.List;
 
 public class FakeTestPrompt implements Prompt {
+    private static final Logger LOGGER = Logger.getLogger(FakeTestPrompt.class);
     private static final String GAME_OVER = "N";
     private static final String REPLAY_GAME = "Y";
 
@@ -13,7 +15,8 @@ public class FakeTestPrompt implements Prompt {
     private Symbol symbolForNonAutomatedPlayer;
     private String[] inputs;
     private int indexOfInput = 0;
-    private int opponentWin = 0;
+    private int numberOfWinsForO = 0;
+    private int numberOfWinsForX = 0;
 
     public FakeTestPrompt(int numberOfGamesLeftToPlay, String startingPlayerType, Symbol symbolForNonAutomatedPlayer) {
         this.numberOfGamesLeftToPlay = numberOfGamesLeftToPlay;
@@ -33,16 +36,20 @@ public class FakeTestPrompt implements Prompt {
     }
 
     @Override
-    @SuppressWarnings("PMD.SystemPrintln")
     public void displayWinningMessageFor(Symbol symbol) {
-        System.out.println("Win for [" + symbol + "]");
+        LOGGER.debug("Win for [" + symbol + "]");
         if (symbol.equals(symbolForNonAutomatedPlayer)) {
-            opponentWin++;
+            numberOfWinsForO++;
+        } else {
+            numberOfWinsForX++;
         }
     }
 
     public int totalWinsForNonAutomatedPlayer() {
-        return opponentWin;
+        return numberOfWinsForO;
+    }
+    public int totalWinsForAutomatedPlayer() {
+        return numberOfWinsForX;
     }
 
     private void togglePlayersResponseIndex() {
@@ -51,6 +58,11 @@ public class FakeTestPrompt implements Prompt {
         } else {
             indexOfInput = 1;
         }
+    }
+
+    @Override
+    public void display(Symbol symbol, int move) {
+        LOGGER.debug("Random Test Player Generated Cell Offset: [" + move + "]");
     }
 
     @Override
@@ -71,9 +83,5 @@ public class FakeTestPrompt implements Prompt {
 
     @Override
     public void display(List<Row> rows) {
-    }
-
-    @Override
-    public void display(Symbol symbol, int move) {
     }
 }

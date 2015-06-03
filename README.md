@@ -14,17 +14,20 @@ Create a game that allows a human to play Noughts &amp; Crosses (TicTacToe) agai
 ```
 git clone git@github.com:gemcfadyen/TicTacToe.git
 ```
-- Using the gradlew wrapper invoke the program:
+- Using the gradle wrapper invoke the program:
 ```
 gradlew run
 ```
-- When prompted enter your choice as to whether you, as the human player would like to go first (H) or, whether you want the automated computer player to go first (A). Please note, whoever goes first takes the symbol X.
+~~Alternatively you can invoke the main method of the Game class in your IDE.~~
+- When prompted enter your choice as to whether you, as the human player would like to go first (H) or, whether you want the automated computer player to go first (A).
+- The human player always has the symbol 'O'
 - To take a move, when prompted, enter the number of the cell you wish you place your symbol. Cells are zero indexed based and will be displayed with each turn:
 ```
  | (0) | (1) | (2) |
  | (3) | (4) | (5) |
  | (6) | (7) | (8) |
-``` 
+```
+- If you enter an invalid option you will be re-prompted.
 - When a game is over, you have the option to play again (Y/N). 
-- If you opt to play again, you will be reprompted as to which player you want to open the game.
+- If you opt to play again, you will be re-prompted as to which player you want to open the game.
 - Good Luck!
