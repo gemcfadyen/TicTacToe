@@ -31,13 +31,13 @@ public class OrderedPlayerFactory {
     private static Player firstPlayer(String option, Prompt prompt) {
         return option.equalsIgnoreCase(AUTOMATED_PLAYER)
                 ? createAutomatedPlayer(X, prompt)
-                : createHumanPlayer(X, prompt);
+                : createHumanPlayer(O, prompt);
     }
 
     private static Player secondPlayer(String option, Prompt prompt) {
         return option.equalsIgnoreCase(AUTOMATED_PLAYER)
                 ? createHumanPlayer(O, prompt)
-                : createAutomatedPlayer(O, prompt);
+                : createAutomatedPlayer(X, prompt);
     }
 
 }

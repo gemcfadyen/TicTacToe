@@ -53,7 +53,7 @@ public class CommandLinePromptTest {
         commandLinePrompt.promptForOrderOfPlay();
 
         assertThat(stringWriter.toString(),
-                is("\nThe opening player will have the symbol X.\nPlease enter which player you wish to start the game - Automated Player or Human Player (A/H)\n"));
+                is("\nPlease enter which player you wish to start the game - Automated Player or Human Player (A/H)\n"));
     }
 
     @Test
